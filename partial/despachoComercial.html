@@ -1,0 +1,112 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="col-xs-10 col-xs-offset-1">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Formulario despacho comercial</b>
+					<span style="color:red" class="pull-right"><i class="fa fa-exclamation-triangle warning" aria-hidden="true" ng-hide="errorDatos==null"></i> {{errorDatos}}</span>
+					<span style="color:green" class="pull-right"><i class="fa fa-check-circle" aria-hidden="true" ng-hide="respuestaupdate==null"></i> {{respuestaupdate}}</span>
+					<span style="color:red" class="pull-right"><i class="fa fa-exclamation-triangle warning" aria-hidden="true" ng-hide="respuestadelete==null"></i> {{respuestadelete}}</span>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+						<div class="col-md-1 col-xs-1 ">
+							<div data-ng-if="loading">
+								<img title="Esperando respuesta" data-toggle="tooltip" data-placement="top" src="img/loader.gif" />
+							</div>				
+						</div>
+						</li>
+					</ul>
+				</div>
+			<div class="panel-body" >
+			<div class="container-fluid">
+          	<div class="col-md-12">
+                <ul class="list-group" >
+          			<div class="col-md-4">
+                       	<li class="list-group-item small" ><b>PEDIDO ACTUAL:</b>
+                       	<div class="btn-group">	
+                       		<input type="text" ng-model="FormComercial.PEDIDO_ACTUAL" class="btn btn-default btn-xs" name="pedidoActual" type="text" style="width:220px">
+                        	<button type="button" class="btn btn-success btn-xs" ng-click="buscarPedido(FormComercial.PEDIDO_ACTUAL)" ng-disabled="loading" tooltip title="Buscar Pedido" ><i class="fa fa-search-plus" aria-hidden="true"> </i></button>
+						</div>
+						</li>
+                        <li class="list-group-item small" ><b>PEDIDO NUEVO:</b><input ng-model="FormComercial.PEDIDO_NUEVO" type="text" style="width:220px" name="pedidoNuevo" class="btn btn-default btn-xs"></li>
+                        <li class="list-group-item small" ><b>CIUDAD:</b>
+                    			<select ng-model="FormComercial.CIUDAD" style="width:220px" name="Ciudad" class="btn btn-default btn-xs grupo-select">
+									<option ng-repeat="f in listadoCiudades"
+									value="{{f.CIUDAD}}">
+									{{f.CIUDAD}}
+								</option>
+								</select>
+                        	</li>     
+           			</div>
+                    <div class="col-md-4">
+                       	<li class="list-group-item small" ><b>GESTIÓN:</b>   
+							<select class= "btn btn-default btn-xs grupo-select" style="width:220px"
+									name="Gestion" placeholder="Seleccione el proceso.."
+									ng-model="FormComercial.GESTION"
+									ng-change="calcularClasificacion(FormComercial.GESTION)">
+								<option ng-repeat="d in listadoGestion"
+										value="{{d.GESTION}}">
+										{{d.GESTION}}
+								</option>	
+							</select>
+						</li>
+						<li class="list-group-item small" ng-show="validarclasificacion"><b>CLASIFICACIÓN:</b><select 
+								style="width:220px"
+								class= "btn btn-default btn-xs grupo-select"
+								placeholder="Seleccione la clasificación.."
+								ng-model="FormComercial.CLASIFICACION">
+								<option 
+								ng-repeat="d in listadoClasificacion" value="{{d.CLASIFICACION}}">
+									{{d.CLASIFICACION}}
+								</option>
+							</select>
+						</li>
+						<li class="list-group-item small" ng-show="validarestado"><b>ESTADO:</b>       
+							<select 
+									style="width:220px"
+									class= "btn btn-default btn-xs grupo-select"
+									placeholder="Seleccione un estado.."
+									ng-model="FormComercial.ESTADO">
+									<option
+									ng-repeat="d in estadosComercial"
+									value="{{d.ID}}">
+									{{d.ESTADO}}
+
+									</option>
+							</select></li>
+						</div>
+						<div class="col-md-4">
+                     			<li class="list-group-item small">
+												<label for="observaciones">Observación:</label>
+												<textarea
+												class="form-control"
+												ng-model="FormComercial.OBSERVACIONES" 
+												name="observaciones">
+												</textarea>
+								</li>
+								<br>
+								<br>
+								<br>
+								<br>
+								<ul class="nav navbar-nav navbar-right">
+										<li>
+										<div class="btn-group">
+										<!--Ver registros-->
+										<button type="button" class="btn btn-success btn-xs" value="Guardar" ng-click="guardarPedidoComercial(FormComercial)">
+										<span class="fa fa-floppy-o" aria-hidden="true"></span> Guardar</button>
+										<a type="button" class="btn btn-warning btn-xs" value="Ver Registros" href="#!/registrosComercial">
+											<span class="fa fa-list" aria-hidden="true"></span> Ver Registros</a>
+										</div>
+										</li>
+									</ul>	
+						</div>
+					</ul>
+              	</div>
+         	</div>
+         </div>			
+		</div>
+	</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,10 @@
+{
+    "version": "3.0.0",
+    "app": "pagina de seguimiento",
+    "autor": "Héctor Alexander Echeverri",
+    "anio": "2019",
+    "web": "http://netvm-ptctrl01a/seguimientopedidos/#!/",
+    "empresa": "Tigo-UNE",
+    "proceso": "Gerencia Despacho",
+    "licencia": "GNU GPL"
+}

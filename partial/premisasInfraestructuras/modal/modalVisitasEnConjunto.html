@@ -1,0 +1,136 @@
+<div class="modal fade" id="modalVisitasEnConjunto" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Visitas en Conjunto: </h4>
+            </div>
+
+            <div class="modal-body">
+                    <!-- CREACION DEL FORMULARIO -->
+                <form name="frmVisitasEnConjunto" novalidate="novalidate" ng-submit="guardarVisitasEnConjunto(visitasEnConjuntoSel, frmVisitasEnConjunto)">             
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label>Pedido</label>
+                                <input type="text" class="form-control" placeholder="" ng-model="visitasEnConjuntoSel.pedido" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Técnico Premisas</label>
+                                <input type="text" class="form-control" placeholder="" ng-model="visitasEnConjuntoSel.tecnicopremisas" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Ténico Infraestructura</label>
+                                <input type="text" class="form-control" placeholder="" ng-model="visitasEnConjuntoSel.tecnicoinfraestructura" required>
+                            </div>
+
+                            <div class="form-group">
+                                 <label>Fecha Visita</label><br>
+                                 <input style="width:240px" type="text" name="fechaVisita" id="fechaVisita" class="form-control btn btn-default" ng-model="visitasEnConjuntoSel.fechavisita" placeholder="Fecha visita en conjunto" datetime-picker="" date-format="yyyy-MM-dd hh:mm" required>&nbsp<i class="fa fa-calendar fa-lg"></i>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Región</label>
+                                <select type="text"
+                                        class="form-control" 
+                                        name="region" 
+                                        ng-model="visitasEnConjuntoSel.region"
+                                        ng-change="reqVisitaConjuntoRegion()"
+                                        required>
+                                    <option value="" disabled>Seleccione</option>
+                                    <option ng-repeat="f in listadoRegionesVConj" value="{{f.region}}">{{f.region}}</option>
+                                </select>                   
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Ciudad</label>
+                                <select type="text"
+                                        class="form-control" 
+                                        name="municipio"
+                                        ng-model="visitasEnConjuntoSel.municipio"
+                                        placeholder="Seleccionar"                                         
+                                        required>
+                                    <option value="" disabled>Seleccione</option>
+                                    <option ng-repeat="f in listadoMunicipiosVisConj" value="{{f.municipio}}">{{f.municipio}}</option>                    
+                                </select>                   
+                            </div>                              
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Contrato</label>
+                                    <select type="text" class="form-control" placeholder="Seleccionar" ng-model="visitasEnConjuntoSel.contrato" required>
+                                        <option ng-repeat="f in contrato" value="{{f.ID}}">{{f.CONCEPTO}}</option>
+                                    </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Solicita</label>
+                                <input type="text" class="form-control" placeholder="Quien solicita la visita en conjunto" ng-model="visitasEnConjuntoSel.quiensolicitavisita" required>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Gestión</label>
+                                <select type="text"
+                                        class="form-control" 
+                                        name="gestion" 
+                                        ng-model="visitasEnConjuntoSel.gestion"
+                                        ng-change="getObservaciones()">
+                                    <option value="" disabled>Seleccione</option>
+                                    <option value="Asistieron ambos" >Asistieron ambos</option>
+                                    <option value="Incumplieron Ambos" >Incumplieron Ambos</option>
+                                    <option value="Solo asistió Premisas" >Sólo asistió Premisas</option>
+                                    <option value="Solo asistió Infraestrucutra" >Sólo asistió Infraestrucutra</option>
+                                    <option value="No se evidencian notas de la visita " >No se evidencian notas de la visita </option>
+                                    <option value="Rechazada por infra " >Rechazada por infra </option>
+                                    <option value="Agenda Cancelada" >Agenda Cancelada</option>
+                                </select>                       
+                            </div>
+
+                            <div class="form-group">
+                                <label>Notas</label>
+                                    <select type="text"
+                                            class="form-control" 
+                                            name="notas"                                        
+                                            ng-model="visitasEnConjuntoSel.notas">
+                                        <option value="" disabled>Seleccione</option>
+                                        <option value="Se cerró">Se cerró</option>
+                                        <option value="Se escaló a">Se escaló a</option>
+                                    </select>                     
+                            </div>
+
+                            <div class="form-group" ng-show="visitasEnConjuntoSel.notas == 'Se escaló a'">
+                                <label>Grupo</label>
+                                    <select type="text"
+                                            name="grupo"
+                                            class="form-control" 
+                                            placeholder="Seleccionar"
+                                            ng-model="visitasEnConjuntoSel.grupo">
+                                        <option value="" disabled>Seleccione</option>
+                                        <option ng-repeat="f in listadoGruposVisitasEnConjunto" value="{{f.nota}}">{{f.nota}}</option> 
+                                    </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Fecha Fin Gestión</label><br>
+                                <input style="width:240px" type="text" name="fechafingestion" id="fechafingestion" class="form-control btn btn-default" ng-model="visitasEnConjuntoSel.fechafingestion" placeholder="Fecha Fin Gestión" datetime-picker="" date-format="yyyy-MM-dd hh:mm:ss">&nbsp<i class="fa fa-calendar fa-lg"></i>
+                            </div>
+                            <!-- FIN  DEL FORMULARIO -->
+                            <div class="modal-footer-v2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div> 
+        </div>   
+    </div>  
+</div>
+

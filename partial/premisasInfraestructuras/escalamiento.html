@@ -1,0 +1,107 @@
+<div class="panel-heading nav navbar-default">	
+	<ul class="nav navbar-nav navbar-left">
+		<b><i class="fa fa-cogs" aria-hidden="true"></i> Escalamientos</b>
+	</ul>
+	<div class="d-flex flex-row-reverse box-tools">
+		<div class="input-group d-flex flex-row">
+			<a class="btn btn-primary" ng-click="mostraModalEscalamiento({})"><i class="fa fa-plus"></i> Agregar Escalamiento</a>
+		</div>			
+	</div>
+</div>
+<!-- cuerpo de la pagina -->
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-body">
+				<div class="row"><br>
+					<div class="col-xs-2">
+						<ul class="nav navbar-nav navbar-left">
+                            <input style="width:130px" type="text" name="fechain" id="fechain" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="Registros.fechain" placeholder="Fecha Inicial" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <input style="width:130px" type="text" name="fechafi" id="fechafi" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="Registros.fechafi" placeholder="Fecha Final" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <button type="button" 
+                                    class="btn btn-success btn-xs" 
+                                    ng-click="RegistrosEscalamientos(Registros)"
+                                    ng-disabled="loading">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" 
+                                    ng-show="galletainfo.PERFIL == 6 || galletainfo.PERFIL == 1 || galletainfo.PERFIL == 11"
+                                    class="btn btn-primary btn-xs" 
+                                    title="Exportar Registros" 
+                                    ng-click="csvEscalamiento()" 
+                                    ng-disabled="loading" 
+                                    title="Exportar" 
+                                    tooltip data-placement="top">
+                                <i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+                            </button>
+                        </ul>						
+					</div>
+					<div class="col-xs-3 marg"><i>Buscar:</i>
+                        <input type="text" class="form-control busq" ng-model="busqueda" name="" value="" placeholder="Ingresa lo que desas buscar.">
+                        <br>
+                    </div>
+                </div>	
+				<!-- Cuerpo del formulario -->
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Pedido</th>
+							<th>Técnico</th>
+							<th>Despachador</th>
+							<th>Ciudad</th>
+							<th>Gestión</th>
+							<th>Observación</th>
+							<th>Notas</th>
+							<th>Fecha Gestión</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="escalamiento in listaEscalamiento | filter:busqueda as results">
+							<td>{{escalamiento.pedido}}</td>
+							<td>{{escalamiento.tecnico}}</td>
+							<td>{{escalamiento.loginDespachador}}</td>
+							<td>{{escalamiento.ciudad}}</td>
+							<td>{{escalamiento.gestion}}</td>
+							<td>{{escalamiento.observacion}}</td>
+							<td>{{escalamiento.nota}}</td>
+							<td>{{escalamiento.fechaGestion}}</td>
+						</tr>
+					</tbody>
+				</table>											
+			</div>			
+		</div>
+		<!-- footer -->
+		<div class="panel-footer clearfix" >
+            <!-- CONTADOR -->
+            <div class="col-md-6">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><span class="badge badge-default">{{acumescalamientos}}</span>&nbsp;</li>
+                    <li>de:<span class="badge badge-default">{{counter}} Registros</span></li>
+                </ul>
+            </div>
+            <!-- PAGINADO -->        
+            <div class="col-md-6 pieP">
+                <ul
+                    class="pagination-sm nav navbar-nav navbar-right"
+                    uib-pagination total-items="counter" 
+                    ng-model="datapendientes.currentPage" 
+                    max-size="maxSize"  
+                    boundary-links="true" 
+                    num-pages="smallnumPages" 
+                    previous-text="&#8672;" 
+                    next-text="&#8674;" 
+                    last-text="Último" 
+                    first-text="Primero"
+                    items-per-page="cantidad"                    
+                    boundary-link-numbers="false"
+                    max-size="maxSize" 
+                    rotate="false" 
+                    ng-change="RegistrosEscalamientos(Registros)">
+                </ul>
+            </div>
+        </div>
+	</div>	
+</div>
+
+<!-- MODAL -->
+<div ng-include="mostarModalEscalamiento"></div>

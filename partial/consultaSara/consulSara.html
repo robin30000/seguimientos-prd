@@ -1,0 +1,100 @@
+<style type="text/css">
+
+@font-face{
+    font-family: 'relojdigital';
+    src: url('./fonts/DS-DIGIB.TTF');
+}
+
+h1{
+    font-family: 'relojdigital';
+}
+
+</style>
+
+<!-- cabecera de la página -->
+<div class="panel-heading nav navbar-default">
+    <ul class="nav navbar-nav navbar-left">
+        <b><i class="fa fa-list-alt" aria-hidden="true"></i> Formulario de Consulta Ticket SARA</b>
+    </ul>   
+</div>
+<!-- cuerpo de la página -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row"><br>
+
+                    <div class="col-xs-3" style='text-align:right'>
+                        <b>Buscar:</b>
+
+                            <input style="width:200px" type="text" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" placeholder="Ingrese la tarea a buscar" ng-model="frmSara.tarea">
+                            
+                            <button type="button" 
+                                    class="btn btn-success btn-xs" 
+                                    ng-click="buscarDataSara(frmSara)"
+                                    ng-disabled="loading"
+                                    title="Buscar Pedido">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                            </button> 
+                    </div>
+
+                    <div class="col-xs-3">
+                            <table class="table small table-striped table-hover table-bordered table-condensed">
+                                 <thead>
+                                    <td colspan="5" style="text-align:center">
+                                        <b>Información Servicio</b>
+                                    </td>
+                                </thead>
+                                <tr>
+                                    <td>
+                                        <b>Tarea:</b> {{dataSara.Tarea}}<br>
+                                        <b>Pedido:</b> {{dataSara.Pedido}}<br>
+                                        <b>Fecha Ticket:</b> {{dataSara.SolicitudesSara[indiceSara].FechaSolicitud}}<br>
+                                        <b>Fecha Modificación:</b> {{dataSara.SolicitudesSara[indiceSara].FechaModificado}}<br>
+                                        <b>Ticket Sara:</b> {{dataSara.SolicitudesSara[indiceSara].TipoSolicitud}}<br>
+                                        <b>Valor:</b> {{dataSara.SolicitudesSara[indiceSara].Cantidad}}<br>
+                                        <b>Estado Tarea:</b> {{dataSara.Estado}}<br>
+                                        <b>Técnico:</b> {{dataSara.Tecnico}}<br>
+                                        <b>Respuesta Sara:</b> {{dataSara.SolicitudesSara[indiceSara].Description}}
+                                    </td>
+                                </tr>
+                            </table>    
+                    </div>
+
+                    <div class="col-xs-3">
+
+                            <table class="table small table-striped table-hover table-bordered table-condensed">
+
+                                <thead>
+                                    <td colspan="5" style="text-align:center">
+                                        <b>Tiempo en SARA</b>
+                                    </td>
+                                </thead>
+
+                                <tr style="text-align:center;" height="163">
+                                    <td > <h1> <font size="10"> {{horasTranscurridas}} </font> </h1> 
+                                          <h1> <font size="5"> HH </font> </h1>
+                                    </td>
+
+                                    <td> <h1> <font size="10"> : </font> </h1> <br><br><br> </td>
+                                    
+                                    <td> <h1> <font size="10"> {{minutosTranscurridos}} </font> </h1>
+                                         <h1> <font size="5"> MM </font> </h1> 
+                                    </td>
+
+                                    <td> <h1> <font size="10"> : </font> </h1> <br><br><br> </td>
+
+                                    <td> <h1> <font size="10"> {{segundosTranscurridos}} </font> </h1>
+                                         <h1> <font size="5"> SS </font> </h1>
+                                    </td>                                    
+                                </tr>
+
+                            </table>    
+                    </div>
+
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+

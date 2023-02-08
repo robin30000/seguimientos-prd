@@ -1,0 +1,321 @@
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+table, th, td {
+    font-size:	11px;
+}
+
+.fixed-panel1 {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-7 col-md-offset-1">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Formulario Brutal force</b>
+					<ul class="nav navbar-nav navbar-right">
+						<span class="label label-danger" ng-show="pedidoexiste"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{mensaje}}</span>&nbsp;		
+						<span class="label label-success" ng-show="pedidoNoexiste"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{mensaje}}</span>&nbsp;	
+					</ul>
+				</div>
+				<div class = "panel-body">
+					<form  action=" " method="post" name="contact_form1" id="contact_form1">
+										<div class="row">
+										<div class="col-md-4">
+											<ul class="list-group" >
+											<div class="form-group" ng-class="{'has-error' : contact_form1.pedido.$touched && contact_form1.pedido.$invalid}">
+												<li class="list-group-item small" ><b>Pedido:</b><br>
+				                        			<input class="btn btn-default btn-xs" placeholder="Pedido" type="text" ng-model="formularioBrutal.pedido" ng-blur="validarHorarioBF(formularioBrutal.pedido)" name="pedido" capitalize required>
+				                        			<button type="button"  title="Ver observaciones" 
+				              	tooltip data-placement="right" data-placement="left" data-html="true" class="btn btn-success btn-xs" ng-click="buscarObservaciones()">
+														<i class="fa fa-commenting" aria-hidden="true"> </i> </button>
+				                        		</li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.accion.$touched && contact_form1.accion.$invalid}">
+			                        		<li class="list-group-item small" ><b>Acción a realizar:</b><br>
+			                                    <select  class= "btn btn-default btn-xs grupo-select"
+																name="accion"
+																ng-model="formularioBrutal.accion"
+																capitalize required>
+														<option value="" disabled>Seleccione</option>
+														<option value="Consulta de la oferta" >Consulta de la oferta</option>
+														<option value="Renumerar" >Renumerar</option>
+														<option value="Anulación" >Anulación</option>
+														<option value="One-Tv" >One-Tv</option>
+														<option value="B2B" >B2B</option>
+														<option ng-show="galletainfo.PERFIL == 7" value="VIP">VIP</option>																											
+												</select>
+			                                </li>
+			                            	</div>
+			                            	<div class="form-group" ng-class="{'has-error' : contact_form1.tipoTrans.$touched && contact_form1.tipoTrans.$invalid}">
+			                                <li class="list-group-item small" ><b>Tipo transacción:</b><br>
+			                                    <select  class= "btn btn-default btn-xs grupo-select"
+																name="tipoTrans"
+																ng-model="formularioBrutal.tipoTrans"
+																ng-change="validaTrans();"
+																capitalize required>
+														<option value="" disabled>Seleccione</option>
+														<option value="Nuevo" >Nuevo</option>
+														<option value="Cambio" >Cambio</option>
+														<option value="Traslado" >Traslado</option>
+														<option value="Migración" >Migración</option>
+														<option value="Cambio_Domicilio" >Cambio_Domicilio</option>
+														<option value="Extension" >Extensión</option>
+														<option value="Modificación" >Modificación</option>
+														<option value="Cambio_Equipo" >Cambio_Equipo</option>
+														<option value="Cambio_Tecnologia" >Cambio_Tecnologia</option>
+														<option value="Premisas_Excepcionales" >Premisas_Excepcionales</option>
+												</select>
+			                                </li>
+			                                </div>
+			                                 <div class="form-group">
+			                                <li class="list-group-item small" ng-show="vernumSape"><b>Id prueba inicial:</b><br>
+			                        			<input class="btn btn-default btn-xs" placeholder="Prueba inicial" type="text" ng-model="formularioBrutal.numSAPEIni" name="numSAPEIni">
+			                        		</li>
+			                        		</div>
+			                                <div class="form-group" ng-class="{'has-error' : contact_form1.idLlamada.$touched && contact_form1.idLlamada.$invalid}">
+			                                <li class="list-group-item small" ><b>Id Llamada:</b><br>
+			                        			<input class="btn btn-default btn-xs" placeholder="idLlamada" type="text" ng-model="formularioBrutal.idLlamada" name="idLlamada" capitalize required>
+			                        		</li>
+			                        		</div>	
+											</ul>
+										</div>	
+										<div class="col-md-3">
+											<ul class="list-group">
+											<div class="form-group" ng-class="{'has-error' : contact_form1.cedula.$touched && contact_form1.cedula.$invalid}">
+			                                <li class="list-group-item small" ><b>Cedula técnico:</b><br>
+			                        			<input class="btn btn-default btn-xs" placeholder="Cedula técnico" type="text" ng-model="formularioBrutal.cedula" name="cedula" capitalize required>
+			                        		</li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.tecnico.$touched && contact_form1.tecnico.$invalid}">
+			                                <li class="list-group-item small" ><b>Técnico:</b><br>
+			                        			<input class="btn btn-default btn-xs" placeholder="Nombre técnico" type="text" ng-model="formularioBrutal.tecnico" name="tecnico" capitalize required>
+			                        		</li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.celular.$touched && contact_form1.celular.$invalid}">
+			                                <li class="list-group-item small" ><b>Celular:</b><br>
+			                        			<input class="btn btn-default btn-xs" placeholder="Celular técnico" type="text" ng-model="formularioBrutal.celular" name="celular" capitalize required>
+			                        		</li>
+			                        		</div>
+
+			                        		<div class="form-group">
+			                                <li class="list-group-item small" ng-show="vernumSape"><b>Id prueba final:</b><br>
+			                        			<input class="btn btn-default btn-xs" placeholder="Prueba final" type="text" ng-model="formularioBrutal.numSAPEFin" name="numSAPEFin">
+			                        		</li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.zona.$touched && contact_form1.zona.$invalid}">	
+											 <li class="list-group-item small" ><b>Zona:</b><br>
+			                                    <select  class= "btn btn-default btn-xs grupo-select"
+																name="zona"
+																ng-model="formularioBrutal.zona" capitalize required>
+														<option value="" disabled>Seleccione</option>
+														<option value="Antioquia centro" >Antioquia Centro</option>
+														<option value="Antioquia norte" >Antioquia Norte</option>
+														<option value="Antioquia oriente" >Antioquia Oriente</option>
+														<option value="Antioquia sur" >Antioquia Sur</option>
+														<option value="Armenia" >Armenia</option>
+														<option value="Atlántico" >Atlantico</option>
+														<option value="Bajo Cauca" >Bajo Cauca</option>
+														<option value="Bolivar" >Bolivar</option>
+														<option value="Buga" >Buga</option>
+														<option value="Cauca" >Cauca</option>
+														<option value="Cesar" >Cesar</option>
+														<option value="Cordoba" >Cordoba</option>
+														<option value="Cundinamarca Norte" >Cundinamarca Norte</option>
+														<option value="Cundinamarca sur" >Cundinamarca Sur</option>
+														<option value="DTH" >DTH</option>
+														<option value="Ibague" >Ibague</option>
+														<option value="Magdalena" >Magdalena</option>
+														<option value="Manizales" >Manizales</option>
+														<option value="Meta" >Meta</option>
+														<option value="Norte de santander" >Norte de Santander</option>
+														<option value="Pereira" >Pereira</option>
+														<option value="Santander" >Santander</option>
+														<option value="Sucre" >Sucre</option>
+														<option value="Uraba" >Uraba</option>
+														<option value="Valle" >Valle</option>
+														<option value="Valle quindio" >Valle Quindio</option>
+												</select>
+			                                </li>
+			                           	    </div>
+			                           	</ul>
+			                           </div>
+			                           	<div class="col-md-5">
+											<ul class="list-group" >
+			                           	    <div class="form-group" ng-class="{'has-error' : contact_form1.correo.$touched && contact_form1.correo.$invalid}">
+											<li class="list-group-item small" ><b>Correo asesor:</b><br>
+			                        			<input class="btn btn-default btn-xs" placeholder="correo@dominio.com" type="text" ng-model="formularioBrutal.correo" name="correo" capitalize required>
+			                        		</li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.supervisor.$touched && contact_form1.supervisor.$invalid}">
+											 <li class="list-group-item small" ><b>Supervisor:</b><br>
+			                                    <select  class= "btn btn-default btn-xs grupo-select"
+																name="supervisor"
+																ng-model="formularioBrutal.supervisor" capitalize required>
+														<option value="" disabled>Seleccione</option>
+														<option value="Wilder Alexis Perez Zapata">Wilder Alexis Perez Zapata</option>
+														<option value="Juan David Rodriguez Salazar">Juan David Rodriguez Salazar</option>
+														<option value="Yudy Marcela Gomez Rua">Yudy Marcela Gomez Rua</option>
+														<option value="Edwin Leon Zapata">Edwin Leon Zapata</option>
+														<option value="Duvan Oswaldo Zapata Isaza">Duvan Oswaldo Zapata Isaza</option>
+														<option value="Sergio David Mendoza Rubio ">Sergio David Mendoza Rubio </option>
+														<option value="Sandra Liliana Segura Muñoz">Sandra Liliana Segura Muñoz</option>
+														<option value="Oscar David Villa Simanca">Oscar David Villa Simanca</option>
+														<option value="David Mesa Elorza">David Mesa Elorza</option>
+														<option value="Catalina Hernandez Betancur">Catalina Hernandez Betancur</option>
+														<option value="Carlos Mario Rua Londoño">Carlos Mario Rua Londoño</option>
+														<option value="Juan Camilo Velasquez Guerra">Juan Camilo Velasquez Guerra</option>
+														<option value="Natalia Cristina Valderrama Alzate">Natalia Cristina Valderrama Alzate</option>
+														<option value="Juan David Palacio Guerra">Juan David Palacio Guerra</option>
+														<option value="Luis Fernando Chacon">Luis Fernando Chacon</option>
+														<option value="Carlos Alberto Lopez Muriel">Carlos Alberto Lopez Muriel</option>
+														<option value="Sergio Alejandro Rojas Garcia">Sergio Alejandro Rojas Garcia</option>
+														<option value="Diana Patricia Bedoya Chica">Diana Patricia Bedoya Chica</option>
+														<option value="Emiro Jose Ardila Manjarrez">Emiro Jose Ardila Manjarrez</option>
+														<option value="Carlos Mario Ramos Londono">Carlos Mario Ramos Londono</option>
+														<option value="Sebastian Echeverry">Sebastian Echeverry</option>
+														<option value="Maria Jisnedy Fonnegra">Maria Jisnedy Fonnegra</option>
+														<option value="Carlos Andres Narvaez Rodriguez">Carlos Andres Narvaez Rodriguez</option>
+														<option value="Andres Felipe Acevedo Cano">Andres Felipe Acevedo Cano</option>
+														<option value="Paulo Alberto Duque Vargas">Paulo Alberto Duque Vargas</option>
+														<option value="Juan David Toro">Juan David Toro</option>
+														<option value="Jorge Mario Oquendo">Jorge Mario Oquendo</option>
+														<option value="Daniel Albeiro Ceballos">Daniel Albeiro Ceballos</option>
+														<option value="Marisol Orozco Restrepo">Marisol Orozco Restrepo</option>
+														<option value="Juan David Gil Tamayo">Juan David Gil Tamayo</option>
+														<option value="Esneider Alvarez Garcia">Esneider Alvarez García</option>
+														<option value="Emtelco">Emtelco</option>
+														<option value="Energia Integral Andina">Energia Integral Andina</option>
+														<!-- <option value="Laura Isabel Fernandez Gallego">Laura Isabel Fernandez Gallego</option> -->
+														<!-- <option value="Yostin Narvaez Gomez">Yostin Narvaez Gomez</option> -->
+														<!-- <option value="Ramon David Palacio Ocampo">Ramon David Palacio Ocampo</option> -->
+														<!-- <option value="Gloria Denis Betancur Agudelo">Gloria Denis Betancur Agudelo</option> -->
+														<!-- <option value="Ana Fabiola Sanchez Pinzon">Ana Fabiola Sanchez Pinzon</option> -->
+														
+												</select>
+			                                </li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.observaciones.$touched && contact_form1.observaciones.$invalid}">
+			                                	<li class="list-group-item small" ><b>Observaciones</b>
+													<textarea  name="observaciones" 
+												    id="observaciones"
+												    cols="48"
+												    rows="5"
+												    placeholder="Observaciones"
+												    ng-model="formularioBrutal.observaciones" capitalize required></textarea>
+												  </li>
+											</div>	
+											</ul>
+											<ul class="nav navbar-nav navbar-right">
+												<li>
+														<button type="button" ng-disabled="contact_form1.$invalid" class="btn btn-success btn-xs" ng-click="GuardarGestion()">
+														<i class="fa fa-floppy-o" aria-hidden="true"> </i> Guardar gestión</button>&nbsp;&nbsp;
+													</li>
+											</ul>
+										</div>
+							</div>
+						</form>	
+					</div>
+				</div>	
+			</div>
+
+			<div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <div class = "panel panel-default">
+                            <div class = "panel-heading nav navbar-default">
+                                <b> Gestión Brutal Force</b>
+                            </div> 
+
+                            <div class = "panel-heading nav navbar-default" >
+					            <div class="col-md-13 col-md-offset-1">
+                                   	<ul class="list-group small" >
+                                   		<h5>
+                                   			<a href=""  ng-repeat="data in datosBF" class="list-group-item ">
+												<span ng-class="{'label label-warning': ( data.estado == null && data.gestionAsesor == '1' && data.pedidobloqueado == null && data.observacionAsesor == 'Sin mensajes' ) || ( data.estado == null && data.gestionAsesor == '1' && data.pedidobloqueado == '1' && data.observacionAsesor == 'Sin mensajes' ), 'label label-success': data.estado != null && data.gestionAsesor == '2' && data.pedidobloqueado == '1' && data.observacionAsesor != 'Sin mensajes'}">
+                                       				{{data.PedidoDespacho}}
+                                           		</span>&nbsp;
+                                           		<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="top" data-html="true" title="Observaciones BrutalForce" data-selector="" data-content="{{data.observacionAsesor}}"><i class="fa fa-commenting" aria-hidden="true"></i></button>
+                                          	</a>
+                                      	</h5>
+                                    </ul>
+                               	</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+	</div>
+
+
+
+						<div class="row">
+							<div class="help-block" ng-messages="contact_form1.pedido.$error">
+								<div class="col-md-4" >
+										<div class="alert alert-warning" ng-show="contact_form1.pedido.$error.required">
+											  <strong>Error! </strong> El Pedido es requerido
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.accion.$error.required">
+											  <strong>Error! </strong> El campo acción es requerido.
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.tipoTrans.$error.required">
+											  <strong>Error! </strong> El campo tipo transacción es requerido.
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.idLlamada.$error.required">
+											  <strong>Error! </strong> El campo Id llamada es requerido.
+										</div>										
+								</div>
+
+								<div class="col-md-4" >
+										<div class="alert alert-warning" ng-show="contact_form1.cedula.$error.required">
+											  <strong>Error! </strong> La cedula del técnico es requerida.
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.tecnico.$error.required">
+											  <strong>Error! </strong> El Tecnico es requerido
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.celular.$error.required ">
+											  <strong>Error! </strong> Debe ingresar el número del técnico.
+										</div>	
+										<div class="alert alert-warning" ng-show="contact_form1.zona.$error.required ">
+											  <strong>Error! </strong> El campo zona es requerido.
+										</div>																			
+								</div>
+
+								<div class="col-md-4" >	
+										<div class="alert alert-warning" ng-show="contact_form1.correo.$error.required">
+											  <strong>Error! </strong> El campo correo es requerido.
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.supervisor.$error.required">
+											  <strong>Error! </strong> El Supervisor es requerido
+										</div>										
+										<div class="alert alert-warning" ng-show="contact_form1.observaciones.$error.required">
+											  <strong>Error! </strong> Las observaciones son requeridas.
+										</div>										
+								</div>
+
+							</div>
+						</div>
+
+</div>
+<br>
+<br>	

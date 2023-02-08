@@ -1,0 +1,136 @@
+<!-- cabezera de la paguina -->
+<div class="panel-heading nav navbar-default">
+    <ul class="nav navbar-nav navbar-left">
+        <b><i class="fa fa-wrench" aria-hidden="true"></i> Formulario Novedades de los Técnicos</b>
+    </ul>   
+    <div class=" d-flex flex-row-reverse box-tools ">
+        <div class="input-group d-flex flex-row">
+            <a class="btn btn-primary" ng-show="galletainfo.PERFIL !='12'" ng-click="mostraModal({})"><i class="fa fa-plus"></i> Agregar Novedad</a>
+        </div>      
+    </div>
+</div>
+<!-- cuerpo de la pagina -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row"><br>
+                    <div class="col-xs-2">
+                        <ul class="nav navbar-nav navbar-left">
+                            <input style="width:130px" type="text" name="fechaini" id="fechaini" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="Registros.fechaini" placeholder="Fecha Inicial" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <input style="width:130px" type="text" name="fechafin" id="fechafin" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="Registros.fechafin" placeholder="Fecha Final" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <button type="button" 
+                                    class="btn btn-success btn-xs" 
+                                    ng-click="RegistrosTecnicos(Registros)"
+                                    ng-disabled="loading">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" 
+                                    ng-show="galletainfo.PERFIL == '11' || galletainfo.PERFIL == '1' || galletainfo.PERFIL == '3'" 
+                                    class="btn btn-primary btn-xs" 
+                                    title="Exportar Registros" 
+                                    ng-click="csvNovedadesTecnicos()" 
+                                    ng-disabled="loading" 
+                                    title="Exportar" 
+                                    tooltip data-placement="top">
+                                <i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+                            </button>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3 marg"><i>Buscar:</i>
+                        <input type="text" class="form-control busq" ng-model="busqueda" name="" value="" placeholder="Ingresa lo que desas buscar.">
+                        <br>
+                    </div>
+                </div>                
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Cédula Técnico</th>
+                            <th>Nombre Técnico</th>
+                            <th>Contrato</th>
+                            <th>Proceso</th>
+                            <th>Pedido</th>
+                            <th>Tipo de Novedad</th>
+                            <th>Municipio</th>
+                            <th>Situación</th>
+                            <th>Hora marca sitio</th>
+                            <th>ID Llamada</th>
+                            <th>Observación</th>
+                            <th ng-show="galletainfo.PERFIL == 1 || galletainfo.PERFIL == 11">Observaciones CCO</th>
+                            <th ng-show="galletainfo.PERFIL == 1 || galletainfo.PERFIL == 11"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="registrosTenicos in novedadesVisitasTecnicos | filter:busqueda as results">                            
+                            <td>{{registrosTenicos.cedulaTecnico}}</td>
+                            <td>{{registrosTenicos.nombreTecnico}}</td>
+                            <td>{{registrosTenicos.contracto}}</td>
+                            <td>{{registrosTenicos.proceso}}</td>
+                            <td>{{registrosTenicos.pedido}}</td>
+                            <td>{{registrosTenicos.tiponovedad}}</td>
+                            <td>{{registrosTenicos.municipio}}</td>
+                            <td>{{registrosTenicos.situacion}}</td>
+                            <td>{{registrosTenicos.horamarcaensitio}}</td>
+                            <td>{{registrosTenicos.idllamada}}</td>
+                            <td>{{registrosTenicos.observaciones}}</td>
+                            <td>{{registrosTenicos.observacionCCO}}</td>
+                            <td ng-show="galletainfo.PERFIL == 1 || galletainfo.PERFIL == 11" class="text-center">
+                                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" ng-click="abrirAgregarObservacion(registrosTenicos.pedido)" data-backdrop="static" tooltip="" title="Agregar Observación" data-placement="top" data-html="true" data-selector="" data-original-title="Agregar Observación">
+                                    <i class="fa fa-plus" aria-hidden="true"> </i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel-footer clearfix" >
+            <!-- CONTADOR -->
+            <div class="col-md-6">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><span class="badge badge-default">{{results.length}}</span>&nbsp;</li>
+                    <li>de:<span class="badge badge-default">{{counter}} Registros</span></li>
+                </ul>
+            </div>
+            <!-- PAGINADO -->        
+            <div class="col-md-6 pieP">
+                <ul
+                    class="pagination-sm nav navbar-nav navbar-right"
+                    uib-pagination total-items="counter" 
+                    ng-model="datapendientes.currentPage" 
+                    max-size="maxSize"  
+                    boundary-links="true" 
+                    num-pages="smallnumPages" 
+                    previous-text="&#8672;" 
+                    next-text="&#8674;" 
+                    last-text="Último" 
+                    first-text="Primero"                    
+                    boundary-link-numbers="false"
+                    max-size="maxSize" 
+                    rotate="false" 
+                    ng-change="pageChanged(datapendientes)">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL -->
+<div ng-include="mostarModalNovedadesVisitas"></div>
+
+<div id="novedadesVisitaObservacion" class="modal fade " role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Observación de novedades</h4>
+			</div>
+			<div class="modal-body">
+				<textarea name="observacionCCO" id="observacionCCO" cols="75" rows="6" ng-model="observacionCCO" placeholder="Agregue su observación"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" data-dismiss="modal" ng-click="agregarObservacion(observacionCCO)" data-dismiss="modal">Guardar</button>
+				<button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>

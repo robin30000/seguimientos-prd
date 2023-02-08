@@ -1,0 +1,57 @@
+<style>
+
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading nav navbar-default">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a data-toggle="tab" href="/#consulSara">Consulta SARA</a>
+						</li>
+						<li>
+							<a data-toggle="tab" href="/#consulRRHH">Consulta RRHH</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="tab-content">
+				<div id="consulSara" class="tab-pane fade in active" ng-include="rutaConsultaSara"></div>
+				<div id="consulRRHH" class="tab-pane fade">
+					<!-- cabecera de la página -->
+					<div class="panel-heading nav navbar-default">
+						<ul class="nav navbar-nav navbar-left">
+							<b><i class="fa fa-list-alt" aria-hidden="true"></i> Disponibilidad de los Técnicos</b>
+						</ul>   
+					</div>
+					<div class="col-md-12">
+						<div class="row">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="text-center">
+										<b>Consulta la disponibilidad de los técnicos en el siguiente botón</b>
+										<br>
+										<br>
+										<button type="button"
+												class="btn btn-primary btn-xl" 
+												title="Exportar RRHH" 
+												ng-click="csvexportarRRHH()"
+												ng-disabled="loading" 
+												title="Exportar" 
+												tooltip data-placement="top">
+											<i class="fa fa-cloud-download"  aria-hidden="true"> Exportar RRHH </i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br>
+<br>
+

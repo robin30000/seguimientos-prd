@@ -1,0 +1,145 @@
+<div class="modal modal-info fade" id="modalEscalamiento">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            		<span aria-hidden="true">×</span></button>
+         		<h4 class="modal-title">Escalamiento: </h4>
+            </div>
+            <!-- CREACION DEL FORMULARIO -->
+            <form name="frmEscalamiento" novalidate="novalidate" ng-submit="guardarEscalamiento(escalamientoSel, frmEscalamiento)">				
+            	<div class="modal-body">
+            		<div class="lado">
+            			<div class="form-group">
+            				<label>Pedido</label>
+            				<input type="text" class="form-control" placeholder="" ng-model="escalamientoSel.pedido" required>
+            			</div>
+            			<div class="form-group">
+            				<label>Login Técnico</label>
+            				<input type="text" class="form-control" placeholder="" ng-model="escalamientoSel.tecnico" required>
+            			</div>
+            			<div class="form-group">
+            				<label>Login Despachador</label>
+            				<input type="text" class="form-control" placeholder="" ng-model="escalamientoSel.loginDespachador" required>
+            			</div>
+            			<div class="form-group">
+            				<label>Nombre Despachador</label>
+            				<input type="text" class="form-control" placeholder="" ng-model="escalamientoSel.nombreDespachador" required>
+            			</div>
+            			<div class="form-group">
+            				<label>Tecnología</label>
+                    	    <select type="text" class="form-control" placeholder="Seleccionar" ng-model="escalamientoSel.tecnologia" required>
+                    	        <option ng-repeat="f in tecnologia" value="{{f.ID}}">{{f.CONCEPTO}}</option>
+                    	    </select>
+            			</div>
+            			<div class="form-group">
+            				<label>Región</label>
+            				<select type="text"
+                    	            class="form-control" 
+                    	            name="region" 
+                    	            ng-model="escalamientoSel.region"
+                    	            ng-change="reqEscalamientoRegion()"
+                    	            required>
+                    	        <option value="" disabled>Seleccione</option>
+                    	        <option ng-repeat="d in listadoRegiones" value="{{d.region}}">{{d.region}}</option>
+                    	    </select>          			
+            			</div>
+            		</div>
+            		<div class="lado-v2">
+            			<div class="form-group">
+            				<label>Ciudad</label>
+                    	    <select type="text"
+                    	            name="municipio"
+                    	            class="form-control" 
+                    	            placeholder="Seleccionar" 
+                    	            ng-model="escalamientoSel.municipio"
+                    	            required>
+                    	        <option value="" disabled>Seleccione</option>
+                    	        <option ng-repeat="f in listadoMunicipios" value="{{f.municipio}}">{{f.municipio}}</option>                    
+                    	    </select>          			
+            			</div>
+            			<div class="form-group">
+            				<label>Grupo - Cola</label>
+            				<select type="text"
+                    	            name="grupoCola"
+                    	            class="form-control" 
+                    	            placeholder="Seleccionar" 
+                    	            ng-model="escalamientoSel.grupoCola"
+                    	            required>
+                    	        <option value="" disabled>Seleccione</option>
+                    	        <option ng-repeat="f in listadogrupoCola" value="{{f.nota}}">{{f.nota}}</option>                    
+                    	    </select>
+            			</div>
+            			<div class="form-group">
+            				<label>Gestión</label>
+            				<select type="text"
+                    	            class="form-control" 
+                    	            name="gestion" 
+                    	            ng-model="escalamientoSel.gestion"
+                    	            ng-change="getObservaciones()"
+                    	            required>
+                    	        <option value="" disabled>Seleccione</option>
+                    	        <option ng-repeat="d in listadoGestion" value="{{d.gestion}}">{{d.gestion}}</option>
+                    	    </select>            			
+            			</div>
+            			<div class="form-group">
+            				<li class="list-group-item-v2 small" ng-show="validarObservacion">Observación
+            					<select type="text"
+                    	    	        class="form-control" 
+                    	    	        name="observacion"                                        
+                    	    	        ng-model="escalamientoSel.observacion"
+                    	    	        ng-change="getNotas()">
+                    	    	    <option value="" disabled>Seleccione</option>
+                    	    	    <option ng-repeat="d in listadoObservacion" value="{{d.observacion}}">{{d.observacion}}</option>
+                    	    	</select>
+                    	    </li>           			
+            			</div>
+            			<div class="form-group">
+            				<li class="list-group-item-v2 small" ng-show="validarNotas">Notas
+            					<select type="text"
+                    	    	        name="nota"
+                    	    	        class="form-control" 
+                    	    	        placeholder="Seleccionar" 
+                    	    	        ng-model="escalamientoSel.nota">
+                    	    	    <option value="" disabled>Seleccione</option>
+                    	    	    <option ng-repeat="f in listadoNotas" value="{{f.nota}}">{{f.nota}}</option>                    
+                    	    	</select>
+                    	    </li>           			
+            			</div>
+            			<div class="form-group">
+            				<label>¿Devuelto por infra?</label>
+            				<select type="text"
+            						class="form-control"
+            						name="devueltoInfra"
+									placeholder="Seleccionar" 
+                    	            ng-model="escalamientoSel.devueltoPorInfra"
+                    	            required>
+                    	        <option value="" disabled>Seleccione</option>
+            					<option value="SI">SI</option>
+            					<option value="NO">NO</option>
+            				</select>
+            			</div>
+            			<div class="form-group">
+            				<label>Notas OK en</label><br>
+                            <label class="checkbox-inline">
+                                <input  type="checkbox" name="gtc" value="" ng-model="escalamientoSel.gtc">GTC
+                            </label>
+                            <label class="checkbox-inline">
+                                <input  type="checkbox" name="click" value="" ng-model="escalamientoSel.click">Click
+                            </label>
+                            <label class="checkbox-inline">
+                                <input  type="checkbox" name="pagSto" value="" ng-model="escalamientoSel.pagSto">pagSto
+                            </label>
+                            <label class="checkbox-inline">
+                                <input  type="checkbox" name="siebel" value="" ng-model="escalamientoSel.siebel">siebel
+                            </label>
+            			</div>
+            		</div>
+            		<div class="modal-footer-v2">
+                    	<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                	</div>
+            	</div>
+            </form>
+		</div>		
+	</div>	
+</div>

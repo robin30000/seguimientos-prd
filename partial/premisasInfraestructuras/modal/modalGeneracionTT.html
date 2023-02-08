@@ -1,0 +1,57 @@
+<div class="modal modal-info fade" id="modalGeneracionTT">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Generación TT: </h4>
+            </div>
+
+            <form name="frmGenereacionTT" novalidate="novalidate" ng-submit="guardar( genaracionttSel, frmGenereacionTT )">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>TT</label>
+                        <input type="text" class="form-control" placeholder="TT" ng-model="genaracionttSel.tt">
+                    </div>
+                    <div class="form-group">
+                        <label>Solicitado por</label>
+                        <input type="text" class="form-control" placeholder="Solicito por" ng-model="genaracionttSel.quienSolicitaLaCCC" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Elemento afectado</label>
+                        <input type="text" class="form-control" placeholder="Elemento afectado" ng-model="genaracionttSel.elementoAfectado" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Región:</label>
+                        <select type="text"
+                                class="form-control" 
+                                name="region" 
+                                ng-model="genaracionttSel.region"
+                                ng-change="calcularAcciones()"
+                                required>
+                            <option value="" disabled>Seleccione</option>
+                            <option ng-repeat="d in listadoRegiones" value="{{d.region}}">{{d.region}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ciudad:</label>
+                        <select type="text"
+                                name="municipio"
+                                class="form-control" 
+                                placeholder="Seleccionar" 
+                                ng-model="genaracionttSel.municipio"
+                                required>
+                            <option value="" disabled>Seleccione</option>
+                            <option ng-repeat="f in listadoMunicipios" value="{{f.municipio}}">{{f.municipio}}</option>                    
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

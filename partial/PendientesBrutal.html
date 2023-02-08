@@ -1,0 +1,44 @@
+
+<div class="modal-header" >
+        <h4 class="modal-title">{{tituloModalPausa | uppercase}}
+             <ul class="nav navbar-nav navbar-right">
+                    <span class = "badge "> {{total}}</span>&nbsp;&nbsp;
+                </ul>
+        </h4>
+</div>
+<div class="modal-body" >
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col-lg-12 col-md-10">
+                <div class="jumbotron" ng-show = "errorDatos">
+                    <div class="container text-center">
+                        <h1>{{errorDatos}}</h1>
+                    </div>
+                </div>
+                <table class="table table small table-striped table-hover table-condensed">
+                        <thead>
+                                            <tr>
+                                                <th><center>Pedido</center></th>
+                                                <th><center>Departamento</center></th>
+                                                <th><center>Descripción</center></th>
+                                                <th><center>Observaciones</center></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="data in pendientesBrutal">
+                                                <td>{{data.pedido}}</td>
+                                                <td><center>{{data.departamento}}</center></td>
+                                                <td>{{data.pendiente}}</td>
+                                                <td><center>{{data.observacion}}</center></td>
+                                            </tr>
+                                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    
+     <button type="button" class="btn btn-default" ng-click="cerrar()">Cerrar</button>
+
+</div>

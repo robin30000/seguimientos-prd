@@ -1,0 +1,182 @@
+<!--  MODAL PARA INGRESAR UN NUEVA QUEJAGO  -->
+<div class="modal modal-info fade" id="modalQuejasGo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Quejas GO: </h4>
+            </div>
+
+            <form name="frmQuejasGo" novalidate="novalidate" ng-submit="guardar( quejasGoSel, frmQuejasGo )">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Pedido:</label>
+                        <input type="text" class="form-control" placeholder="Digite el Pedido" ng-model="quejasGoSel.pedido" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del Cliente:</label>
+                        <input type="text" class="form-control" placeholder="Digite el nombre del cliente" ng-model="quejasGoSel.cliente" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cédula del Técnico:</label>
+                            <table style="width:100%">
+                                <tr>
+                                    <th>                        
+                                        <input type="text" class="form-control" placeholder="Digite la cédula del técnico" ng-model="quejasGoSel.cedtecnico" style="width:525px" required>
+                                    </th>
+                                    <th>   
+                                        <button type="button" 
+                                                class="btn btn-success btn-xm" 
+                                                ng-click="BuscarTecnico()"
+                                                ng-disabled="loading"
+                                                title="Buscar Técnico">
+                                             <i class="fa fa-search-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </table>
+                    </div>
+
+                    <div class="form-group" ng-show="infoTecnico==true">
+                        <label>Nombre del Técnico:</label>
+                        <input type="text" class="form-control" ng-model="quejasGoSel.tecnico" disabled="">
+                    </div>
+                    <div class="form-group" ng-show="infoTecnico==true">
+                        <label>Ciudad:</label>
+                        <input type="text" class="form-control" ng-model="quejasGoSel.region" disabled="">
+                    </div>                     
+                    <div class="form-group">
+                        <label>Acción:</label>
+                        <select ng-model="quejasGoSel.accion" placeholder="Seleccione.." class="form-control" required>
+                            <option value="" disabled>--Seleccione--</option>
+                            <option value="Atendida">Atendida</option>
+                            <option value="Atendida sin solucion">Atendida sin solución</option>
+                            <option value="Atendida escalado a la comercial">Atendida escalado a la comercial</option>
+                            <option value="Atendida escalado a facturacion">Atendida escalado a facturación</option>
+                            <option value="Atendida con compromiso">Atendida con compromiso</option>
+                            <option value="Agenda">Agenda</option>
+                            <option value="Cliente ilocalizado">Cliente ilocalizado</option>
+                            <option value="Consulta queja">Consulta queja</option> 
+                            <option value="Devolucion queja a supervisor">Devolución queja a supervisor</option> 
+                            <option value="Devolucion queja a Nivel 1">Devolución queja a Nivel 1</option>
+                            <option value="Llamada colgada">Llamada colgada</option>  
+                            <option value="Llamada equivocada">Llamada equivocada</option>
+                            <option value="Llamada muda">Llamada muda</option>
+                            <option value="Llamar de nuevo usuario">Llamar de nuevo usuario</option>
+                            <option value="Monitoreo tecnico">Monitoreo técnico</option>     
+                            <option value="Notas">Notas</option>
+                            <option value="Reagenda">Reagenda</option> 
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Id Llamada:</label>
+                        <input type="text" class="form-control" placeholder="Digite el id de la llamada" ng-model="quejasGoSel.idllamada" required>
+                    </div>                                      
+                    <div class="form-group">
+                        <label>Observación:</label>
+                        <textarea type="text" class="form-control" placeholder="Digite las observaciones" ng-model="quejasGoSel.observacion" rows="5"required></textarea>                          
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!--  MODAL PARA INGRESAR UN TECNICO NUEVO  -->
+<div class="modal modal-info fade" id="crearTecnicoQuejasGo">
+    <div class="modal-dialog">
+        <div class="modal-content"> 
+    
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Crear Técnico </h4>       
+            </div>
+            <form name="frmCrearTecnicoQuejasGo" novalidate="novalidate" ng-submit="crearTecQuejasGo(crearTecnicoquejasGoSel, frmCrearTecnicoQuejasGo)">   
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <div class="form-group">
+
+                                <div class="form-group">
+                                    <label>Cédula del Técnico:</label>
+                                    <input type="text" class="form-control" placeholder="Digite la cédula del técnico" ng-model="crearTecnicoquejasGoSel.cedtecnico" required="">
+                                </div>
+
+                                <div class="form-group">    
+                                    <label>Nombre del Técnico:</label>
+                                    <input type="text" class="form-control" placeholder="Digite el nombre del técnico" ng-model="crearTecnicoquejasGoSel.nombretecnico" required="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Celular:</label>
+                                    <input type="text" class="form-control" placeholder="Digite el número de celular del técnico" ng-model="crearTecnicoquejasGoSel.celulartecnico">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ciudad</label>
+                                    <select ng-model="crearTecnicoquejasGoSel.region" placeholder="Seleccione.." class="form-control" required="">
+                                        <option value="" disabled>--Seleccione--</option>
+                                        <option ng-repeat="f in listadoCiudadesQGo" value="{{f.ciudad}}"> {{f.ciudad}} </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Empresa:</label>
+                                    <select ng-model="crearTecnicoquejasGoSel.empresa" name="crearempresa" placeholder="Seleccione la empresa.." class="form-control" capitalize required>
+                                        <option value="" disabled>--Seleccione--</option>
+                                        <option ng-repeat="f in empresas" value="{{f.ID}}"> {{f.EMPRESA}} </option>
+                                     </select>
+                                </div>
+
+                            </div>                         
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>    
+    </div>
+</div> 
+
+
+<!--  MODAL PARA MODIFICAR LAS OBSERVACIONES  -->
+<div class="modal modal-info fade" id="modObserQuejasGo">
+    <div class="modal-dialog">
+        <div class="modal-content"> 
+    
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modificar Observaciones</h4>       
+            </div>
+            <form name="frmModObserQuejasGo" novalidate="novalidate" ng-submit="modificarObservacionQuejasGo(quejasGoSel, frmModObserQuejasGo)">   
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <div class="form-group">
+
+                            <div class="form-group">
+                                <label>Observación:</label>
+                                <textarea type="text" class="form-control" ng-model="quejasGoSel.observacion" rows="15"></textarea>
+                            </div>
+
+                            </div>                         
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>    
+    </div>
+</div> 

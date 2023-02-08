@@ -1,0 +1,164 @@
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+table, th, td {
+    font-size:	11px;
+}
+
+.fixed-panel1 {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Gestionar dolores del cliente</b>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+								<button type="button"  ng-disabled="contact_form1.$invalid && gestionDolores.codigo == 'CLIENTE CONTESTA'"  ng-show="EsconderGuardar" class="btn btn-info btn-xs" ng-click="GuardarPedido()">
+								<i class="fa fa-floppy-o" aria-hidden="true"> </i> Guardar gestión</button>&nbsp;&nbsp;
+							</li>
+					</ul>
+				</div>
+				<div class = "panel-heading nav navbar-default">
+					<div class="col-lg-12 col-xs-10">
+						<ul class="nav navbar-nav navbar-left">
+						<div class="btn-group">
+							<li>
+								<h6 ng-show="EsconderGuardar">¿Señor(a), Recientemente le hicimos una visita de instalación de los productos que adquirió con nuestra compañía y posteriormente lo llamamos a realizar una encuesta, cuando le preguntamos que <b>según su experiencia en el proceso de instalación, recomendarías a Tigoune con otra persona,</b> nos calificó que no estaría dispuesto a hacerlo, podría indicarnos el motivo de dicha calificación? </h6>
+								<button type="button" ng-show="EsconderDeme" class="btn btn-success btn-xs" ng-click="DemePedido()">
+								<i class="fa fa-search-plus" aria-hidden="true"> </i> Deme Pedido</button>
+
+							</li>
+						</div>
+						</ul>
+					</div>	
+				</div>
+				<div class="panel-body ">
+					<form  action=" " method="post" name="contact_form1" id="contact_form1">
+					<div class="container-fluid" ng-show="EsconderDeme">
+							<div class="jumbotron">
+								<center><h3>Gestión Dolores del cliente</h3></center>
+							</div>
+					</div>
+					<div class="container-fluid" ng-show="EsconderGuardar">
+							<table class="table small table-striped table-hover table-bordered table-condensed" >
+                         <thead>
+                                <th>Pedido</th>
+                                <th>Información Cliente</th>
+                                <th>Información Pedido</th>
+                                <th>Gestión realizada</th>
+                        </thead>
+						 <tr>
+                        <td>{{infoPedidoEncuesta[0].detalle}}</td>
+                        <td>
+                          	<b>Cedula:</b> {{infoPedidoEncuesta[0].cedula}}<br>
+                            <b>Departamento:</b> {{infoPedidoEncuesta[0].departamento}}<br>
+                          	<b>Ciudad:</b> {{infoPedidoEncuesta[0].municipio}}<br>
+                          	<b>Telefono:</b> {{infoPedidoEncuesta[0].telefono}}<br>
+                        </td>
+                        <td>
+                            <b>Contrato:</b> {{infoPedidoEncuesta[0].contratista}}<br>
+                            <b>Interfaz:</b> {{infoPedidoEncuesta[0].Interfaz}}<br>
+                            <b>Fecha Instalación:</b> {{infoPedidoEncuesta[0].fecha_instalacion}}<br>
+                           	<b>Respuesta Encuesta</b> {{infoPedidoEncuesta[0].respuesta}}<br>
+                           	<b>{{infoPedidoEncuesta[0].semana}}<br></b>
+                        </td>
+                        <td>
+                        	
+                        	<div class="col-md-12">
+                        	<div class="row">
+                        		<div class="col-md-6">
+                        		<div class="form-group" ng-class="{'has-error' : contact_form1.codigo.$touched && contact_form1.codigo.$invalid}">
+                        		<div class="list-group-item small" ><b>Codigo:</b><br>
+                                    <select  class= "btn btn-default btn-xs grupo-select"
+													name="codigo"
+													ng-model="gestionDolores.codigo"
+													capitalize required>
+											<option value="" disabled>Seleccione</option>
+											<option value="CLIENTE CONTESTA" >Cliente contesta</option>
+											<option value="CLIENTE NO CONTESTA" >Cliente no contesta</option>
+											<option value="LLAMAR FUTURO" >Llamar futuro</option>
+											<option value="NO PUEDE ATENDER LLAMADA" >No puede atender llamada</option>
+									</select>
+                                </div>
+                                </div>
+                        		</div>
+                        	<div class="col-md-6" ng-show="gestionDolores.codigo == 'CLIENTE CONTESTA'">
+                        		<div class="form-group" ng-class="{'has-error' : contact_form1.resultado.$touched && contact_form1.resultado.$invalid && gestionDolores.codigo == 'CLIENTE CONTESTA'}">
+								<div class="list-group-item small" ><b>Resultado:</b><br>
+                                    <select ng-model="gestionDolores.resultado" 
+                                    		name="resultado" 
+                                    		class="btn btn-default btn-xs grupo-select"
+                                    		capitalize required>
+											<option value="" disabled>Seleccione</option>
+											<option value="ERROR SELECCIÓN DE RESPUESTA" >Error selección de respuesta</option>
+											<option value="CLIENTE NO BRINDA INFORMACIÓN" >Cliente no brinda información</option>
+											<option value="DAÑOS LUEGO INSTALACIÓN" >Daños luego de la instalación</option>
+											<option value="INCUMPLIMIENTO AGENDA" >Incumplimiento agenda</option>
+											<option value="TECNICO NO DA INFORMACIÓN" >Técnico no de información</option>
+											<option value="DESORDEN EN SITIO" >Desorden en sitio</option>
+											<option value="OFERTA DIFERENTE" >Oferta diferente</option>
+											<option value="MALA ASESORIA" >Mala asesoria</option>
+											<option value="MAL AGENDAMIENTO" >Mal agendamiento</option>
+											
+									</select>
+                                </div>
+                                </div>
+							</div>	
+							</div>
+							</div>
+							<center>
+								<br>
+								<br>
+								<b>Observaciones:</b><br>
+									<textarea  name="observaciones" 
+					                id="observaciones"
+					                rows="3"
+					                cols="80"
+					                ng-model="gestionDolores.observaciones"></textarea></center>
+					         </td>	
+                   			</tr>
+                   			</table>
+						</div>
+					</form>	
+				</div>	
+				<div class="row">
+				<div class="col-md-4 col-md-offset-4" ng-show="EsconderGuardar" >
+							<div class="help-block" ng-messages="contact_form1.codigo.$error">
+										<div class="alert alert-warning" ng-show="contact_form1.codigo.$error.required">
+											  <strong>Error! </strong> El campo codigo es requerido
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.resultado.$error.required && gestionDolores.codigo == 'CLIENTE CONTESTA'">
+											  <strong>Error! </strong> El campo resultado es requerido.
+										</div>
+							</div>
+				</div>
+				</div>
+				</div>	
+			</div>
+	</div>
+</div>		
+<br>
+<br>	

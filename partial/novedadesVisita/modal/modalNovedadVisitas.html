@@ -1,0 +1,206 @@
+<div class="modal modal-info fade" id="modalNovedadVisita">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Registro Novedades en Visitas: </h4>
+            </div>
+
+            <form name="frmNovedadVisita" method="post" novalidate="novalidate" ng-submit="guardar( novedadesVisitasSel, frmNovedadVisita )">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tipo de Novedad:</label>
+                        <select type="text" 
+                                class="form-control"
+                                name="tiponovedad"
+                                ng-model="novedadesVisitasSel.tiponovedad" 
+                                required>
+                            <option value="" disabled>Seleccione</option>
+                            <option value="Cumplimiento de Agenda">Cumplimiento de Agenda</option>
+                            <option value="Triangulo de Produccion">Triángulo de Producción</option>                      
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ID Llamada:</label>
+                        <input type="text" class="form-control" placeholder="ID Llamada" ng-model="novedadesVisitasSel.idLlamada">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pedido:</label>
+                        <input type="text" class="form-control" placeholder="Pedido" ng-model="novedadesVisitasSel.pedido">
+                        <div style="background: white; color: white; height: 5px;"> </div>
+                        <button type="button" class="btn btn-primary btn-xs" ng-click="BuscarPedidoNovedad(novedadesVisitasSel.pedido)"> 
+                        <i class="fa fa-search-plus" aria-hidden="true"> </i> Buscar </button><br>
+
+                        <ul class="nav navbar-nav navbar-default" ng-show="infopedido==false">
+                            <span class="label label-danger" ng-show="errorconexion1"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{errorconexion}}</span>
+                            <span class="label label-warning" class="pull-right" ng-hide="errorconexion1"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No hay datos para el pedido ingresado, ingrese los datos manualmente</span>
+                        </ul>
+                    </div>
+                    <br>
+                    
+                    <div class="form-group" ng-show="infopedido==false">
+                        <label>Contrato:</label>
+                        <select type="text" class="form-control" placeholder="Seleccionar" ng-model="novedadesVisitasSel.contracto" ng-show="infopedido==false || novedadesVisitasSel.tiponovedad=='Comportamiento Tecnicos'" >
+                            <option ng-repeat="f in contrato" value="{{f.ID}}">{{f.CONCEPTO}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==true">
+                        <label>Contrato:</label>
+                        <input type="text" class="form-control" placeholder="Contrato" ng-model="novedadesVisitasSel.contrato2" ng-show="infopedido==true">
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==false">
+                        <label>Cédula Técnico Reportado:</label>
+                        <input type="text" class="form-control" placeholder="Digite la cédula del técnico" ng-model="novedadesVisitasSel.cedulaTecnico" >
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==true" >
+                        <label>Cédula Técnico Reportado:</label>
+                        <input type="text" class="form-control" placeholder="Digite la cédula del técnico" ng-model="novedadesVisitasSel.cedulaTecnico2" >
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==false" >
+                        <label>Nombre Técnico Reportado:</label>
+                        <input type="text" class="form-control" placeholder="Digite el nombre del técnico" ng-model="novedadesVisitasSel.nombreTecnico" >
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==true" >
+                        <label>Nombre Técnico Reportado:</label>
+                        <input type="text" class="form-control" placeholder="Digite el nombre del técnico" ng-model="novedadesVisitasSel.nombreTecnico2" >
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==false">
+                        <label>Proceso:</label>
+                        <select type="text" 
+                                class="form-control"
+                                name="proceso"
+                                ng-model="novedadesVisitasSel.proceso">
+                            <option value="" disabled>Seleccione</option>
+                            <option value="Instalaciones">Instalaciones</option>     
+                            <option value="Reparaciones">Reparaciones</option>               
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==true">
+                        <label>Proceso:</label>
+                        <input type="text" class="form-control" placeholder="Proceso" ng-model="novedadesVisitasSel.proceso2" >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Región:</label>
+                        <select type="text"
+                                class="form-control" 
+                                name="region" 
+                                ng-model="novedadesVisitasSel.region"
+                                ng-change="calcularAcciones()"
+                                required>
+                            <option value="" disabled>Seleccione</option>
+                            <option ng-repeat="d in listadoRegiones" value="{{d.region}}">{{d.region}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==false">
+                        <label>Municipio:</label>
+                        <select type="text"
+                                name="minicipio"
+                                class="form-control" 
+                                placeholder="Seleccionar" 
+                                ng-model="novedadesVisitasSel.municipio"
+                                value="novedadesVisitasSel.municipio">
+                            <option value="" disabled>Seleccione</option>
+                            <option ng-repeat="f in listadoMunicipios" value="{{f.municipio}}">{{f.municipio}}</option>                    
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="infopedido==true">
+                        <label>Municipio:</label>
+                        <input type="text" class="form-control" placeholder="Municipio" ng-model="novedadesVisitasSel.municipio2">
+                    </div>
+
+                    <!--<div class="form-group" ng-show="novedadesVisitasSel.tiponovedad == 'Comportamiento Tecnicos'">
+                        <label>Detalle:</label>
+                        <select type="text" 
+                                class="form-control"
+                                name="detalle"
+                                ng-model="novedadesVisitasSel.detalle">
+                            <option value="" disabled>Seleccione</option>
+                            <option ng-repeat="f in listadoDetalle" value="{{f.detalle}}">{{f.detalle}}</option>                        
+                        </select>
+                    </div> -->
+
+                    <div class="form-group" ng-show="novedadesVisitasSel.tiponovedad == 'Triangulo de Produccion'">
+                        <label>Situación:</label>
+                        <select type="text" 
+                                class="form-control"
+                                name="situaciontriangulo"
+                                ng-change="refrescarCamposNovedadesMotivos()"
+                                ng-model="novedadesVisitasSel.situaciontriangulo"
+                                required>
+                            <option value="" disabled>Seleccione</option>
+                            <option value="No cumple políticas de tiempos">No cumple políticas de tiempos</option>
+                            <option value="Malos procedimientos">Malos procedimientos</option>                     
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="novedadesVisitasSel.tiponovedad == 'Cumplimiento de Agenda'">
+                        <label>Situación:</label>
+                        <select type="text" 
+                                class="form-control"
+                                name="situaciontriangulo"
+                                ng-change="refrescarCamposNovedadesMotivos()"
+                                ng-model="novedadesVisitasSel.situaciontriangulo"
+                                required>
+                            <option value="" disabled>Seleccione</option>
+                            <option value="Riesgo incumplimiento AM">Riesgo incumplimiento AM</option>
+                            <option value="Riesgo incumplimiento PM">Riesgo incumplimiento PM</option>                     
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="novedadesVisitasSel.situaciontriangulo">
+                        <label>Motivo:</label>
+                        <select type="text" 
+                                class="form-control"
+                                name="motivotriangulo"
+                                ng-change="refrescarCamposNovedadesSubmotivos()"
+                                ng-model="novedadesVisitasSel.motivotriangulo"
+                                required>
+                            <option value="" disabled>Seleccione</option>
+                            <option ng-repeat="options in optionsMotivo" value="{{options}}">{{options}}</option>
+                        </select>                   
+                    </div>
+
+                    <div class="form-group" ng-show="novedadesVisitasSel.motivotriangulo && optionsSubmotivo">
+                        <label>Submotivo:</label>
+                        <select type="text" 
+                                class="form-control"
+                                name="submotivotriangulo"
+                                ng-model="novedadesVisitasSel.submotivotriangulo">
+                            <option value="" disabled>Seleccione</option>
+                            <option ng-repeat="options in optionsSubmotivo" value="{{options}}">{{options}}</option>
+                        </select>                        
+                    </div>
+                    
+                    <div class="form-group" ng-show="novedadesVisitasSel.tiponovedad == 'Triangulo de Produccion'">
+                        <label>Hora marcación en sitio:</label>
+                        <input type="time" name="horamarcaensitio" class="form-control" ng-model="novedadesVisitasSel.horamarcaensitio">
+                        <span class="error" ng-show="frmNovedadVisita.horamarcaensitio.$error.time">La hora ingresada no es válida</span>                   
+                    </div>
+
+                    <div class="form-group">
+                        <label>Observaciones:</label>
+                        <textarea type="text" class="form-control textareaNovedades" placeholder="Observaciones" ng-model="novedadesVisitasSel.observaciones" required></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

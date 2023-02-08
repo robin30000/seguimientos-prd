@@ -1,0 +1,184 @@
+<style>
+	.fileUpload {
+		position: relative;
+		overflow: hidden;
+		margin: 10px;
+	}
+
+	table,
+	th,
+	td {
+		font-size: 11px;
+	}
+
+	.fixed-panel-kpiuser {
+
+		max-height: 300px;
+		overflow-y: scroll;
+	}
+
+	.fileUpload input.upload {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 30px;
+		cursor: pointer;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+
+	.flipswitch {
+		position: relative;
+		background: white;
+		margin: 0px 0 0;
+		padding: 0;
+		width: 42px;
+		height: 22px;
+		-webkit-appearance: initial;
+		border-radius: 3px;
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+		outline: none;
+		font-size: inherit;
+		/*font-size: 65%;
+    font-size: 9px;
+    font-weight: bold;*/
+		font-family: Trebuchet, Arial, sans-serif;
+		cursor: pointer;
+		border: 1px solid #ddd;
+		z-index: 0;
+	}
+
+	.flipswitch:after {
+		position: absolute;
+		top: 5%;
+		display: block;
+		line-height: 17px;
+		width: 45%;
+		height: 90%;
+		background: #337ab7;
+		box-sizing: border-box;
+		text-align: center;
+		transition: all 0.3s ease-in 0s;
+		color: white;
+		border: #888 1px solid;
+		border-radius: 3px;
+		z-index: 0;
+	}
+
+	.flipswitch:after {
+		left: 2%;
+		content: "No";
+
+	}
+
+	.flipswitch:checked:after {
+		left: 53%;
+		content: "Si";
+		background: #00C8FF;
+
+	}
+		.resaltado15min {
+  		background-color: #ADE2FF !important;
+  	}
+
+  	  	.label-xsmall {
+  		vertical-align: super;
+  		font-size: x-small;
+	}
+
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div id="home" class="tab-pane fade in active">
+				<div class="panel panel-default">
+					<div class="panel-heading nav navbar-default">
+						<ul class="nav navbar-nav navbar-left">
+							<b>Código incompleto</b>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<b>
+								<button type="button" class="btn btn-default btn-xs" ng-click="listarcodigoincompleto()" title="Actualizar" data-toggle="tooltip"
+								 data-placement="top" ng-disabled="loading">
+									<i class="fa fa-refresh" aria-hidden="true"></i>
+								</button>
+							</b>&nbsp;
+						</ul>
+					</div>
+					<div class="panel-body">
+						<div class="container-fluid" ng-show="isLoadingData">
+							<div class="jumbotron">
+								<h3>Gestión Código incompleto</h3>
+							</div>
+						</div>
+						<div class="container-fluid" ng-show="!isLoadingData">
+							<table class="table table-striped table-bordered table-hover table-condensed">
+								<thead>
+									<tr>
+										<th class="text-center">Tarea</th>
+										<th class="text-center">Número Contacto</th>
+										<th class="text-center">Nombre Contacto</th>
+										<th class="text-center">Pedido</th>
+										<th class="text-center">Categoría</th>
+										<th class="text-center">Municipio</th>
+										<th class="text-center">Productos</th>
+										<th class="text-center">Ced Tec</th>
+										<th class="text-center">Técnico</th>
+										<th class="text-center">Celular</th>
+										<th class="text-center">Fecha Solicitud</th>
+										<th class="text-center">Tipificación</th>
+										<th class="text-center">Acion</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="data in dataCodigoIncompleto track by $index">
+										<td>{{data.tarea}}</td>
+										<td>{{data.numero_contacto}}</td>
+										<td>{{data.nombre_contacto}}</td>
+										<td>{{data.unepedido}}</td>
+										<td>{{data.tasktypecategory}}</td>
+										<td>{{data.unemunicipio}}</td>
+										<td>{{data.uneproductos}}</td>
+										<td>{{data.engineer_id}}</td>
+										<td>{{data.engineer_name}}</td>
+										<td>{{data.mobile_phone}}</td>
+										<td>{{data.fecha_solicitud_firebase}}</td>
+										<td>
+											<!-- <select ng-model="data.tipificacion" class="btn btn-default btn-xs grupo-select" name="tipificacion" style="width:100px" ng-change="palancatv(data,$index)"> -->
+											<select ng-model="data.tipificacion" class="btn btn-default btn-xs grupo-select" name="tipificacion" id="tipificacion{{data.id_codigo_incompleto}}" style="width:100px">
+												<option value="">Seleccionar</option>
+												<option value="Finalizado">Finalizado</option>
+												<option value="Incompleto">Incompleto</option>
+											</select>
+										</td>
+										<td>
+											<button type="button" class="btn btn-default btn-xs" ng-click="gestionarCodigoIncompleto(data.id_codigo_incompleto)" title="Gestionar código incompleto" data-toggle="tooltip" data-placement="top">
+												<i class="fa fa-edit" aria-hidden="true"></i>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>										
+						</div>
+						<!-- Loading Circle -->
+						<div class="loading-circle" ng-show="loadingData">
+							<div class="loadingio-spinner-ripple">
+								<div class="ldio">
+									<div></div><div></div>
+								</div>
+							</div>
+						</div>
+						<!-- / Loading Circle -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br>
+<br>
+
+<!-- MODAL -->
+<div ng-include="rutaCierreMasivoContin"></div>

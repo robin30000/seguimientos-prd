@@ -1,0 +1,53 @@
+<style>
+.fixed-panel {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Historico de Registros mesa offline</b>
+						<ul class="nav navbar-nav navbar-right">
+							<li>Registros: <span class="badge badge-default">{{cantidad}}</span></li>
+						</ul>
+				</div>
+				<div class="panel-body fixed-panel animated bounceInRight" >
+					<table class = "table small table-striped table-condensed">
+						<thead>
+							<tr >
+								<th>LOGIN OFFLINE</th>
+								<th>ASESOR</th>
+								<th>PEDIDO</th>
+								<th>PROCESO</th>
+								<th>PRODUCTO</th>
+								<th>ACCIÓN</th>
+								<th>ACTIVIDAD</th>
+								<th>SUB-ACTIVIDAD</th>
+								<th>FECHA CARGA</th>
+								<th>OBSERVACIONES</th>							
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in listaRegistrosOffline">
+								<td>{{data.LOGIN_ASESOR_OFF}}</td>
+								<td>{{data.LOGIN_ASESOR}}</td>
+								<td>{{data.PEDIDO}}</td>
+								<td>{{data.PROCESO}}</td>
+								<td>{{data.PRODUCTO}}</td>
+								<td>{{data.ACCION}}</td>
+								<td>{{data.ACTIVIDAD}}</td>
+								<td>{{data.ACTIVIDAD2}}</td>
+								<td>{{data.FECHA_CARGA}}</td>
+								<td>{{data.OBSERVACIONES}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</div><!--col 12 Novedades -->
+		</div>
+</div>

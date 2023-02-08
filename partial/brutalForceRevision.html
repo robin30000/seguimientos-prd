@@ -1,0 +1,1040 @@
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+
+.fixed-panel {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div ng-class="{'col-md-8 col-md-offset-1' : formulario, 'col-md-12' : !formulario}" >
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Gestión Brutal force</b>
+						<ul class="nav navbar-nav navbar-right" ng-hide="formulario">
+								<li>
+									<input type="text" name="fechaini" id="fechaini" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="fechas.fechaini" placeholder= "Fecha Inicial" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+									<input placeholder= "Fecha Final" type="text" name="fechafin" id="fechafin" class="btn btn-default btn-xs  ng-pristine ng-valid ng-touched" ng-model="fechas.fechafin" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+								</li>	
+								<li>
+									<button type="button" class="btn btn-primary btn-xs" title="Exportar Registros" ng-click="descargar()"  ng-disabled="loading" title="Exportar" tooltip data-placement="top">
+									<i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+									</button>
+								</li>&nbsp;&nbsp;&nbsp;
+						</ul>
+				</div>	
+				<div class = "panel-heading nav navbar-default" ng-show="formulario">
+					<div class="col-lg-12 col-xs-10">
+						<ul class="nav navbar-nav navbar-left">
+							<div class="btn-group">
+								<li>
+									<button type="button" ng-show="boton" class="btn btn-success btn-xs" ng-click="DemePedido('Normal')">
+									<i class="fa fa-search-plus" aria-hidden="true"> </i> Deme Pedido</button>
+									<button type="button" ng-show="botonAnulado" class="btn btn-danger btn-xs" ng-click="DemePedido('Anulado')">
+									<i class="fa fa-search-plus" aria-hidden="true"> </i> Deme Anulado</button>
+								</li>
+							</div>
+						</ul>
+						<ul class="nav navbar-nav navbar-right" >
+							<div class="btn-group" ng-show="boton">
+								<li>
+									<input style="width:160px"  class="btn btn-default btn-xs " type="text" ng-model="pedido" placeholder="Ingresar pedido" >
+									<button type="button" class="btn btn-success btn-xs" ng-click="BuscarPedidoBrutal(pedido)">
+									<i class="fa fa-search-plus" aria-hidden="true"> </i> Gestionar Pedido</button>
+								</li>
+							</div>
+								<li>
+									<button type="button" ng-show="escalar" class="btn btn-info btn-xs" ng-click="guardarEscalar()">
+									<i class="fa fa-floppy-o" aria-hidden="true"> </i> Guardar gestión</button>
+								</li>
+						</ul>
+					</div>	
+				</div>
+					    <div class="panel-body" ng-show="escalar">
+					        <div class="container-fluid">
+					          	<div class="col-md-12">
+					          					<div class="row">
+													<table class="table table-striped table-hover table-condensed">
+															<thead>
+																<tr>
+																	<th><center>Pedido:</center></th>
+																	<th><center>Causa actividad</center></th>
+																	<th><center>Actividad realiza grupo</center></th>
+																	<th><center>Zona</center></th>
+																	<th><center>Fecha click</center></th>
+																	<th><center>Número oferta</center></th>
+																</tr>
+															</thead>
+															<tbody>
+																	<tr>
+																 	<td>
+																    	<center>
+																			<span class="label label-success">{{BuscarPedido.PedidoDespacho}}</span>
+																		</center>
+																	</td>
+																    <td>
+																    	<center>
+																	    	<span class="label label-success">{{BuscarPedido.CausaActividad}}</span>
+																		</center>
+																	</td>
+																	<td>
+																    	<center>
+																	    	<span class="label label-success">{{BuscarPedido.actividadRealizaGrupo}}</span>
+																		</center>
+																	</td>
+																	<td>
+																		<center>
+																	    	<span class="label label-success">{{BuscarPedido.zona}}</span>
+																		</center>
+																	</td>
+																	<td>
+																		<center>
+																			<input class="btn btn-default btn-xs" placeholder="DD/MM/AAAA HH:MM" type="text" ng-model="BuscarPedido.fechaclick">    	
+																		</center>
+																	</td>
+
+																	<td>
+																		<center>
+																	    	<span class="label label-success">{{BuscarPedido.numeroOferta}}</span>
+																		</center>
+																	</td>
+																</tr>	
+															</tbody>
+															<thead>
+																<tr>
+																<th colspan="5"> <br></th>	
+															</tr>
+															<center>
+																<tr>		
+																	<th> <center>Estado</center></th>
+																	<th><center>Estado Final</center></th>
+																	<th><center>Número de incidente</center></th>
+																	<th><center>Tipo transacción</center></th>
+																	<th><center>Pedido Nuevo</center></th>
+																	<th><center>Id Llamada</center></th>	
+																</tr>
+															</center>
+															</thead>
+															<tbody>
+																<center>
+																<tr>
+																		<td style="width:25%">
+																		<center>
+																		<select style="width:170px" ng-model="BuscarPedido.estado" class="btn btn-default btn-xs grupo-select">
+																			<option selected="selected" disabled>{{BuscarPedido.estado}}</option>
+																	    	<option value="En asignaciones">Asignaciones</option>
+																			<option value="Escalado TI">Escalado TI</option>
+																			<option value="Finalizado">Finalizado</option>
+																			<option value="Control fraude">Control fraude</option>
+																			<option value="Credito y cartera">Credito y cartera</option>
+																			<option value="Procesos comerciales">Procesos comerciales</option>
+																		</select>
+																		</center>
+																		</td>
+																		<td>
+																		<center>
+																	    	<span class="label label-success">{{BuscarPedido.estadoFinalPedido}}</span>
+																		</center>
+																	</td>
+																	<td>
+																		<center>
+																	    <span class="label label-success">{{BuscarPedido.numeroIncidente}}</span>
+																		</center>
+																	</td>
+																	<td>
+																		<center>
+																	    	<span class="label label-success">{{BuscarPedido.tipoTransaccion}}</span>
+																		</center>
+																	</td>
+																	<td>
+																		<center>
+																	    	<span class="label label-success">{{BuscarPedido.pedidoNuevo}}</span>
+																		</center>
+																	</td>
+																	<td>
+																		<center>
+																	    	<span class="label label-success">{{BuscarPedido.idLlamada}}</span>
+																		</center>
+																	</td>
+																</tr>
+																</center>
+															</tbody>
+													</table>	
+													</div>
+											<div class="row">	
+												<div class="col-md-12">
+													<div class="col-md-3">
+													</div>
+													<div class="col-md-6">
+														<div class="list-group-item small" ><b>Observaciones Asesor: </b><br>
+														<textarea name="ObservacionesAsesor" 
+																	 id="observaciones"
+																	    cols="50"
+																	    rows="6"
+																	    ng-model="BuscarPedido.ObservacionAsesor"
+																	    ></textarea>
+														</div>
+													</div>
+													<div class="col-md-3">
+													</div>
+												</div>
+											</div>
+					      	</div>    
+					    </div>
+					    </div>
+
+					<div class = "panel-body" ng-show="formulario">
+						<form  action=" " method="post" name="contact_form1" id="contact_form1">
+					<div class="container-fluid" ng-show="boton">
+							<div class="jumbotron">
+								<center><h3>Gestión Brutal Force</h3></center>
+								<center><h5>{{mensaje}}</h5></center>
+								<center><h5>{{nohaypedido}}</h5></center>
+							</div>
+					</div>
+					<div class="container-fluid" ng-show="datos">
+								<div class="row">
+											<table class="table table-striped table-hover table-condensed">
+										<thead>
+											<tr>
+												<th><center>Pedido</center></th>
+												<th><center>Acción</center></th>
+												<th><center>Despachador</center></th>
+												<th><center>Correo despachador</center></th>
+												<th><center>Fecha gestión</center></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+											 	<td>
+											    	<center>
+														<span class="label label-success">{{gestionDespacho.PedidoDespacho}}</span>
+													</center>
+												</td>
+											    <td>
+											    	<center>
+														<span class="label label-success">{{gestionDespacho.AccionDespacho}}</span>
+													</center>
+												</td>
+											    <td>
+											    	<center>
+												    	<span class="label label-success">{{gestionDespacho.LoginDespacho}}</span>
+													</center>
+												</td>
+												<td>
+											    	<center>
+												    	<span class="label label-success">{{gestionDespacho.CorreoDespacho}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+												    	<span class="label label-success">{{gestionDespacho.FechaGestionDespacho}}</span>
+													</center>
+												</td>
+											</tr>
+										</tbody>
+										<thead>
+											<tr>
+												<th colspan="2"><center>Tipo transacción</center></th>
+												<th><center>Zona</center></th>
+												<th><center>Id Llamada</center></th>
+												<th><center>Supervisor</center></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td  colspan="2">
+													<center>
+												    	<span class="label label-success">{{gestionDespacho.tipoTransaccion}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+														<span class="label label-success">{{gestionDespacho.zona}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+														<span class="label label-success">{{gestionDespacho.idLlamada}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+														<span class="label label-success">{{gestionDespacho.supervisor}}</span>
+													</center>
+												</td>
+											</tr>		
+										</tbody>					    
+								</table>	
+							</div>
+							<div class="row">
+										<div class="col-md-4">
+										<ul class="list-group" >
+											<div class="form-group" ng-class="{'has-error' : contact_form1.causaActividad.$touched && contact_form1.causaActividad.$invalid}">
+											<li class="list-group-item small" ><b>Causa actividad:</b><br>
+			                                    <select  class= "btn btn-default btn-xs grupo-select"
+																name="causaActividad"
+																ng-model="formulariogestionAsesor.causaActividad"
+																capitalize required>
+														<option value="" disabled>Seleccione</option>
+														<option value="Consulta de oferta">Consulta de oferta</option>
+														<option value="Mal ingreso oferta">Mal ingreso oferta</option>
+														<option value="Mal ingreso por dirección">Mal ingreso por dirección</option>
+														<option value="Red no actualizada">Red no actualizada</option>
+													<!--	<option value="Anulado CRM">Anulado CRM</option>-->
+												</select>
+			                                </li>
+			                                </div>	
+			                                <div class="form-group" ng-class="{'has-error' : contact_form1.estado.$touched && contact_form1.estado.$invalid}">
+			                                <li class="list-group-item small" ><b>Escalado:</b><br>
+			                                    <select  class= "btn btn-default btn-xs grupo-select"
+																name="estado"
+																ng-model="formulariogestionAsesor.estado"
+																capitalize required>
+														<option value="" disabled>Seleccione</option>
+														<option value="En asignaciones">Asignaciones</option>
+														<option value="Escalado TI">Escalado TI</option>
+														<option value="Finalizado">Finalizado</option>
+														<option value="Control fraude">Control fraude</option>
+														<option value="Credito y cartera">Credito y cartera</option>
+														<option value="Procesos comerciales">Procesos comerciales</option>
+												</select>
+			                                </li>
+			                                </div>	
+			                                	<div ng-show="formulariogestionAsesor.estado == 'Escalado TI'">
+				                                <div class="form-group">
+				                                	 <li class="list-group-item small"><b>Número incidente:</b><br>
+				                        			<input class="btn btn-default btn-xs" placeholder="Número incidente" type="text" ng-model="formulariogestionAsesor.incidente" name="incidente">
+				                        			</li>
+				                        		</div>
+				                        		</div>
+										</ul>
+										</div>	
+										<div class="col-md-4">
+											<ul class="list-group" >
+											<div class="form-group" ng-class="{'has-error' : contact_form1.fechaClick.$touched && contact_form1.fechaClick.$invalid}">
+												<li class="list-group-item small" ><b>Fecha y hora subida a click:</b><br>
+				                        			<input class="btn btn-default btn-xs" placeholder="DD/MM/AAAA HH:MM" type="text" ng-model="formulariogestionAsesor.fechaClick" name="fechaClick" capitalize required>
+				                        		</li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.pedidoNuevo.$touched && contact_form1.pedidoNuevo.$invalid}">
+				                               	<li class="list-group-item small" ><b>Pedido nuevo:</b><br>
+				                        			<input class="btn btn-default btn-xs" placeholder="Pedido nuevo" type="text" ng-model="formulariogestionAsesor.pedidoNuevo" name="pedidoNuevo" capitalize required>
+				                        		</li>
+			                        		</div>
+			                        		<div class="form-group" ng-class="{'has-error' : contact_form1.oferta.$touched && contact_form1.oferta.$invalid}">
+				                               	<li class="list-group-item small" ><b>Número de oferta:</b><br>
+				                        			<input class="btn btn-default btn-xs" placeholder="Número de oferta" type="text" ng-model="formulariogestionAsesor.numeroOferta" name="oferta" capitalize required>
+				                        		</li>
+			                        		</div>
+			                        	</ul>
+			                        	</div>
+			                        	<div class="col-md-4">
+			                        		<ul class="list-group" >
+			                        			<div class="form-group" ng-class="{'has-error' : contact_form1.actividad.$touched && contact_form1.actividad.$invalid}">
+												<li class="list-group-item small" ><b>Actividad realizada por grupo:</b><br>
+				                        			 <select  class= "btn btn-default btn-xs grupo-select"
+																	name="actividad"
+																	ng-model="formulariogestionAsesor.actividad"
+																	capitalize required>
+															<option value="" disabled>Seleccione</option>
+															<option value="Reingreso" >Reingreso</option>
+															<option value="Reapertura" >Reapertura</option>
+															<option value="Anulación" >Anulación</option>
+															<option value="Asesoria comercial" >Asesoria comercial</option>
+													</select>
+				                        		</li>
+				                        		</div>
+				                        		<div ng-show = "formulariogestionAsesor.actividad == 'Asesoria comercial'">
+					                        		<div class="form-group">
+						                        		<li class="list-group-item small"><b>Tipo asesoria:</b><br>
+						                        			 <select  class= "btn btn-default btn-xs grupo-select"
+																			name="tipoAsesoria"
+																			ng-model="formulariogestionAsesor.tipoAsesoria">
+																	<option value="" disabled>Seleccione</option>
+																	<option value="Precio" >Precio</option>
+																	<option value="Estructura del pedido" >Estructura del pedido</option>
+															</select>
+						                        		</li>
+						                        	</div>
+						                       	</div>
+						                       	<div class="form-group" ng-class="{'has-error' : contact_form1.canal.$touched && contact_form1.canal.$invalid}">
+				                               	<li class="list-group-item small" ><b>Canal de ventas:</b><br>
+				                        			<input class="btn btn-default btn-xs" placeholder="Canal de venta" type="text" ng-model="formulariogestionAsesor.canal" name="canal" capitalize required>
+				                        		</li>
+			                        			</div>
+			                        		</ul>
+										</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4 col-md-offset-1">
+										<div class="list-group-item small" ><b>Observaciones despachador: </b><br>
+													<textarea  disabled name="observaciones" 
+												    id="observaciones"
+												    cols="35"
+												    rows="4"
+												    ng-model="gestionDespacho.ObservacionesDespacho"
+												    placeholder="Problema identificado"></textarea>
+												</div>
+									</div>			
+									<div class="col-md-6">
+										<div class="list-group-item small" ><b>Observaciones: </b><br>
+													<textarea  name="observaciones" 
+												    id="observaciones"
+												    cols="65"
+												    rows="4"
+												    ng-model="formulariogestionAsesor.observaciones"
+												    placeholder="Problema identificado"></textarea>
+										</div>
+									</div>
+								</div>
+							
+						</div>
+					</form>
+					</div>
+					<div class = "panel-footer" >
+						<button type="button" ng-show="datos" ng-disabled="contact_form1.$invalid" class="btn btn-info btn-xs pull-right" ng-click="GuardarPedidoAsesor()">
+						<i class="fa fa-floppy-o" aria-hidden="true"> </i> Guardar gestión</button>&nbsp;&nbsp;
+					</div>
+
+
+					<div class = "panel-body" ng-hide="formulario">
+						<div class="container-fluid">
+							<div class="col-md-12">
+				 <div class = "panel panel-defaul">		
+					<div class = "panel-heading">	
+						<ul class="nav nav-tabs">
+						    <li class="active"><a data-toggle="tab" href="/#home">Gestión Pedidos</a></li>
+						    <li><a data-toggle="tab" href="/#menu1">DashBoard</a></li>
+						    <li><a data-toggle="tab" href="/#calidad">Calidad</a></li>
+					  	</ul>
+					</div> 
+			<div class="tab-content">
+    			<div id="home" class="tab-pane fade in active">
+    				<div class= "col-md-12">
+					<div class="row">
+						<div class = "panel panel-default">		
+										<div class = "panel-heading nav navbar-default">	
+												<ul class="nav navbar-nav navbar-left">
+													<b><i class="fa fa-bars" aria-hidden="true"></i> Gestión Despacho</b>
+												</ul>
+												<ul class="nav navbar-nav navbar-right">
+					                                <input style="width:200px" class="btn btn-default btn-xs " type="text"
+					                                       ng-model="filtroInput1" placeholder="Filtro" ng-disabled="loading" select-on-click
+					                                       capitalize/>
+					                            </ul>
+										</div> 
+					<div class = "panel-body fixed-panel">		
+					<table class = "table small table-striped table-condensed">
+						<thead>
+					      	<tr>
+					      		<th>Pedido</th>
+								<th>Acción</th>
+								<th>Despachador</th>
+								<th>Supervisor</th>
+								<th>Correo</th>
+								<th>Fecha Gestión</th>
+								<th>Tipo transacción</th>
+								<th>Zona</th>
+								<th>Asesor</th>
+								<th>Gestionar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in gestionFinalDespacho | filter:filtroInput1  as results">
+								<td>{{data.PedidoDespacho}}</td>
+								<td>{{data.AccionDespacho}}</td>
+								<td>{{data.LoginDespacho}}</td>
+								<td>{{data.supervisor}}</td>
+								<td>{{data.CorreoDespacho}}</td>
+								<td>{{data.FechaGestionDespacho}}</td>
+								<td>{{data.tipoTransaccion}}</td>
+								<td>{{data.zona}}</td>
+								<td>{{data.Asesor}}</td>
+								<td><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="left" data-html="true" data-selector="" data-content="{{data.ObservacionesDespacho}}"> 
+								<i class="fa fa-commenting" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-default btn-xs" ng-click="borrarDato(data)" title="Eliminar registro" 
+				              	tooltip data-placement="right" data-placement="left" data-html="true"> 
+								<i class="fa fa-times-circle" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-default btn-xs" ng-click="Desbloquear(data)" title="Desbloquear registro" 
+				              	tooltip data-placement="right" data-placement="left" data-html="true"> 
+								<i class="fa fa-unlock" aria-hidden="true"></i>
+								</button>
+								</td>
+							</tr>	
+						</tbody>
+					</table>
+					</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class = "panel panel-default">		
+										<div class = "panel-heading nav navbar-default">	
+												<ul class="nav navbar-nav navbar-left">
+													<b><i class="fa fa-bars" aria-hidden="true"></i> Gestión Asesores</b>
+												</ul>
+                                                <ul class="nav navbar-nav navbar-right">
+                                                    <input style="width:200px" class="btn btn-default btn-xs " type="text"
+
+												</ul>
+												<ul class="nav navbar-nav navbar-right">
+					                                <input style="width:200px" class="btn btn-default btn-xs " type="text"
+					                                       ng-model="filtroInput" placeholder="Filtro" ng-disabled="loading" select-on-click
+					                                       capitalize/>
+					                            </ul>
+										</div> 
+					<div class = "panel-body fixed-panel">	
+							<table class = "table small table-striped table-condensed">
+						<thead>
+							<tr>
+					      		<th>Pedido</th>
+					      		<th>Asesor</th>
+								<th>Causa actividad</th>
+								<th>Actividad realizada</th>
+								<th>Estado final</th>
+								<th>Fecha asesor</th>
+								<th>Pedido Nuevo</th>
+								<th>Oferta</th>
+								<th>Observacion Final</th>
+								<th>Gestionar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data1 in gestionFinalAsesores | filter:filtroInput  as results1">
+								<td>{{data1.PedidoDespacho}}</td>
+								<td>{{data1.Asesor}}</td>
+								<td>{{data1.CausaActividad}}</td>
+								<td>{{data1.actividadRealizaGrupo}}</td>
+								<td>{{data1.estadoFinalPedido}}</td>
+								<td>{{data1.fechagestionAsesor}}</td>
+								<td>{{data1.pedidoNuevo}}</td>
+								<td>{{data1.numeroOferta}}</td>
+								<td>{{data1.ObservacionesFinales}}</td>
+								<td>
+									<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="right" data-html="true" data-selector="" data-content="{{data1.ObservacionAsesor}}"> 
+								<i class="fa fa-commenting" aria-hidden="true"></i>
+							</button>
+									<button type="button" class="btn btn-default btn-xs" ng-click="editarRegistrosAsesor(data1)" data-toggle="modal" data-target="#editarModal" data-backdrop="static" tooltip title="Editar registro" data-placement="top" data-html="true" data-selector=""><i class="fa fa-pencil-square" aria-hidden="true"> </i>
+							</button>
+								<button type="button" class="btn btn-default btn-xs" ng-click="borrarDato(data1)" title="Eliminar registro" 
+				              	tooltip data-placement="right" data-placement="left" data-html="true"> 
+								<i class="fa fa-times-circle" aria-hidden="true"></i>
+								</button>
+								</td>
+							
+							</tr>
+						</tbody>
+					</table>
+						</div>
+						</div>
+						</div>
+			</div>
+					</div>
+					<div id="menu1" class="tab-pane fade">
+						<div class="col-md-12">
+							<div class= "row">
+								<div class="col-md-5">
+									<div class = "panel panel-default">		
+										<div class = "panel-heading nav navbar-default">	
+												<ul class="nav navbar-nav navbar-left">
+													<b><i class="fa fa-bars" aria-hidden="true"></i> Pedidos sin gestión</b>
+												</ul>
+												<ul class="nav navbar-nav navbar-right">
+													<span class = "badge ">{{Sin_gestion[0].total}}</span>&nbsp;&nbsp;
+												</ul>
+										</div> 
+										<div class = "panel-body">
+											<table class="table small table-striped table-hover table-condensed">
+												<thead>
+													<tr>
+														<th><center>Pedido:</center></th>
+														<th><center>Acción:</center></th>
+														<th><center>Fecha gestión despacho</center></th>
+														<th><center>Tiempo sin gestión</center></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat= "data in Sin_gestion">
+													 		<td align="center">{{data.PedidoDespacho}}</td>
+													 		<td align="center">{{data.AccionDespacho}}</td>
+													 		<td align="center">{{data.FechaGestionDespacho}}</td>
+													 		<td align="center">{{data.Despacho_Asesor}}</td>
+													</tr>
+												</tbody>
+										</table>
+										</div>
+									 </div>	
+								</div>
+								<div class="col-md-7">
+									<div class = "panel panel-default">		
+									<div class = "panel-heading nav navbar-default">	
+											<ul class="nav navbar-nav navbar-left">
+												<b><i class="fa fa-bars" aria-hidden="true"></i> Pedidos Escalados</b>
+											</ul>
+											<ul class="nav navbar-nav navbar-right">
+												<span class = "badge ">{{Escalados[0].total}}</span>&nbsp;&nbsp;
+											</ul>
+									</div> 
+									<div class = "panel-body">
+										<table class="table small table-striped table-hover table-condensed">
+											<thead>
+												<tr>
+													<th><center>Pedido:</center></th>
+													<th><center>Último escalamiento</center></th>
+													<th><center>Número de Oferta</center></th>
+													<th><center>Asesor</center></th>
+													<th><center>Accion</center></th>
+													<th><center>Fecha gestión despacho</center></th>
+													<th><center>Tiempo en gestión</center></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat= "data in Escalados">
+												 		<td style="width:15%">{{data.PedidoDespacho}}</td>
+												 		<td >{{data.estado}}</td>
+												 		<td>{{data.numeroOferta}}</td>
+												 		<td>{{data.asesor}}</td>
+												 		<td>{{data.AccionDespacho}}</td>
+												 		<td>{{data.FechaGestionDespacho}}</td>
+												 		<td>{{data.Tiempo}}</td>
+												</tr>
+											</tbody>
+									</table>
+									</div>
+								 </div>	
+								 <div class="row">
+											<div class = "panel panel-default">		
+												<div class = "panel-heading nav navbar-default">	
+														<ul class="nav navbar-nav navbar-left">
+															<b><i class="fa fa-bars" aria-hidden="true"></i> Pedidos en gestión</b>
+														</ul>
+														<ul class="nav navbar-nav navbar-right">
+															<span class = "badge ">{{En_gestion[0].total}}</span>&nbsp;&nbsp;
+														</ul>
+												</div> 
+												<div class = "panel-body">
+													<table class="table small table-striped table-hover table-condensed">
+														<thead>
+															<tr>
+																<th><center>Pedido:</center></th>
+																<th><center>Acción:</center></th>
+																<th><center>Asesor</center></th>
+																<th><center>Fecha gestión despacho</center></th>
+																<th><center>Tiempo en gestión</center></th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat= "data in En_gestion">
+															 		<td>{{data.PedidoDespacho}}</td>
+															 		<td align="center">{{data.AccionDespacho}}</td>
+															 		<td align="center">{{data.Asesor}}</td>
+															 		<td align="center">{{data.FechaGestionDespacho}}</td>
+															 		<td align="center">{{data.TiempoSaveDespacho}}</td>
+															</tr>
+														</tbody>
+												</table>
+
+												</div>
+											 </div>
+								</div>
+								</div>
+							<!--	<div class="col-md-4">
+									<div class = "panel panel-default">		
+										<div class = "panel-heading nav navbar-default">	
+												<ul class="nav navbar-nav navbar-left">
+													<b><i class="fa fa-bars" aria-hidden="true"></i> Pendiente de análisis</b>
+												</ul>
+												<ul class="nav navbar-nav navbar-right">
+													<span class = "badge ">{{Pendiente_analisis[0].total}}</span>&nbsp;&nbsp;
+												</ul>
+										</div> 
+										<div class = "panel-body">
+											<table class="table small table-striped table-hover table-condensed">
+												<thead>
+													<tr>
+														<th><center>Pedido:</center></th>
+														<th><center>Fecha Inicio</center></th>
+														<th><center>Tiempo pendiente</center></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat= "data in Pendiente_analisis">
+													 		<td>{{data.PedidoDespacho}}</td>
+													 		<td>{{data.FechaGestionDespacho}}</td>
+													 		<td>{{data.Despacho_Asesor}}</td>
+													</tr>
+												</tbody>
+										</table>
+										</div>
+									 </div>	
+								</div>-->
+							
+						</div>
+					</div>
+				</div>
+					<div id="calidad" class="tab-pane fade">
+						<div class="col-md-12">
+							<div class= "row">
+								<div class="col-md-6">
+								<div class = "panel panel-default">		
+									<div class = "panel-heading nav navbar-default">	
+												<ul class="nav navbar-nav navbar-left">
+													<b><i class="fa fa-bars" aria-hidden="true"></i> Pedidos Escalados</b>
+												</ul>
+												<ul class="nav navbar-nav navbar-right">
+													<span class = "badge ">{{escaladosCalidad[0].totalescalaCalidad}}</span>&nbsp;&nbsp;
+												</ul>
+									</div> 
+									<div class = "panel-body">
+										<table class="table small table-striped table-hover table-condensed">
+											<thead>
+												<tr>
+													<th style="width:20%"><center>Pedido:</center></th>
+													<th><center>Último escalamiento</center></th>
+													<th><center>Asesor</center></th>
+													<th><center>Accion</center></th>
+													<th><center>Fecha gestión despacho</center></th>
+													<th><center>Tiempo en gestión</center></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat= "data in escaladosCalidad">
+												 		<td style="width:20%">{{data.PedidoDespacho}}</td>
+												 		<td>{{data.estado}}</td>
+												 		<td>{{data.asesor}}</td>
+												 		<td>{{data.AccionDespacho}}</td>
+												 		<td>{{data.FechaGestionDespacho}}</td>
+												 		<td align="center"><span class="label label-danger">{{data.Tiempo}}</span></td>
+												</tr>
+											</tbody>
+									</table>
+									</div>
+								</div>	
+								</div>	
+								<div class="col-md-6">
+										<div class = "panel panel-default">		
+												<div class = "panel-heading nav navbar-default">	
+														<ul class="nav navbar-nav navbar-left">
+															<b><i class="fa fa-bars" aria-hidden="true"></i> Pedidos en gestión</b>
+														</ul>
+														<ul class="nav navbar-nav navbar-right">
+															<span class = "badge ">{{engestionCalidad[0].totalcalidad}}</span>&nbsp;&nbsp;
+														</ul>
+												</div> 
+											<div class = "panel-body">
+												<table class="table small table-striped table-hover table-condensed">
+														<thead>
+															<tr>
+																<th><center>Pedido:</center></th>
+																<th><center>Acción:</center></th>
+																<th><center>Asesor</center></th>
+																<th><center>Fecha gestión despacho</center></th>
+																<th><center>Tiempo en gestión</center></th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat= "data in engestionCalidad">
+															 	<td>{{data.PedidoDespacho}}</td>
+															 	<td align="center">{{data.AccionDespacho}}</td>
+															 	<td align="center">{{data.Asesor}}</td>
+															 	<td align="center">{{data.FechaGestionDespacho}}</td>
+															 	<td align="center"><span class="label label-danger">{{data.TiempoSaveDespacho}}</span>
+															 	</td>
+															</tr>
+														</tbody>
+												</table>
+											</div>
+										</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class = "panel panel-default">		
+													<div class = "panel-heading nav navbar-default">	
+															<ul class="nav navbar-nav navbar-left">
+																<b><i class="fa fa-bars" aria-hidden="true"></i> Gestión Asesores</b>&nbsp;&nbsp;
+																<span class = "badge ">{{AsesoresCalidad[0].total}}</span>
+															</ul>	
+															<ul class="nav navbar-nav navbar-right">
+								                                <input style="width:200px" class="btn btn-default btn-xs " type="text"
+								                                       ng-model="filtroInput" placeholder="Filtro" ng-disabled="loading" select-on-click
+								                                       capitalize/>
+								                            </ul>
+													</div> 
+								<div class = "panel-body fixed-panel">	
+										<table class = "table small table-striped table-condensed">
+									<thead>
+										<tr>
+								      		<th>Pedido</th>
+								      		<th>Asesor</th>
+											<th>Causa actividad</th>
+											<th>Actividad realizada</th>
+											<th>Estado final</th>
+											<th>Pedido Nuevo</th>
+											<th>Oferta</th>
+											<th>Observacion Final</th>
+											<th>Tiempo en gestión</th>
+											<th>Gestionar</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="data1 in AsesoresCalidad | filter:filtroInput  as resultsCalidad">
+											<td>{{data1.PedidoDespacho}}</td>
+											<td>{{data1.Asesor}}</td>
+											<td>{{data1.CausaActividad}}</td>
+											<td>{{data1.actividadRealizaGrupo}}</td>
+											<td>{{data1.estadoFinalPedido}}</td>
+											<td>{{data1.pedidoNuevo}}</td>
+											<td>{{data1.numeroOferta}}</td>
+											<td>{{data1.ObservacionesFinales}}</td>
+											<td align="center"><span class="label label-danger">{{data1.TiempoSaveDespacho}}</span>
+											</td>
+											<td>
+												<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="right" data-html="true" data-selector="" data-content="{{data1.ObservacionAsesor}}"> 
+											<i class="fa fa-commenting" aria-hidden="true"></i>
+										</button>
+												<button type="button" class="btn btn-default btn-xs" ng-click="editarRegistrosAsesor(data1)" data-toggle="modal" data-target="#editarModal" data-backdrop="static" tooltip title="Editar registro" data-placement="top" data-html="true" data-selector=""><i class="fa fa-pencil-square" aria-hidden="true"> </i>
+										</button>
+											<button type="button" class="btn btn-default btn-xs" ng-click="borrarDato(data1)" title="Eliminar registro" 
+							              	tooltip data-placement="right" data-placement="left" data-html="true"> 
+											<i class="fa fa-times-circle" aria-hidden="true"></i>
+											</button>
+											</td>
+										
+										</tr>
+									</tbody>
+								</table>
+									</div>
+									</div>
+							</div>
+						</div>	
+				</div>
+				</div>	
+				</div>
+				</div>	
+      			</div>  
+			</div>	
+				</div>
+				<div class="row">
+							<div class="help-block" ng-messages="contact_form1.causaActividad.$error" ng-show="datos">
+								<div class="col-md-4" >
+										<div class="alert alert-warning" ng-show="contact_form1.causaActividad.$error.required">
+											  <strong>Error! </strong> El campo Causa actividad es requerido
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.estado.$error.required">
+											  <strong>Error! </strong> El campo estado es requerido.
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.actividad.$error.required">
+											  <strong>Error! </strong> El campo actividad es requerido.
+										</div>
+								</div>
+								<div class="col-md-4" >
+										<div class="alert alert-warning" ng-show="contact_form1.fechaClick.$error.required">
+											  <strong>Error! </strong> La fecha de click es requerida.
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.canal.$error.required">
+											  <strong>Error! </strong> El canal de ventas es requerido.
+										</div>
+								</div>
+								<div class="col-md-4" >		
+										<div class="alert alert-warning" ng-show="contact_form1.pedidoNuevo.$error.required ">
+											  <strong>Error! </strong> El campo pedido nuevo es requerido.
+										</div>
+										<div class="alert alert-warning" ng-show="contact_form1.oferta.$error.required ">
+											  <strong>Error! </strong> El campo número de oferta es requerido.
+										</div>
+								</div>		
+							</div>
+				</div>
+		</div>
+		<div class="col-md-2" ng-show="formulario">
+				<div class = "panel panel-default">
+					<div class = "panel-heading nav navbar-default">
+						<b> Pedidos pendientes</b>
+					</div>
+				<div class = "panel-heading nav navbar-default" >
+					<ul class="list-group small" >
+						<a href="/#demo"  ng-click="PedidosPendientes(data)" ng-repeat="data in pendientesAsesor" class="list-group-item " data-toggle="collapse">{{data.estado}}: <span class = "badge ">{{data.total}}</span>&nbsp;&nbsp;
+						</a>
+						<div id="demo" class="panel-collapse collapse" >
+						  <table class = "table small table-striped table-condensed">
+					      	<tr ng-repeat="data1 in pedidosPendientesxestado">
+					      		<td>{{data1.PedidoDespacho}}</td>
+							</tr>
+						</table>
+						 </div>
+					</ul>
+					<h5><span class="label label-warning" ng-show="validalista">No tiene pedidos pendientes </span></h5>
+				</div>
+				</div>	
+		</div>
+</div>	
+</div>	
+<div id="editarModal"  class="modal fade"  role="dialog">
+ <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Revisar pedido <span class="label label-info">{{gestionAsesorFinal.PedidoDespacho}}---{{gestionAsesorFinal.Asesor}}</span></h4>       
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+          	<div class="col-md-12">
+          					<div class="row">
+								<table class="table table-striped table-hover table-condensed">
+										<thead>
+											<tr>
+												<th><center>Correo despacho:</center></th>
+												<th><center>Causa actividad</center></th>
+												<th><center>Actividad realiza grupo</center></th>
+												<th><center>Fecha click</center></th>
+												<th><center>Número de oferta</center></th>
+											</tr>
+										</thead>
+										<tbody>
+												<tr>
+											 	<td>
+											    	<center>
+														<span class="label label-success">{{gestionAsesorFinal.CorreoDespacho}}</span>
+													</center>
+												</td>
+											    <td>
+											    	<center>
+												    	<span class="label label-success">{{gestionAsesorFinal.CausaActividad}}</span>
+													</center>
+												</td>
+												<td>
+											    	<center>
+												    	<span class="label label-success">{{gestionAsesorFinal.actividadRealizaGrupo}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+												    	<span class="label label-success">{{gestionAsesorFinal.fechaclick}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+												    	<span class="label label-success">{{gestionAsesorFinal.numeroOferta}}</span>
+													</center>
+												</td>
+											</tr>	
+										</tbody>
+										<thead>
+											<tr>
+											<th colspan="5"> <br></th>	
+										</tr>
+										<center>
+											<tr>		
+												<th><center>Estado</center></th>
+												<th><center>Estado Final</center></th>
+												<th><center>Fecha gestión asesor</center></th>
+												<th><center>Número de incidente</center></th>
+												<th><center>Pedido nuevo</center></th>
+											</tr>
+										</center>
+										</thead>
+										<tbody>
+											<center>
+											<tr>
+													<td>
+													<center>
+												    	<span class="label label-success">{{gestionAsesorFinal.estado}}</span>
+													</center>
+													</td>
+												<td>
+													<center>
+												    <select ng-model="gestionAsesorFinal.estadoFinalPedido" class="btn btn-default btn-xs grupo-select">  <option selected="selected" disabled>{{gestionAsesorFinal.estadoFinalPedido}}</option>
+												    	<option value="Cumplido">Cumplido</option>
+														<option value="Anulado">Anulado</option>
+													</select>
+													</center>
+												</td>
+												<td>
+													<center>
+												    	<span class="label label-success">{{gestionAsesorFinal.fechagestionAsesor}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+												    	<span class="label label-success">{{gestionAsesorFinal.numeroIncidente}}</span>
+													</center>
+												</td>
+												<td>
+													<center>
+														<input  class="btn btn-default btn-xs" type="text" ng-model="gestionAsesorFinal.pedidoNuevo"  >
+													</center>
+												</td>
+											</tr>
+											</center>
+										</tbody>
+								</table>	
+								</div>
+						<div class="row">	
+							<div class="col-md-12">
+								<div class="col-md-4">
+									<div class="list-group-item small" ><b>Observaciones despachador: </b><br>
+									<textarea  disabled name="ObservacionesDespacho" 
+												 id="observaciones"
+												    cols="30"
+												    rows="6"
+												    ng-model="gestionAsesorFinal.ObservacionesDespacho"
+												    placeholder="Problema identificado"></textarea>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="list-group-item small" ><b>Observaciones Asesor: </b><br>
+									<textarea  disabled name="ObservacionesAsesor" 
+												 id="observaciones"
+												    cols="30"
+												    rows="6"
+												    ng-model="gestionAsesorFinal.ObservacionAsesor"
+												    placeholder="Problema identificado"></textarea>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="list-group-item small" ><b>Observaciones finales: </b><br>
+									<textarea  name="ObservacionesFinales" 
+												 id="observaciones"
+												    cols="30"
+												    rows="6"
+												    ng-model="gestionAsesorFinal.ObservacionesFinales"
+												    placeholder="Problema identificado"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+      	</div>    
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="editgestionFinal()" data-dismiss="modal">Editar</button>
+        <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+ </div>        
+</div>	
+</div>
+<br>
+<br>	

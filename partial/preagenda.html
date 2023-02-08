@@ -1,0 +1,704 @@
+
+
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.fixed-panel2 {
+
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+</style>
+
+<div class="container-fluid">
+<div class="row">
+<div class = "col-lg-12">
+			<div class = "col-lg-2">
+			 <div ng-class="{'panel panel-success' : listaDiferencias[0].total_actual < listaDiferencias[0].total_anterior, 'panel panel-danger' : listaDiferencias[0].total_actual > listaDiferencias[0].total_anterior, 'panel panel-primary' : listaDiferencias[0].total_actual == listaDiferencias[0].total_anterior}" >
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+            <i ng-class="{'fa fa-thumbs-o-down fa-4x' : listaDiferencias[0].total_actual > listaDiferencias[0].total_anterior, 'fa fa fa-thumbs-o-up fa-4x' : listaDiferencias[0].total_actual < listaDiferencias[0].total_anterior, 'fa fa-balance-scale fa-4x' : listaDiferencias[0].total_actual == listaDiferencias[0].total_anterior}"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div><p style="font-size:40px">{{listaDiferencias[0].total_actual}}</p></div>
+                        </div>
+                    </div>
+                </div>
+               <a href="./#/indicadores/"  color="black">
+                <div class="panel-footer">
+                    <span class="pull-left">{{listaDiferencias[0].razon}}<i class="pull-right fa fa-arrow-circle-right "></i></span>
+                    <div class="clearfix"></div>
+                </div></a>
+            </div>
+		</div>
+		<div class = "col-lg-2">
+			<div ng-class="{'panel panel-success' : listaDiferencias[1].total_actual < listaDiferencias[1].total_anterior, 'panel panel-danger' : listaDiferencias[1].total_actual > listaDiferencias[1].total_anterior, 'panel panel-primary' : listaDiferencias[1].total_actual == listaDiferencias[1].total_anterior}" >
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+            <i ng-class="{'fa fa-thumbs-o-down fa-4x' : listaDiferencias[1].total_actual > listaDiferencias[1].total_anterior, 'fa fa fa-thumbs-o-up fa-4x' : listaDiferencias[1].total_actual < listaDiferencias[1].total_anterior, 'fa fa-balance-scale fa-4x' : listaDiferencias[1].total_actual == listaDiferencias[1].total_anterior}"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div><p style="font-size:40px">{{listaDiferencias[1].total_actual}}</p></div>
+                        </div>
+                    </div>
+                </div>
+                <a href="./#/indicadores/">
+                <div class="panel-footer">
+                    <span class="pull-left">{{listaDiferencias[1].razon}}<i class="pull-right fa fa-arrow-circle-right "></i></span>
+                    <div class="clearfix"></div>
+                </div></a>
+            </div>
+		</div>
+		<div class = "col-lg-2">
+			<div ng-class="{'panel panel-success' : listaDiferencias[2].total_actual < listaDiferencias[2].total_anterior, 'panel panel-danger' : listaDiferencias[2].total_actual > listaDiferencias[2].total_anterior, 'panel panel-primary' : listaDiferencias[2].total_actual == listaDiferencias[2].total_anterior}" >
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+             <i ng-class="{'fa fa-thumbs-o-down fa-4x' : listaDiferencias[2].total_actual > listaDiferencias[2].total_anterior, 'fa fa fa-thumbs-o-up fa-4x' : listaDiferencias[2].total_actual < listaDiferencias[2].total_anterior, 'fa fa-balance-scale fa-4x' : listaDiferencias[2].total_actual == listaDiferencias[2].total_anterior}"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div><p style="font-size:40px">{{listaDiferencias[2].total_actual}}</p></div>
+                        </div>
+                    </div>
+                </div>
+                <a href="./#/indicadores/">
+                <div class="panel-footer">
+                    <span class="pull-left">{{listaDiferencias[2].razon}}<i class="pull-right fa fa-arrow-circle-right "></i></span>
+                    <div class="clearfix"></div>
+                </div></a>
+            </div>
+		</div>
+		<div class = "col-lg-2">
+			<div ng-class="{'panel panel-success' : listaDiferencias[3].total_actual < listaDiferencias[3].total_anterior, 'panel panel-danger' : listaDiferencias[3].total_actual > listaDiferencias[3].total_anterior, 'panel panel-primary' : listaDiferencias[3].total_actual == listaDiferencias[3].total_anterior}" >
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                <i ng-class="{'fa fa-thumbs-o-down fa-4x' : listaDiferencias[3].total_actual > listaDiferencias[3].total_anterior, 'fa fa fa-thumbs-o-up fa-4x' : listaDiferencias[3].total_actual < listaDiferencias[3].total_anterior, 'fa fa-balance-scale fa-4x' : listaDiferencias[3].total_actual == listaDiferencias[3].total_anterior}"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div><p style="font-size:40px">{{listaDiferencias[3].total_actual}}</p></div>
+                        </div>
+                    </div>
+                </div>
+                <a href="./#/indicadores/">
+                <div class="panel-footer">
+                    <span class="pull-left">{{listaDiferencias[3].razon}}<i class="pull-right fa fa-arrow-circle-right "></i></span>
+                    <div class="clearfix"></div>
+                </div></a>
+            </div>
+		</div>
+		<div class = "col-lg-2">
+			<div ng-class="{'panel panel-success' : listaDiferencias[4].total_actual < listaDiferencias[4].total_anterior, 'panel panel-danger' : listaDiferencias[4].total_actual > listaDiferencias[4].total_anterior, 'panel panel-primary' : listaDiferencias[4].total_actual == listaDiferencias[4].total_anterior}" >
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i ng-class="{'fa fa-thumbs-o-down fa-4x' : listaDiferencias[4].total_actual > listaDiferencias[4].total_anterior, 'fa fa fa-thumbs-o-up fa-4x' : listaDiferencias[4].total_actual < listaDiferencias[4].total_anterior, 'fa fa-balance-scale fa-4x' : listaDiferencias[4].total_actual == listaDiferencias[4].total_anterior}"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div><p style="font-size:40px">{{listaDiferencias[4].total_actual}}</p></div>
+                        </div>
+                    </div>
+                </div>
+                <a href="./#/indicadores/">
+                <div class="panel-footer">
+                    <span class="pull-left">{{listaDiferencias[4].razon}}<i class="pull-right fa fa-arrow-circle-right "></i></span>
+                    <div class="clearfix"></div>
+                </div></a>
+            </div>
+		</div>
+		<div class = "col-lg-2">
+			<div ng-class="{'panel panel-success' : listaDiferencias[5].total_actual < listaDiferencias[5].total_anterior, 'panel panel-danger' : listaDiferencias[5].total_actual > listaDiferencias[5].total_anterior, 'panel panel-primary' : listaDiferencias[5].total_actual == listaDiferencias[5].total_anterior}" >
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                           <i ng-class="{'fa fa-thumbs-o-down fa-4x' : listaDiferencias[5].total_actual > listaDiferencias[5].total_anterior, 'fa fa fa-thumbs-o-up fa-4x' : listaDiferencias[5].total_actual < listaDiferencias[5].total_anterior, 'fa fa-balance-scale fa-4x' : listaDiferencias[5].total_actual == listaDiferencias[5].total_anterior}"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div><p style="font-size:40px">{{listaDiferencias[5].total_actual}}</p></div>
+                        </div>
+                    </div>
+                </div>
+                <a href="./#/indicadores/">
+                <div class="panel-footer">
+                    <span class="pull-left">{{listaDiferencias[5].razon}}<i class="pull-right fa fa-arrow-circle-right "></i></span>
+                    <div class="clearfix"></div>
+                </div></a>
+            </div>
+		</div>
+
+	</div>		
+	</div>		
+</div>		
+<br>
+		<div class="col-md-2 col-md-offset-1">
+			<div class="row">
+			<div class="col-md-12 col-xs-12">
+				<div class = "panel panel-default">
+					<div class = "panel-heading nav navbar-default">
+						<b> Estados</b>
+							<ul class="nav navbar-nav navbar-right"> 
+						            <div data-ng-if="loading">
+										<img title="Esperando respuesta" data-toggle="tooltip" data-placement="top" src="img/loader.gif" />
+						            </div>
+						            <li class="nav navbar-nav" ng-class="csvPend==false?'animated 				bounceOutRight':'animated bounceInRight'" ng-show="csvPend==true">
+										<span class="label label-primary">Se exportaron: {{counter}} Registros</span>&nbsp;
+									</li>	  
+						    </ul>
+					</div>
+					<div class = "panel-heading nav navbar-default" >
+						<ul class="list-group small" >
+							<a href=""  ng-repeat="data in listaEstados" class="list-group-item ">{{data.estado_id}}: <span class = "badge ">{{data.total_estados}}</span></a>
+						</ul>
+						<b><button type="button" ng-show="!validalista" class="btn btn-success btn-xs pull-right" ng-click="exportarEstados()"  title="Exportar" data-toggle="tooltip" data-placement="left" ng-disabled="loading" > Exportar
+						<i class="fa fa-download"  aria-hidden="true"></i>
+					</button></b>
+					<h5><span class="label label-warning" ng-show="validalista">No hay información cargada <br>&nbsp;para el día {{indicadores.fecha}}</span></h5>
+					</div>
+				</div>
+			</div>
+			</div>
+	</div><!--Colmd3 -->
+				<div class="col-md-6"><!--Colmd6 -->
+				<div class="row">
+				<div class="col-md-12">
+
+				<div class = "panel panel-default">
+								<div class = "panel-heading">
+									<div class="btn-group">
+									<button type="button" class="btn btn-info btn-xs" ng-click="cargarArchivos()" data-toggle="modal" data-target="#cargarArchivosModal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="left" data-html="true" data-selector=""><i class="fa fa-cloud-upload" aria-hidden="true"> </i> Administración carga archivos
+									</button>
+									</div>
+										<ul class="nav navbar-nav navbar-right">
+										<div class="btn-group">
+											<li>
+												<input style="width:160px"  class="btn btn-default btn-xs " type="text" ng-model="pedido" placeholder="Ingresar pedido" ng-disabled="loading">
+												<button type="button" class="btn btn-success btn-xs" ng-click="BuscarPedido(pedido, indicadores.fecha)" data-toggle="modal" data-target="#buscarpedido" data-backdrop="static"
+												>
+												<i class="fa fa-search-plus" aria-hidden="true"> </i> Buscar pedido</button>
+											</li>
+										</div>
+										</ul>
+								</div>
+								<div class = "panel-heading nav navbar-default">
+									<ul class="nav navbar-nav navbar-left">
+          								  <div>
+									          <select style="width:580px" multiple class="btn btn-default btn-xs !important" ui-select2="groupSetup" ng-model="indicadores.CIUDAD" data-placeholder="Seleccione la ciudad..." >
+									            <option ng-repeat="group1 in listadoDepartamentos" value="{{group1.DEPARTAMENTO}}_DEPA">{{group1.DEPARTAMENTO}}</option>
+									            <option ng-repeat="group in listadoCiudades" value="{{group.CIUDAD}}">{{group.CIUDAD}}</option>
+									          </select>
+									        </div>
+									</ul>
+								</div>	
+								<div class = "panel-heading nav navbar-default">
+									<div class="col-lg-12 col-xs-10">
+									<ul class="nav navbar-nav navbar-left">
+										<input style="width:130px" type="text" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched"  ng-model="indicadores.fecha" placeholder= "Fecha a consultar..." datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+									</ul>
+									<ul class="nav navbar-nav navbar-right form-group">
+											<select  class= "btn btn-default btn-xs grupo-select"
+													name="tipo_trabajo"
+													ng-model="indicadores.tipo_trabajo"
+													title="Seleccione el tipo trabajo" 
+													tooltip
+													data-placement="bottom">
+												<option ng-repeat="d in listatipostrabajos"
+														value="{{d.tipo_trabajo}}">
+														{{d.tipo_trabajo}}
+												</option>
+											</select>
+											<select  class= "btn btn-default btn-xs grupo-select"
+													name="uen"
+													ng-model="indicadores.uen"
+													title="Seleccione la UEN" 
+													tooltip
+													data-placement="top">
+												<option ng-repeat="d in listaUEN"
+														value="{{d.uen}}">
+														{{d.uen}}
+												</option>	
+											</select>
+										<button type="button" class="btn btn-default btn-xs pull-right" 
+										ng-click="insertarDatos()"
+										ng-disabled="loading"
+										title="Actualizar" 
+										tooltip
+										data-placement="right">
+										<i class="fa fa-refresh" aria-hidden="true"> </i></button>
+										<button type="button" class="btn btn-default btn-xs" 
+										ng-click="limpiarSelect()"
+										ng-disabled="loading"
+										title="Limpiar" 
+										tooltip
+										data-placement="top">
+										<i class="fa fa-window-close"></i></button>
+									</ul>
+								</div>
+								</div>	
+								<div class="panel-body" >
+									<table class = "table small table-striped table-condensed">
+										<thead>
+									      <tr >
+									      	<th>Jornada</th>
+									      	<th>Agendados</th>
+									      	<th>Vista click</th>
+									      	<th>Confirmados</th>
+									      	<th>Sin confirmar</th>
+									      	<th>No gestionados</th>
+									      	<th>Finalizados click</th>
+									      </tr>
+									    </thead>
+									    <tbody>
+									      <tr ng-repeat="data in listaData">
+									      	 <td>{{data.id_jornada}}</td>
+									      	 <td>{{data.agendados}}</td>
+									      	 <td>{{data.vista_click}}</td>
+									         <td>{{data.confirmados}}</td>
+									         <td>{{data.sin_confirmar}}</td>
+									         <td>{{data.no_gestionados}}</td>
+									         <td>{{data.finalizados_click}}</td>
+									      </tr>
+									      <tr ng-repeat="data in listaData2">
+									      	 <td>{{data.id_jornada}}</td>
+									      	 <td><button type="button" class="btn btn-link btn-xs" 
+												ng-click="exportarDatos('Totalagendados')"
+												ng-disabled="loading">{{data.agendados}}
+												</button></td>
+									      	 <td><button type="button" class="btn btn-link btn-xs" 
+												ng-click="exportarDatos('TotalVistaClick')"
+												ng-disabled="loading">{{data.vista_click}}
+												</button></td>
+									         <td><button type="button" class="btn btn-link btn-xs" 
+												ng-click="exportarDatos('TotalConfirmados')"
+												ng-disabled="loading">{{data.confirmados}}
+												</button></td>
+									         <td><button type="button" class="btn btn-link btn-xs" 
+												ng-click="exportarDatos('TotalSinConfirmar')"
+												ng-disabled="loading">{{data.sin_confirmar}}
+												</button></td>
+									         <td><button type="button" class="btn btn-link btn-xs" 
+												ng-click="exportarDatos('TotalNogestionados')"
+												ng-disabled="loading">{{data.no_gestionados}}
+												</button></td>
+									         <td><button type="button" class="btn btn-link btn-xs" 
+												ng-click="exportarDatos('TotalFinalClick')"
+												ng-disabled="loading">{{data.finalizados_click}}
+												</button></td>
+									      </tr>
+									      <tr ng-repeat="data in listaData3">
+									      	 <td>{{data.id_jornada}}</td>
+									      	 <td><button type="button" class="btn btn-danger btn-xs" 
+												ng-click="exportarDatos('Diferenciasagendados')"
+												ng-disabled="loading">{{data.agendados}}
+												</button></td>
+									      	 <td><button type="button" class="btn btn-danger btn-xs" 
+												ng-click="exportarDatos('DiferenciasVistaClick')"
+												ng-disabled="loading">{{data.vista_click}}
+												</button></td>
+									         <td><button type="button" class="btn btn-danger btn-xs" 
+												ng-click="exportarDatos('DiferenciasConfirmados')"
+												ng-disabled="loading">{{data.confirmados}}
+												</button></td>
+									         <td><button type="button" class="btn btn-danger btn-xs" 
+												ng-click="exportarDatos('DiferenciasSinConfirmar')"
+												ng-disabled="loading">{{data.sin_confirmar}}
+												</button></td>
+									         <td><button type="button" class="btn btn-danger btn-xs" 
+												ng-click="exportarDatos('Diferenciasnogestionados')"
+												ng-disabled="loading">{{data.no_gestionados}}
+												</button></td>
+									         <td><button type="button" class="btn btn-danger btn-xs" 
+												ng-click="exportarDatos('DiferenciasFinalClick')"
+												ng-disabled="loading">{{data.finalizados_click}}
+												</button></td>
+									      </tr>
+									     </tbody>
+								   </table>
+
+								   <ul class="nav navbar-nav navbar-left">
+										<li>
+											<i class="fa fa-line-chart" aria-hidden="true"></i>
+											Efectividad:
+										   <div ng-class="{'label label-danger' : efectividad > 0 && efectividad <= 64, 'label label-warning' : efectividad >64 && efectividad < 85, 'label label-success' : efectividad >85}" >
+										   	{{efectividad}} %
+										   </div>
+										</li> 
+									</ul>
+								   <ul class="nav navbar-nav navbar-right">
+										<li>
+											<i class="fa fa-line-chart" aria-hidden="true"></i>
+											Eficacia en confirmación:
+										   <div ng-class="{'label label-danger' : eficacia > 0 && eficacia <= 64, 'label label-warning' : eficacia >64 && eficacia < 85, 'label label-success' : eficacia >85}" >
+										   	{{eficacia}} %
+										   </div>
+										</li> 
+									</ul>
+									</div><!--Panel body-->
+									<div class="panel-footer" >
+									
+											<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+											Alarmados:
+										    <button type="button" class="btn btn-warning btn-xs" 
+												ng-click="exportarDatos('Alarmados')"
+												ng-disabled="loading">{{alarmados}}
+											</button>
+										
+									</div>	
+								</div>
+
+				</div>
+				</div>
+</div><!--Col centro graficas-->
+				
+		<div class="col-md-2 col-xs-2">
+				<div class = "panel panel-default">	<!--panel default -->
+							<div class = "panel-heading nav navbar-default">
+								<b><i class="fa fa-commenting" aria-hidden="true"></i> Notas: </b>
+							</div>
+						<div class="panel-body fixed-panel" ><!--panel body -->
+	                              		<textarea  rows="10" 
+			                               name="observaciones" 
+			                               id="observaciones"
+			                               placeholder="Ingreso de observaciones:"
+			                               class="form-control"></textarea>
+							<br>
+							<ul class="nav navbar-nav navbar-right">
+							<li><button type="button" class="btn btn-success btn-xs" value="Guardar" onclick="javascript:guardarNotas();">
+							<span class="fa fa-floppy-o" aria-hidden="true"></span> Guardar</button>
+	            			<button type="button" class="btn btn-info btn-xs" value="Exportar" onclick="javascript:exportarNotas();">
+	           				 <span class="fa fa-floppy-o" aria-hidden="true"></span> Exportar</button>
+							</li>
+							</ul>
+						</div>	<!--panel body -->
+					</div>
+		</div>
+
+<div class="row"><!--fila grafica 1Fusioncharts -->
+					<div class="col-md-8 col-md-offset-2">
+					<div class = "panel panel-default">	<!--panel default -->
+						<div class = "panel-heading nav navbar-default">
+								<b><i class="fa fa-line-chart" aria-hidden="true"></i> Seguimiento click: </b>
+						</div>
+					<div class="panel-body fixed-panel" >
+						<center>
+						<div fusioncharts
+					     width="625"
+					     height="250"
+					     type="msline"
+					     datasource="{{graficaSeguimiento}}">
+					    </div></center><!--fila grafica 1Fusioncharts -->
+					</div>
+					</div>
+				</div>
+				</div>
+
+
+				<div class="row"><!--fila grafica 1Fusioncharts -->
+					<div class="col-md-8 col-md-offset-2">
+			        <div class = "panel panel-default">	<!--panel default -->
+						<div class = "panel-heading nav navbar-default">
+								<b><i class="fa fa-line-chart" aria-hidden="true"></i> Seguimiento PreAgenda </b>
+						</div>
+					<div class="panel-body fixed-panel" >   
+			           	<center>
+			            <div fusioncharts
+			                width="625"
+			                height="250"
+			                type="msline"
+			                datasource="{{graficaPreagenda}}">
+			            </div></center><!--fila grafica 2 Fusioncharts -->
+			 		</div>
+					</div>
+			 	</div>
+				</div>
+
+<br>
+<br>
+<br>
+
+<div id="cargarArchivosModal"  class="modal fade"  role="dialog">
+   <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Carga de archivo preagenda</h4>   
+       	</div>
+       	<div class="modal-body">
+       		<div class="container-fluid">
+      			<ul class="nav navbar-nav navbar-left">
+							<select id="tipo_carga" ng-model="tipoCarga" class="btn btn-default btn-xs" title="Tipo de carga" data-toggle="tooltip" data-placement="top"> 
+								<option value="vistaCliente">Carga PreAgenda</option>
+								<option value="alarmados">Alarmados</option>
+								<option value="SeguiClick">Seguimiento Click</option>
+							</select> 
+					<div class="btn-group">		
+					<div class="fileUpload btn btn-primary btn-xs">
+						<span class="glyphicon glyphicon-upload"></span> Seleccionar Archivo
+						<input type="file" class="upload" file-model = "myFile" />
+					</div>
+           			 <button class="btn btn-success btn-xs" value="cargar" id="cargar" ng-click="uploadFile();"><span class="glyphicon glyphicon-cloud-upload"></span> Cargar</button>
+           			</div>
+        		</ul>
+        					<div class="col-md-1 col-xs-1 ">  
+						            <div data-ng-if="loading">
+										<img title="Esperando respuesta" data-toggle="tooltip" data-placement="top" src="img/loader.gif" />
+						            </div>
+						    </div>
+
+        	</div>
+        	<div class="row">
+					<div class="col-md-12">
+						<ul class="nav navbar-nav navbar-left">
+					<span style="color:green" class="pull-right"><i class="fa fa-check-circle" aria-hidden="true" ng-show="carga_ok"></i> {{msg}} </span>
+						</ul>
+						<ul class="nav navbar-nav navbar-left">
+					<span style="color:green" class="pull-right"><i class="fa fa-check-circle" aria-hidden="true" ng-show="delete_ok"></i> {{respuestadelete}} </span>
+						</ul>
+					</div>
+				</div>
+      	</div> 
+      	<br>
+      	<div class="row">
+      		<div class="col-xs-10 col-xs-offset-1">
+      	<div class="fixed-panel animated bounceInRight" >
+						<table class = "table small table-striped table-condensed">
+						<thead>
+					      	<tr>
+					      		<th>NOMBRE ARCHIVO</th>
+					      		<th>TIPO</th>
+					      		<th>LOGIN</th>
+								<th>FECHA CARGA</th>
+								<th>TOTAL REGISTROS</th>
+								<th>OPCIÓN</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in listaRegistrosCarga">
+								<td>{{data.nombre_archivo}}</td>
+								<td>{{data.tipo}}</td>
+								<td>{{data.login}}</td>
+								<td>{{data.fecha_carga}}</td>
+								<td>{{data.TOTAL_REGISTROS}}</td>
+								<td>
+								<button type="button" class="btn btn-default btn-xs" ng-click="borrarCarga(data)" data-toggle="modal" data-target="#deletecarga" tooltip title="Eliminar carga" data-placement="top"> 
+								<i class="fa fa-trash"  aria-hidden="true"></i>
+								</button>
+							</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				</div>
+      	</div>	
+            <div class="modal-footer">
+               <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+ 	</div> 
+  </div>
+</div>
+<div id="deletecarga"  class="modal fade"  role="dialog">
+   <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminar carga</h4>   
+       	</div>
+       	<div class="modal-body">
+       		<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						Esta seguro que quiere elmininar la carga <span class="label label-info">{{nombre}}</span><h4> con <span class="label label-info">{{registros}} </span></h4>registros
+					</div>
+				</div>
+
+			</div>
+       	</div>
+            <div class="modal-footer">
+            	<button type="button" class="btn btn-success" data-dismiss="modal"  ng-disabled="contact_form.$invalid" ng-click="deletecarga(id)" data-dismiss="modal">Eliminar</button>
+               <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+ 	</div> 
+  </div>
+</div>
+<div id="buscarpedido"  class="modal fade"  role="dialog">
+   <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Registro de Ingresos para el pedido<span class="label label-info">{{pedido}} </span></h4>   
+       	</div>
+       	<div class="modal-body">
+        	<div class = "panel panel-default">	<!--panel default -->
+							<div class = "panel-heading nav navbar-default">
+								<b><i class="fa fa-commenting" aria-hidden="true"></i> Gestión Despacho: </b>
+							<li class="nav navbar-nav navbar-right"  ng-show="errorRegistros">
+								<span class="label label-warning">{{errorRegistros}}</span>
+							</li>
+							</div>
+
+				<div class="panel-body fixed-panel" ng-show="!errorRegistros">
+					<div class="row">
+		      			<div class="col-xs-10 col-xs-offset-1">
+		      				<div class="fixed-panel2" >
+								<table class = "table small table-striped table-condensed table-bordered">
+								<thead>
+					      	<tr>
+					      		<td>Tecnico</td>
+								<td>Accion</td>
+								<td>Sub Accion</td>
+								<td>Tipo Trabajo</td>
+								<td>Asesor</td>
+								<td>Fecha</td>
+								<td>Observaciones</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in resultpedidoRegistros">
+								<td>{{data.tecnico}}</td>
+								<td>{{data.accion}}</td>
+								<td>{{data.tipo_pendiente}}</td>
+								<td>{{data.tipo_trabajo}}</td>
+								<td>{{data.asesor}}</td>
+								<td>{{data.fecha}}</td>
+								<td>{{data.observaciones}}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					</div>
+      			</div>	
+      		</div>
+      		</div>
+
+      		<div class = "panel panel-default">	<!--panel default -->
+							<div class = "panel-heading nav navbar-default">
+								<b><i class="fa fa-commenting" aria-hidden="true"></i> Gestión Agendamiento: </b>
+								<li class="nav navbar-nav navbar-right"  ng-show="errorAgendamiento">
+									<span class="label label-warning">{{errorAgendamiento}}</span>
+								</li>
+							</div>
+
+				<div class="panel-body fixed-panel" ng-show="!errorAgendamiento">
+					<div class="row">
+		      			<div class="col-xs-12">
+		      				<div class="fixed-panel2" >
+								<table class = "table small table-striped table-condensed table-bordered">
+								<thead>
+					      	<tr>
+					      		<td>Novedad</td>
+								<td>Fecha</td>
+								<td>Observacion fenix</td>
+								<td>Observacion gestor</td>
+								<td>Celular contacto</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in resultpedidoagendamiento">
+								<td >{{data.NOVEDAD}}</td>
+								<td>{{data.FECHA_ESTADO}}</td>
+								<td>{{data.OBSERVACION_FENIX}}</td>
+								<td>{{data.OBSERVACION_GESTOR}}</td>
+								<td>{{data.CELULAR_AVISAR}}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					</div>
+      			</div>	
+      		</div>
+      		</div>
+
+      		<div class = "panel panel-default">	<!--panel default -->
+							<div class = "panel-heading nav navbar-default">
+								<b><i class="fa fa-commenting" aria-hidden="true"></i> Gestión Cick: </b>
+								<li class="nav navbar-nav navbar-right"  ng-show="errorClick">
+									<span class="label label-warning">{{errorClick}}</span>
+								</li>
+							</div>
+
+				<div class="panel-body fixed-panel" ng-show="!errorClick">
+					<div class="row">
+		      			<div class="col-xs-10 col-xs-offset-1">
+		      				<div class="fixed-panel2" >
+								<table class = "table small table-striped table-condensed table-bordered">
+								<thead>
+					      	<tr>
+					      		<td>Productos</td>
+								<td>Fecha cita</td>
+								<td>Estado Click</td>
+								<td>Tipo trabajo</td>
+								<td>Descripción pendiente</td>
+								<td>Observacion</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in resultadosclick">
+								<td >{{data.productos}}</td>
+								<td>{{data.fecha_cita}}</td>
+								<td>{{data.estado_id}}</td>
+								<td>{{data.tipo_trabajo}}</td>
+								<td >{{data.descripcion}}</td>
+								<td>{{data.observacion}}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					</div>
+      			</div>	
+      		</div>
+      		</div>
+
+
+      	</div>
+
+      	<div class="modal-footer">
+		            	<ul class="nav navbar-nav navbar-left">
+							<li>Agendados:
+								<span ng-show="resultpedidoAgenda > 0" ng-class="{'label label-success' : resultpedidoAgenda > 0}"><i ng-show="resultpedidoAgenda > 0" ng-class="{'fa fa-check' : resultpedidoAgenda > 0}" aria-hidden="true"></i> SI
+								</span>&nbsp;
+								<span ng-show="resultpedidoAgenda == 0" ng-class="{'label label-danger' : resultpedidoAgenda == 0}"><i ng-show="resultpedidoAgenda == 0" ng-class="{'fa fa-exclamation-triangle' : resultpedidoAgenda == 0}" aria-hidden="true"></i> NO
+								</span></li>&nbsp;
+							<li>&nbsp; Click:
+								<span ng-show="resultpedidoClick > 0" ng-class="{'label label-success' : resultpedidoClick > 0}"><i ng-show="resultpedidoClick > 0" ng-class="{'fa fa-check' : resultpedidoClick > 0}" aria-hidden="true"></i> SI
+								</span>
+								<span ng-show="resultpedidoClick == 0" ng-class="{'label label-danger' : resultpedidoClick == 0}"><i ng-show="resultpedidoClick == 0"  ng-class="{'fa fa-exclamation-triangle' : resultpedidoClick == 0}" aria-hidden="true"></i> NO
+								</span></li>
+							<li>&nbsp; Número de reagendas:
+								<span class="label label-info"><i aria-hidden="true"></i> {{mayor}}</span>
+						</ul>
+      		<ul class="nav navbar-nav navbar-right">
+		      	<button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button> 
+		 	</ul>
+      	</div> 
+ 	</div> 
+  </div>
+</div>
+          
+<br>
+<br>
+<br>
+<br>

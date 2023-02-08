@@ -1,0 +1,126 @@
+<style>
+.fixed-panel {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Historico de Registros</b>
+					<span style="color:red" class="pull-right"><i class="fa fa-exclamation-triangle warning" aria-hidden="true" ng-hide="errorDatos==null"></i> {{errorDatos}}</span>
+					<ul class="nav navbar-nav navbar-right">
+						<div class="col-md-1 col-xs-1 ">
+							<div data-ng-if="loading">
+								<img title="Esperando respuesta" tooltip data-placement="top" src="img/loader.gif" />
+							</div>
+						</div>
+					</ul>
+				</div>
+				<div class = "panel-heading nav navbar-default">
+					<div class="col-lg-12 col-xs-10">
+					<ul class="nav navbar-nav navbar-left">
+						<input style="width:130px" type="text" name="fechaini" id="fechaini" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="fechaini" placeholder= "Fecha Inicial" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+						<input style="width:130px" placeholder= "Fecha Final" type="text" name="fechafin" id="fechafin" class="btn btn-default btn-xs  ng-pristine ng-valid ng-touched" ng-model="fechafin" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="nav navbar-nav" ng-class="csvPend==false?'animated bounceOutRight':'animated bounceInRight'" ng-show="csvPend==true">
+							<span class="label label-primary">Se exportaron: {{cantidad}} Registros</span>&nbsp;
+							
+						</li>
+						<li>
+							<select ng-model="concepto" class="btn btn-default btn-xs grupo-select">
+								<option ng-repeat="f in conceptosRegistrosComercial"
+								value="{{f.ID}}">
+								{{f.CONCEPTO}}
+								</option>
+							</select>
+							<div class="btn-group">
+								<input style="width:140px"  class="btn btn-default btn-xs " type="text" ng-model="datoBuscarComercial" placeholder="Buscar..." title="Ingrese dato" tooltip data-placement="bottom" ng-disabled="loading" select-on-click capitalize/>
+								<button type="button" class="btn btn-success btn-xs" ng-click="BuscarHistoricosComercial(concepto, datoBuscarComercial)"   ng-disabled="loading" >
+								<i class="fa fa-search-plus" aria-hidden="true"> </i>
+								</button>
+							</div>
+						</li>
+						<li> &nbsp; </li>
+						<li>
+							<button type="button" class="btn btn-primary btn-xs" title="Exportar Registros" ng-click="csvHistoricosComercial()" ng-disabled="loading" title="Exportar" tooltip data-placement="top">
+							<i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+							</button>
+						</li>
+					</ul>
+					</div>
+				</div>
+				<div class="panel-body fixed-panel animated bounceInRight" >
+					<table class = "table small table-striped table-condensed animated bounceInRight">
+						<thead>
+							<tr >
+								<th>ASESOR</th>
+								<th>PEDIDO ACTUAL</th>
+								<th>PEDIDO NUEVO</th>
+								<th>CIUDAD</th>
+								<th>GESTIÓN</th>
+								<th>CLASIFICACIÓN</th>
+								<th>ESTADO</th>
+								<th>FECHA CARGA</th>
+								<th>OBSERVACIONES</th>							
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in listaRegistrosComercial as listado">
+								<td>{{data.LOGIN_ASESOR}}</td>
+								<td>{{data.PEDIDO_ACTUAL}}</td>
+								<td>{{data.PEDIDO_NUEVO}}</td>
+								<td>{{data.CIUDAD}}</td>
+								<td>{{data.GESTION}}</td>
+								<td>{{data.CLASIFICACION}}</td>
+								<td>{{data.ESTADO}}</td>
+								<td>{{data.FECHA_CARGA}}</td>
+								<td>
+									<center>
+								<button type="button" class="fa fa-commenting-o" ng-click="lasObservaciones(data)" tooltip title="Ver observaciones" data-toggle="modal" data-target="#observaciones" data-backdrop="static" >
+								</button></center></td>
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+				<div class="panel-footer clearfix" >
+					<div class="col-md-6">
+						<ul class="nav navbar-nav navbar-left">
+							<li>Registros: <span class="badge badge-default">{{cantidad}}</span></li>
+						</ul>
+					</div>
+					
+					<div class="col-md-6">
+						
+						<ul  class="pagination-sm nav navbar-nav navbar-right" uib-pagination total-items="counter" ng-model="datapendientes.currentPage" max-size="maxSize"  boundary-links="true" num-pages="smallnumPages" previous-text="&#8672;" next-text="&#8674;" last-text="Último" first-text="Primero" items-per-page="cantidad" boundary-link-numbers="false" max-size="maxSize" rotate="false" ng-change="pageChanged(datapendientes)">
+						</ul>
+					</div>
+				</div>
+			</div>
+			</div><!--col 12 Novedades -->
+		</div>
+<div id="observaciones"  class="modal fade"  role="dialog">
+ <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Observaciones para el pedido<span class="label label-info">{{textopedido}}</span></h4>       
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+        	{{textoObservaciones}}
+      	</div>    
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+ </div>        
+</div>

@@ -1,0 +1,579 @@
+
+<style>
+table, th, td {
+    font-size:	10px;
+}
+
+.fixed-panel {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+</style>
+<br>
+<br>
+<div class="container-fluid">
+<!--<div class="col-md-2 col-md-offset-1" >
+	<div class="row">
+		<div class="col-md-12 col-xs-12">
+		<div class = "panel panel-default">
+			<div class = "panel-heading nav navbar-default">
+				<ul class="nav navbar-nav navbar-left form-group">
+				<b><i class="fa fa-snowflake-o" aria-hidden="true"></i> Departamento</b>
+				</ul>
+			<ul class="nav navbar-nav navbar-right form-group">
+				<select  	class= "btn btn-default btn-xs grupo-select"
+							name="departamento"
+							title="Departamento" 
+							tooltip
+							data-placement="top"
+							ng-model="pendientes.departamento"
+							ng-change="conceptos(pendientes.departamento)">
+					<option ng-repeat="d in depainsta"
+							value="{{d.DEPARTAMENTO_OPERACION}}">
+							{{d.DEPARTAMENTO_OPERACION}}
+					</option>	
+				</select>
+				<button type="button" class="btn btn-default btn-xs" 
+										ng-click="limpiarSelect()"
+										ng-disabled="loading"
+										title="Limpiar" 
+										tooltip
+										data-placement="top">
+										<i class="fa fa-window-close"></i></button>
+										
+
+			</ul>
+			</div>
+			<div class = "panel-heading nav navbar-default">
+			<ul class="list-group small" >
+
+				<b ng-show="pendientes.interfaz"><i class="fa fa-globe" aria-hidden="true"></i> Regionales</b><br><br>
+				<a href=""  ng-click="conceptostotales(data.regional, pendientes.interfaz)" 
+							ng-model= "regional" 
+							ng-repeat="data in listaconceptos" 
+							class="list-group-item ">{{data.regional}} 
+				<span class = "badge ">{{data.total_concepto}}</span></a>
+			</ul>
+			</div>
+		</div>
+		</div>
+	</div> -->
+
+<!--<div class="row"><!--ng-show="mostraConceptos"
+		<div class="col-md-12 col-xs-12">
+		<div class = "panel panel-default">
+			<div class = "panel-heading nav navbar-default">
+				<ul class="nav navbar-nav navbar-left form-group">
+				<b><i class="fa fa-user-md" aria-hidden="true"></i> Conceptos en {{regional}}</b>
+			</ul>
+			</div>
+			<div class = "panel-heading nav navbar-default">
+			<ul class="list-group small" >
+				<a href=""  style="font-size: 11px" ng-repeat="data in resultadoconceptos" class="list-group-item ">{{data.CONCEPTO_ATC}}: <span class = "badge ">{{data.total_concepto}}</span></a>
+			</ul>
+			</div>
+		</div>
+		</div>
+</div>-->
+<div class="col-xs-10 col-xs-offset-1">
+ <div class = "panel panel-default">
+				<div class = "panel-heading nav navbar-default">
+  					<ul class="nav nav-tabs">
+                      <li ng-class="{ active: isSet(1) }" class="active"><a data-toggle="tab" href ng-click="setTab(1)">Indicadores</a></li>
+                      <li ng-class="{ active: isSet(2) }"><a data-toggle="tab" href ng-click="setTab(2);">Gestión pendientes</a></li>
+	                   	<ul class="nav navbar-nav navbar-right">
+	                   			<li data-ng-if="loading">
+								<img title="Esperando respuesta" data-toggle="tooltip" data-placement="top" src="img/loader.gif" />
+						   		</li>
+		                   	<li> 		                   		<span class="label label-warning" ng-hide="sinActualizar"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{mensajeTiempo}}</span>&nbsp;	
+		                   		<span class="label label-success" ng-show="sinActualizar"><i class="fa fa-check" aria-hidden="true"></i> {{mensajeTiempo}}</span>&nbsp;	
+		                    </li>
+						         <li class="nav navbar-nav" ng-class="csvPend==false?'animated bounceOutRight':'animated bounceInRight'" ng-show="csvPend==true">
+									<span class="label label-primary">{{counter}}</span>&nbsp;
+								</li>
+	               	 	</ul>
+                    </ul>
+
+                </div>
+<div class="tab-content">
+	<div class="panel-body">    
+		<div  ng-show="isSet(1)">
+				<div class="row">
+					<div class="col-xs-12">
+					<div class = "panel panel-default">
+						<div class = "panel-heading nav navbar-default">
+							<ul class="nav navbar-nav navbar-left form-group">
+								<b><i class="fa fa-list-alt" aria-hidden="true"></i> Resumen regionales</b>
+							</ul>
+							<ul class="nav navbar-nav navbar-right form-group">
+									<b><i class="fa fa-globe" aria-hidden="true"></i> Departamento</b>					
+									<select  	class= "btn btn-default btn-xs grupo-select"
+												name="departamento"
+												title="Departamento" 
+												tooltip
+												data-placement="top"
+												ng-model="pendientes.departamento"
+												ng-change="resumenPendientesInsta(pendientes.departamento)">
+										<option ng-repeat="d in depainsta"
+												value="{{d.DEPARTAMENTO_OPERACION}}">
+												{{d.DEPARTAMENTO_OPERACION}}
+										</option>	
+									</select>
+									<button type="button" class="btn btn-default btn-xs" 
+															ng-click="limpiarSelect()"
+															ng-disabled="loading"
+															title="Limpiar" 
+															tooltip
+															data-placement="top">
+															<i class="fa fa-window-close"></i></button>
+							</ul>
+						</div>
+						<div class="panel-body" >
+						<table class = "table small table-striped table-condensed table-bordered">
+													<thead>
+												      <tr>
+												      	<th>Clientes/Productos</th>
+												      	<th ng-repeat="data in listapendientesInsta">{{data.DEPARTAMENTO_OPERACION}}</th>
+												      	<th>Total</th>
+												      	<th>Inconsistencias</th>
+												      	<th>Pendientes total</th>
+												      </tr>
+												      <tr>
+												      	<th>Pedidos-Clientes</th>
+												      	<td ng-repeat="data in listapendientesInsta">{{data.total_pedidos}}</td>
+												      	<th>{{total_pedidos}}</th>
+												      	<th bgcolor="#ffbb33">{{total_inconsistencias}}</th>
+												      	<th bgcolor="#33b5e5">{{diferenciaPendi_inconsist}}</th>
+												      </tr>
+												      <tr>
+												      	<th>Productos</th>
+												      	<td ng-repeat="data in listapendientesInsta">
+												      		<!--<button type="button" class="btn btn-default btn-xs" 
+															ng-click="exportarDatos(data.regional)"
+															ng-disabled="loading"
+															title="Descargar regional"
+															tooltip
+															data-placement="right">
+															{{data.total_productos}} 
+															</button>-->
+															{{data.total_productos}}</td>
+															<th>{{total_productos}}</th>
+												      </tr>
+												    </thead>
+						</table>
+
+						<ul class="nav navbar-nav navbar-right form-group">	
+							<li>
+									<button type="button" 
+											class="btn btn-warning btn-xs" 
+											ng-click = "verCausasraizinconsitencias()">Inconsitencias: {{total_inconsistencias}}
+									</button>	
+							</li>
+							<li>
+								<button type="button" 
+										class="btn btn-info btn-xs" >Pendientes reales: {{diferenciaPendi_inconsist}}
+								</button>	
+						</ul>		
+					</div>
+					</div>	
+					</div> 
+				</div>	
+		<div class="col-xs-6">
+			<div class="row">	
+			<div class = "panel panel-default">
+				<div class = "panel-heading nav navbar-default">
+					<ul class="nav navbar-nav navbar-left form-group">
+					<b><i class="fa fa-exchange" aria-hidden="true"></i> Historico rangos</b>
+				</ul>
+				</div>
+				<div class="panel-body" >
+						<table class = "table small table-striped table-condensed">
+											<thead>
+										     <tr>
+										      	<th>Fecha</th>
+										      	<th>Entre 0-5</th>
+										      	<th>Entre 5-10</th>
+										      	<th>Entre 10-15</th>
+										      	<th>Entre 15-30</th>
+										      	<th>Mayor de 30</th>
+										      	<th>Total</th>
+										      </tr>
+										    </thead>
+									    <tbody>
+									      <tr ng-repeat="data in resumenhistorico">
+									      	<th>{{data.fecha}}</th>
+									      	<td>{{data.Entre_0_5}}</td>
+									      	<td>{{data.Entre_5_10}}</td>
+									      	<td>{{data.Entre_10_15}}</td>
+									      	<td>{{data.Entre_15_30}}</td>
+									      	<td>{{data.mayor_30}}</td>
+									      	<th>{{data.total}}</th>
+									      </tr>
+									      <tr  ng-repeat="data in difTotales"> 
+									      	<th>Diferencias</th>
+									      	<td>{{data.Entre_0_5}}</td>
+									      	<td>{{data.Entre_5_10}}</td>
+									      	<td>{{data.Entre_10_15}}</td>
+									      	<td>{{data.Entre_15_30}}</td>
+									      	<td>{{data.mayor_30}}</td>
+									      	<th>{{data.total}}</th>
+									      </tr>
+									      <tr  ng-repeat="data in resumenporcentaje"> 
+									      	<th bgcolor="#5bc0de">% participación</th>
+									      	<td bgcolor="#5bc0de">{{data.porecentaje0_5}}%</td>
+									      	<td bgcolor="#5bc0de">{{data.porecentaje5_10}}%</td>
+									      	<td bgcolor="#5bc0de">{{data.porecentaje10_15}}%</td>
+									      	<td bgcolor="#5bc0de">{{data.porecentaje15_30}}%</td>
+									      	<td bgcolor="#5bc0de">{{data.porecentajemayor_30}}%</td>
+									      	<th bgcolor="#5bc0de">{{data.total}}%</th>
+									      </tr>
+										</tbody>
+					</table>					
+		</div>
+		</div>	
+		</div>
+		<div class="row">	
+				<div class = "panel panel-default">
+					<div class = "panel-heading nav navbar-default">
+						<ul class="nav navbar-nav navbar-left form-group">
+						<b><i class="fa fa-exchange" aria-hidden="true"></i> Estado Agenda</b>
+					</ul>
+					</div>
+			<div class="panel-body" >
+					<table class = "table small table-striped table-condensed">
+										<thead>
+									     <tr>
+									      	<th>Solicitud</th>
+									      	<th>Sin Agenda</th>
+									      	<th>Vencida</th>
+									      	<th>Futura</th>
+									      	<th>Para_HOY</th>
+									      	<th>Para Mañana</th>
+									      	<th>Total</th>
+									      </tr>
+										    </thead>
+										    <tbody>
+										      <tr ng-repeat="data in resumennovedades">
+										      	<th>{{data.solicitud}}</th>
+										      	<td>{{data.Sin_Agenda}}</td>
+										      	<td>{{data.Vencida}}</td>
+										      	<td>{{data.Futura}}</td>
+										      	<td>{{data.Para_HOY}}</td>
+										      	<td>{{data.Para_Manana}}</td>
+										      	<th>{{data.total}}</th>
+										      </tr>
+										      <tr>
+										      	<th>Total</th>
+													<th>{{TotalNovedadesSinAgenda}}</th>
+													<th>{{TotalNovedadesVencida}}</th>
+													<th>{{TotalNovedadesFutura}}</th>
+													<th>{{TotalNovedadesHoy}}</th>
+													<th>{{TotalNovedadesmanana}}</th>
+													<th>{{TotalNovedades}}</th>
+										      </tr>
+											</tbody>
+						</table>					
+					</div>
+					</div>	
+				</div>
+		</div> 
+						<div class="col-xs-6">
+							<div class="row">
+							<div class = "panel panel-default">
+									<div class = "panel-heading nav navbar-default">
+										<ul class="nav navbar-nav navbar-left form-group">
+										<b><i class="fa fa-user-circle-o" aria-hidden="true"></i> Encargados Gestión</b>
+									</ul>
+									</div>
+								<div class="panel-body" >
+									<table class = "table small table-striped table-condensed">
+														<thead>
+													     <tr>
+													      	<th>Responsable</th>
+													      	<th>Entre 0-5</th>
+													      	<th>Entre 5-10</th>
+													      	<th>Entre 10-15</th>
+													      	<th>Entre 15-30</th>
+													      	<th>Mayor de 30</th>
+													      	<th>Total</th>
+													      </tr>
+													    </thead>
+													    <tbody>
+													      <tr ng-repeat="data in resumenDireccion">
+													      	<th>{{data.RESPONSABLE_GESTION}}</th>
+													      	<td>{{data.Entre_0_5}}</td>
+													      	<td>{{data.Entre_5_10}}</td>
+													      	<td>{{data.Entre_10_15}}</td>
+													      	<td>{{data.Entre_15_30}}</td>
+													      	<td>{{data.Mayor_30}}</td>
+													      	<th>{{data.totaldireccion}}</th>
+													      </tr>
+													      <tr>
+													      	<th>Total</th>
+																<th>{{TotalDireccionEntre_0_5}}</th>
+																<th>{{TotalDireccionEntre_5_10}}</th>
+																<th>{{TotalDireccionEntre_10_15}}</th>
+																<th>{{TotalDireccionEntre_15_30}}</th>
+																<th>{{TotalDireccionMayor_30}}</th>
+																<th>{{totaldireccion}}</th>
+													      </tr>
+														</tbody>
+									</table>					
+								</div>
+							</div>
+							</div>		
+							<div class="row">	
+								<div class = "panel panel-default">
+									<div class = "panel-heading nav navbar-default">
+										<ul class="nav navbar-nav navbar-left form-group">
+										<b><i class="fa fa-exchange" aria-hidden="true"></i> Tipo Solicitud</b>
+									</ul>
+									</div>
+							<div class="panel-body" >
+									<table class = "table small table-striped table-condensed">
+														<thead>
+													     <tr>
+													      	<th>Solicitud</th>
+													      	<th>Entre 0-5</th>
+													      	<th>Entre 5-10</th>
+													      	<th>Entre 10-15</th>
+													      	<th>Entre 15-30</th>
+													      	<th>Mayor de 30</th>
+													      	<th>Total</th>
+													      </tr>
+													    </thead>
+													    <tbody>
+													      <tr ng-repeat="data in resumenSolicitud">
+													      	<th>{{data.solicitud}}</th>
+													      	<td>{{data.Entre_0_5}}</td>
+													      	<td>{{data.Entre_5_10}}</td>
+													      	<td>{{data.Entre_10_15}}</td>
+													      	<td>{{data.Entre_15_30}}</td>
+													      	<td>{{data.Mayor_30}}</td>
+													      	<th>{{data.totalsolicitud}}</th>
+													      </tr>
+													      <tr>
+													      	<th>Total</th>
+																<th>{{TotalSolicitudEntre_0_5}}</th>
+																<th>{{TotalSolicitudEntre_5_10}}</th>
+																<th>{{TotalSolicitudEntre_10_15}}</th>
+																<th>{{TotalSolicitudEntre_15_30}}</th>
+																<th>{{TotalSolicitudMayor_30}}</th>
+																<th>{{totalsolicitud}}</th>
+													      </tr>
+														</tbody>
+									</table>					
+								</div>
+								</div>	
+							</div>
+						</div>
+		</div>
+		 	<div  ng-show="isSet(2)">
+				<div class = "panel panel-default">
+					<div class = "panel-heading nav navbar-default">
+						<ul class="nav navbar-nav navbar-left form-group">
+							<b><i class="fa fa-list-alt" aria-hidden="true"></i> Gestión pendientes</b>
+						</ul>
+						<ul class="nav navbar-nav navbar-right form-group">
+								<li>
+								<input class="btn btn-default btn-xs " 
+										type="text" 
+										ng-model="gestion_Pendientes.pedido" 
+										placeholder="Ingresar pedido"/>
+								<button 	type="button" 
+											class="btn btn-success btn-xs" 
+											ng-click="BuscarPedidoPendientesInsta()">
+								<i class="fa fa-search" aria-hidden="true"></i> Buscar pedido</button>
+								<input style="width:130px" type="text" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched"  ng-model="gestion_Pendientes.fecha" placeholder= "Fecha a consultar..." datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>			
+								 <select
+                                        class= "btn btn-default btn-xs grupo-select"
+                                        ng-model="gestion_Pendientes.causaraiz"
+                                        ng-change="listarPendientesCausaRaiz()">
+                                        <option value="" disabled>--Seleccione causa raiz--</option>
+                                        <option ng-repeat="d in listadoCausasRaiz" 
+                                          value="{{d.causaRaiz}}">
+                                          {{d.causaRaiz}}
+                                        </option>
+                                      </select>
+								<button type="button" 
+											class="btn btn-primary btn-xs" 
+											ng-click="descargarPendientesGestionados()" 
+											title="Descargar lista" 
+											tooltip
+											data-placement="bottom">
+								<i class="fa fa-cloud-download" aria-hidden="true"> </i></button>
+								</li>
+						</ul>
+					</div>
+					<div class="panel-body">
+						<div class="container-fluid" ng-show="lista==false">
+							<div class="jumbotron" ng-hide = "listado">
+								<center><h5><span class="label label-primary">{{mensaje}}</span></h5>
+									<h5><span class="label label-success">{{pedidoGuardado}}</span></h5>
+									<h3>Ingrese un pedido para gestionar o busque una lista según la causa raiz</h3></center>
+							</div>
+						</div>
+					<table ng-show="lista==true" class = "table small table-striped table-condensed">
+						<thead>
+                                <th>Pedido</th>
+                                <th>Información Servicio</th>
+                                <th>Información Gestión</th>
+                                <th>Gestión</th>
+                        </thead>
+						 <tr>
+							<td>
+	                        	{{gestion_Pendientes.pedido}}
+	                        </td>	
+	                        <td ng-repeat="data in infoPedidoInsta" ng-show="infoPedidoInsta">
+	                          	<b>Interfaz:</b> {{data.interfaz}}<br>
+	                          	<b>Tipo trabajo:</b> {{data.tipo_trabajo}}<br>
+	                            <b>Tipo solicitud:</b> {{data.Tipo_solicitud_orig}}<br>
+	                          	<b>Departamento:</b> {{data.Departamento}}<br>
+	                          	<b>SubZona:</b> {{data.SubZona}}<br>
+	                          	<b>Rango ingreso días:</b> {{data.Rango_ingreso_dias}}<br>
+	                          	<b>Estado Agenda:</b> {{data.Estado_agenda}}<br>
+	                          	<b>Productos:</b> {{data.Detalle_productos}}
+                       		</td>
+                       		<td ng-hide="infoPedidoInsta">
+                       			El pedido no se encuentra pendiente.
+                       		</td>	
+	                       	<td  ng-show="infoGestionPedidoInsta">
+	                            <b>Causa raiz:</b> {{infoGestionPedidoInsta.causa_raiz}}<br>
+	                            <b>Responsable:</b> {{infoGestionPedidoInsta.responsable}}<br>
+	                           	<b>Novedad malo:</b> {{infoGestionPedidoInsta.novedad_malo}}<br>
+	                           	<b>Finalizado click:</b> {{infoGestionPedidoInsta.Finalizado_click}}<br>
+	                            <b>Actualización concepto oracle:</b> {{infoGestionPedidoInsta.update_concepto_oracle}}<br>
+	                            <b>Fecha Agenda:</b> {{infoGestionPedidoInsta.fecha_agenda}}<br>
+	                            <b>Fecha gestión:</b> {{infoGestionPedidoInsta.fecha_gestion}}<br>
+	                            <b>Usuario gestión:</b> {{infoGestionPedidoInsta.usuario}}<br>
+	                            <b>Observación:</b> {{infoGestionPedidoInsta.observacion}}
+		                    </td>   
+		                    <td ng-hide="infoGestionPedidoInsta">
+                       			Pedido sin gestión.
+                       		</td>                     
+                        <td>
+                           <i class="fa fa-globe" aria-hidden="true"></i> Causa raiz:					
+								<select
+                                        class= "btn btn-default btn-xs grupo-select"
+                                        ng-model="infoGestionPedidoInsta.causa_raiz"
+                                        ng-change="responsablePendiInsta()">
+                                        <option value="" disabled>--Seleccione causa raiz--</option>
+                                        <option ng-repeat="d in listadoCausasRaiz" 
+                                          value="{{d.causaRaiz}}">
+                                          {{d.causaRaiz}}
+                                        </option>
+                                </select>
+                                 	<br><br>
+                                	<div ng-show="Mostraresponsable">
+                                		
+                                		<i class="fa fa-info-circle" aria-hidden="true"></i> Responsable: 
+                                      <select
+                                        class= "btn btn-default btn-xs grupo-select"
+                                        ng-model="infoGestionPedidoInsta.responsable" >
+                                        <option ng-repeat="d in Listaresponsable" 
+                                          value="{{d.responsables}}">
+                                          {{d.responsables}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    
+                                    <div ng-show="Mostraresponsable2 || infoGestionPedidoInsta">
+                                      <i class="fa fa-info-circle" aria-hidden="true"></i> Responsable: 
+                                      <span class="label label-info">{{infoGestionPedidoInsta.responsable}}</span>
+                                  	</div>
+                                 <br><br>     
+                            <textarea  name="observacion" 
+			                id="observacion"
+			                rows="3"
+			                cols="40"
+			                ng-model="infoGestionPedidoInsta.observacion"></textarea>
+                        </td>
+						</tr>				
+					</table>
+						<ul class="nav navbar-nav navbar-right form-group">
+								<button type="button" class="btn btn-success btn-xs" 
+										ng-click="GuardarGestionPedido()"
+										ng-show="lista==true"
+										><i class="fa fa-floppy-o"></i> Guardar
+								</button>
+						</ul>
+					<div class="panel-body fixed-panel" ng-show="listado" >
+					<table class = "table small table-striped table-condensed">
+						<thead>
+                                <th>Pedido</th>
+                                <th>Responsable</th>
+                                <th>Novedad malo</th>
+                                <th>Usuario</th>
+                                <th>Fecha gestión</th>
+                                <th>Observación</th>
+                                <th>Gestionar</th>
+                        </thead>
+                        <tbody>
+						<tr ng-repeat="data in listaCausaRaiz as results">
+							<td>{{data.pedido}}</td> 
+	                        <td>{{data.responsable}}</td>
+	                        <td>{{data.novedad_malo}}</td>
+	                        <td>{{data.usuario}}</td>
+	                        <td>{{data.fecha_gestion}}</td>
+	                        <td>{{data.observacion}}</td>  
+	                        <td><button type="button" class="btn btn-info btn-xs" ng-click="editarPedido(data)">
+									<i class="fa fa-pencil"  aria-hidden="true"> </i>
+								</button>
+	                        </td>  
+						</tr>
+						<tbody>				
+					</table>
+					<div>
+				    </div>
+				</div> 
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="verInconsitencias"  class="modal fade"  role="dialog">
+    <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Resumen inconsistencias</h4>       
+      </div>
+      	<div class="modal-body">
+            			<table class = "table small table-striped table-condensed">
+													<thead>
+												      <tr>
+												      	<th>Causa Raiz</th>
+												      	<th>Total</th>
+												      </tr>
+												     </thead> 
+												     <tbody>
+												      <tr ng-repeat="data in listaInconsistencias">
+												      		<th>{{data.causa_raiz}}</th>
+													      	<td>{{data.total}}</td>
+												      </tr>
+												      <tr>
+												      	<th>Total</th>
+												      	<th>{{total_inconsistencias}}</th>
+												      </tr>
+												    </tbody>
+						</table>
+			      				
+    	</div>
+        <div class="modal-footer">
+            <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+  </div>
+  </div>
+          
+</div>
+
+
+<br>
+<br>
+<br>

@@ -1,0 +1,293 @@
+<style>
+  .fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+  }
+
+  table,
+  th,
+  td {
+    font-size: 11px;
+  }
+
+  .fixed-panel-kpiuser {
+
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
+  .fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+
+  .flipswitch {
+    position: relative;
+    background: white;
+    margin: 0px 0 0;
+    padding: 0;
+    width: 42px;
+    height: 22px;
+    -webkit-appearance: initial;
+    border-radius: 3px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+    font-size: inherit;
+    /*font-size: 65%;
+    font-size: 9px;
+    font-weight: bold;*/
+    font-family: Trebuchet, Arial, sans-serif;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    z-index: 0;
+  }
+
+  .flipswitch:after {
+    position: absolute;
+    top: 5%;
+    display: block;
+    line-height: 17px;
+    width: 45%;
+    height: 90%;
+    background: #337ab7;
+    box-sizing: border-box;
+    text-align: center;
+    transition: all 0.3s ease-in 0s;
+    color: white;
+    border: #888 1px solid;
+    border-radius: 3px;
+    z-index: 0;
+  }
+
+  .flipswitch:after {
+    left: 2%;
+    content: "No";
+
+  }
+
+  .flipswitch:checked:after {
+    left: 53%;
+    content: "Si";
+    background: #00C8FF;
+
+  }
+
+  .resaltado15min {
+    background-color: #ADE2FF !important;
+  }
+
+  .label-xsmall {
+    vertical-align: super;
+    font-size: x-small;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div id="home" class="tab-pane fade in active">
+        <div class="panel panel-default">
+          <div class="panel-heading nav navbar-default">
+            <ul class="nav navbar-nav navbar-left">
+              <b>Soporte GPON</b>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <b>
+                <button type="button" class="btn btn-default btn-xs" ng-click="listarsoportegpon()" title="Actualizar"
+                  data-toggle="tooltip" data-placement="top" ng-disabled="loading">
+                  <i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+              </b>&nbsp;
+            </ul>
+          </div>
+          <div class="panel-body">
+            <div class="container-fluid" ng-show="isLoadingData">
+              <div class="jumbotron">
+                <h3>Gestión Soporte GPON</h3>
+              </div>
+            </div>
+            <div class="container-fluid table-responsive" ng-show="!isLoadingData">
+              <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                  <tr>
+                    <th class="text-center" rowspan="2">Marcar</th>
+                    <th class="text-center" rowspan="2">Login</th>
+                    <th class="text-center" rowspan="2">Tarea</th>
+                    <th class="text-center" rowspan="2">Arpon</th>
+                    <th class="text-center" rowspan="2">Nap</th>
+                    <th class="text-center" rowspan="2">Hilo</th>
+                    <th class="text-center" colspan="4">Internet</th>
+                    <th class="text-center" colspan="4">Televisión</th>
+                    <th class="text-center" rowspan="2">Número Contacto</th>
+                    <th class="text-center" rowspan="2">Nombre Contacto</th>
+                    <th class="text-center" rowspan="2">Pedido</th>
+                    <th class="text-center" rowspan="2">Categoría</th>
+                    <th class="text-center" rowspan="2">Municipio</th>
+                    <th class="text-center" rowspan="2">Productos</th>
+                    <th class="text-center" rowspan="2">Datos cola</th>
+                    <th class="text-center" rowspan="2">Ced Tec</th>
+                    <th class="text-center" rowspan="2">Técnico</th>
+                    <th class="text-center" rowspan="2">Celular</th>
+                    <th class="text-center" rowspan="2">Serial</th>
+                    <th class="text-center" rowspan="2">MAC</th>
+                    <th class="text-center" rowspan="2">Tipo EQ</th>
+                    <th class="text-center" rowspan="2">Vel Nav</th>
+                    <th class="text-center" rowspan="2">Observación</th>
+                    <th class="text-center" rowspan="2">Fecha Solicitud</th>
+                    <th class="text-center" rowspan="2">Tipificación</th>
+                    <th class="text-center" rowspan="2">Acion</th>
+                  </tr>
+                  <tr>
+                    <th class="text-center">1</th>
+                    <th class="text-center">2</th>
+                    <th class="text-center">3</th>
+                    <th class="text-center">4</th>
+                    <th class="text-center">1</th>
+                    <th class="text-center">2</th>
+                    <th class="text-center">3</th>
+                    <th class="text-center">4</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in dataSoporteGpon track by $index">
+                    <td>
+                      <div ng-show="data.id_soporte">
+                        <input 
+                        type="checkbox" 
+                        ng-model="data.bloqueo" 
+                        ng-change="marcarEngestionGpon(data)" 
+                        name="bloqueo" 
+                        id="bloqueo"
+                        ng-show="data.bloqueo != 1">
+                        <div class="loadingio-spinner-ellipsis-3nun7cb96ao" ng-show="data.bloqueo == 1">
+                          <div class="ldio-pettsxrv7wj">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div ng-show="!data.id_soporte">
+                        <input 
+                        type="checkbox" 
+                        ng-model="data.bloqueo" 
+                        name="bloqueo" id="bloqueo"
+                        ng-change="marcarEngestionGpon(data)">
+                      </div>
+                    </td>
+                    <!-- En estas lineas se oculta el login gestión -->
+                    <td ng-show="data.login == galletainfo.LOGIN">
+                      <span ng-class="{'label label-primary label-xsmall': data.status_soporte == 2, 'label label-primary label-xsmall': data.login == galletainfo.LOGIN}" >{{data.login}}</span>
+                    </td>
+                    
+                    <td ng-show="data.login != galletainfo.LOGIN && data.status_soporte == 2">
+                      <span ng-class="{'label label-primary label-xsmall': data.status_soporte == 2, 'label label-primary label-xsmall': data.login != galletainfo.LOGIN}">En gestión</span>
+                    </td>
+                    
+                    <td ng-show="data.login != galletainfo.LOGIN && data.status_soporte == 0">
+                      <span ng-class="{'label label-primary label-xsmall': data.status_soporte == 0}"></span>
+                    </td>
+                    <!-- Fin ocultar el login gestión -->
+                    <td>{{data.tarea}}</td>
+                    <td>{{data.arpon}}</td>
+                    <td>{{data.nap}}</td>
+                    <td>{{data.hilo}}</td>
+                    <td>
+                      <span ng-if="data.port_internet_1 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td><span ng-if="data.port_internet_2 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td>
+                      <span ng-if="data.port_internet_3 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td>
+                      <span ng-if="data.port_internet_4 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td>
+                      <span ng-if="data.port_television_1 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td>
+                      <span ng-if="data.port_television_2 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td>
+                      <span ng-if="data.port_television_3 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td>
+                      <span ng-if="data.port_television_4 == '1'">X</span>
+                      <span ng-else></span>
+                    </td>
+                    <td>{{data.numero_contacto}}</td>
+                    <td>{{data.nombre_contacto}}</td>
+                    <td>{{data.unepedido}}</td>
+                    <td>{{data.tasktypecategory}}</td>
+                    <td>{{data.unemunicipio}}</td>
+                    <td>{{data.uneproductos}}</td>
+                    <td>{{data.datoscola}}</td>
+                    <td>{{data.engineer_id}}</td>
+                    <td>{{data.engineer_name}}</td>
+                    <td>{{data.mobile_phone}}</td>
+                    <td>{{data.serial}}</td>
+                    <td>{{data.mac}}</td>
+                    <td>{{data.tipo_equipo}}</td>
+                    <td>{{data.velocidad_navegacion}}</td>
+                    <td>{{data.observacion_terreno}}</td>
+                    <td>{{data.fecha_solicitud_firebase}}</td>
+                    <td>
+                      <!-- <select ng-model="data.tipificacion" class="btn btn-default btn-xs grupo-select" name="tipificacion" style="width:100px" ng-change="palancatv(data,$index)"> -->
+                      <select ng-model="data.tipificacion" class="btn btn-default btn-xs grupo-select"
+                        name="tipificacion" id="tipificacion{{data.id_soporte}}" style="width:100px">
+                        <option value="">Seleccionar</option>
+                        <option value="Finalizado">Finalizado</option>
+                        <option value="Incompleto">Incompleto</option>
+                        <option value="Devuelto al tecnico">Devuelto al técnico</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-default btn-xs"
+                        ng-click="gestionarSoporteGpon(data.id_soporte, data.request_id_firebase)"
+                        title="Gestionar soporte gpon" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Loading Circle -->
+            <div class="loading-circle" ng-show="loadingData">
+              <div class="loadingio-spinner-ripple">
+                <div class="ldio">
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+            <!-- / Loading Circle -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+<!-- MODAL -->
+<div ng-include="rutaCierreMasivoContin"></div>

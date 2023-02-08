@@ -1,0 +1,27 @@
+
+<br>
+<br>
+<div class="container">
+    <div class="col-md-8 col-md-offset-2">
+        <div class = "panel panel-default">
+          <div class = "panel-heading text-center">
+            <h3>Aplicación de registro y seguimiento a pedidos.</h3>
+            <small>Inicie sesión para registrar o consultar la actividad de un pedido en el sistema.</small>
+          </div>
+        </div>
+    </div>
+</div>
+                  <div class="col-md-4">
+                  </div>
+                  <div class="col-md-4">
+                    <div class="well animated bounceInRight" ng-show="error!=''">
+                        <div class="panel panel-primary" ng-class="{'Exito': 'panel panel-primary fade in','Precaucion': 'panel panel-warning','Error': 'panel panel-danger'}[error]" >
+                            <div class="panel-heading">
+                                <center><h4>{{error}} </h4></center>
+                                <center><h4>{{msg_error}} </h4></center>
+                            </div>
+                          </div>
+                    </div>
+                   </div>
+                   <div class="col-md-4">
+                   </div>

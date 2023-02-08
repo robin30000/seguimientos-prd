@@ -1,0 +1,205 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Registro de Turnos</b>
+					<ul class="nav navbar-nav navbar-right">
+						<button type="button" class="btn btn-primary btn-xs" ng-click="ingresoTurnos()"  title="Guardar" tooltip data-placement="left" ng-disabled="loading"> 
+							<i class="fa fa-floppy-o"  aria-hidden="true"></i>
+						</button>&nbsp;&nbsp;
+					</ul>
+				</div>
+						<div class = "panel-body"  ng-repeat="turno in turnos track by $index">
+								<ul class="nav navbar-nav navbar-left">
+									<li>
+									  	<i class="fa fa-calendar fa-fw"></i>
+										<input style="width:100px" type="text" name="fecha" id="fecha" class="btn btn-default btn-xs" ng-model="turno.fecha" placeholder= "Día" datetime-picker="" date-format="yyyy-MM-dd" onchange="selecDate()">
+									</li>
+									<li>
+										<i class="fa fa-user fa-fw"></i>
+										<select ng-model="turno.usuario" class="btn btn-default btn-xs grupo-select">
+											<option value="" disabled>Usuarios</option>
+											<option ng-repeat="f in usuarios"
+											value="{{f.login}}">
+											{{f.login}}
+											</option>
+										</select>
+									</li>
+									<li>
+										<i class="fa fa-clock-o fa-fw"></i>
+										<input style="width:90px" type="text" name="horaInicio" id="horaini" class="btn btn-default btn-xs" ng-model="turno.horaInicio" placeholder= "HH:mm">
+									</li>
+									<li>
+										<i class="fa fa-clock-o fa-fw"></i>
+										<input style="width:90px" type="text" name="horafin" id="horafin" class="btn btn-default btn-xs" ng-model="turno.horaFin" placeholder= "HH:mm">&nbsp;&nbsp;
+									</li>
+
+									<li>
+									<select ng-model="turno.novedad" class="btn btn-default btn-xs grupo-select">
+											<option value="" disabled>Novedad</option>
+											<option value="Turno">Turno</option>
+											<option value="Vacaciones">Vacaciones</option>
+											<option value="Licencia">Licencia</option>
+											<option value="Incapacidad">Incapacidad</option>
+									</select>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav navbar-right">
+									<li>
+										<button type="button" class="btn btn-warning btn-xs pull-left" ng-click="removeNuevaNovedad()" ng-show="$last"> 
+										<i class="fa fa-minus"  aria-hidden="true"></i>
+										</button>
+									</li>
+									<li>
+										<button type="button" class="btn btn-warning btn-xs pull-right"  ng-click="addNuevaNovedad(turnos.usuario)" ng-show="$last"> 
+										<i class="fa fa-plus"  aria-hidden="true"></i>
+										</button>&nbsp;
+
+									</li>&nbsp;
+								</ul>							
+							</div>
+			</div>
+			</div>
+		</div>
+		<div class="row">
+		<div class="col-md-6">
+				<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Cumplimiento de turnos </b>
+				</div>
+				<div class = "panel-heading nav navbar-default">
+					<ul class="nav navbar-nav navbar-left">
+						<input style="width:120px"  class="btn btn-default btn-xs " type="text" ng-model="filtroInput1" placeholder="Filtro" ng-disabled="loading" select-on-click capitalize/>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<input style="width:100px" date-format="yyyy-MM-dd" class="btn btn-default btn-xs" type="text" datetime-picker=""  ng-model="cumple.fechaIni" placeholder="Fecha"/> <i class="fa fa-calendar fa-fw"></i>
+						<button type="button" class="btn btn-primary btn-xs" ng-click="obtenercumplmientoTurnos()"   popover data-trigger="hover" data-placement="right" data-html="true" data-selector="" data-content="Actualizar" ng-disabled="loading"> 
+							<i class="fa fa-refresh"  aria-hidden="true"></i>
+						</button>&nbsp;&nbsp;
+					</ul>
+				</div>
+				<div class="panel-body fixed-panel">				
+					<table class = "table small table-striped table-condensed" ng-show="!nohaycumplimiento">
+						<thead>
+					      <tr >
+					      	 <th>Fecha</th>
+					      	 <th>Usuario</th>
+					         <th>Hora inicial</th>
+					         <th>Hora final</th>
+					         <th>Fecha ingreso</th>
+					         <th>Fecha salida</th>
+					         <th>Estado final</th>
+					         <th>Cumplimiento</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					    	<tr ng-repeat="data in cumplimientoTurno | filter:filtroInput1 as results">
+					         <td style="width:80px"><span ng-class="{'label label-warning': data.status == 'Sin logueo'}">{{data.fecha}}</span></td>
+					         <td><span ng-class="{'label label-warning': data.status == 'Sin logueo'}">{{data.usuario}}</span></td>
+					         <td><span ng-class="{'label label-warning': data.status == 'Sin logueo'}">{{data.horaInicio}}</span></td>
+					         <td><span ng-class="{'label label-warning': data.status == 'Sin logueo'}">{{data.horaFin}}</span></td>
+					         <td style="width:80px"><span ng-class="{'label label-success': data.ingreso == 'ingreso', 'label label-warning': data.ingreso == 'No ingreso' || data.ingreso == 'Sin logueo'}">{{data.fechaing}}</span></td>
+					         <td style="width:80px"><span ng-class="{'label label-warning': data.status == 'Sin logueo'}">{{data.fecha_salida}}</span></td>
+					         <td><span ng-class="{'label label-warning': data.status == 'Sin logueo'}">{{data.status}}</span></td>
+					         <td style="width:80px"><span ng-class="{'label label-success': data.cumple == 'Cumple', 'label label-danger': data.cumple == 'No cumple', 'label label-warning': data.status == 'Sin logueo'}"><i ng-class="{'fa fa-check-circle': data.cumple == 'Cumple', 'fa fa-times-circle': data.cumple == 'No cumple', 'fa fa-exclamation-triangle': data.status == 'Sin logueo'}" aria-hidden="true"></i> {{data.cumple}}</span></td>
+					     </tr>
+					     </tbody>
+				   </table>
+				</div>
+			</div>
+			</div>
+		<div class="col-md-6">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Historico Turnos </b>
+					<ul class="nav navbar-nav navbar-right">
+					<li ng-show="errorDatos">
+							<span style="color:red"><i class="fa fa-exclamation-triangle" aria-hidden="true" ></i> {{errorDatos}}</span>
+					</li>
+					<li class="nav navbar-nav" ng-class="csvPend==false?'animated 				bounceOutRight':'animated bounceInRight'" ng-show="csvPend==true">
+						<span class="label label-primary">{{counter}}</span>&nbsp;
+					</li>
+					</ul>
+				</div>
+				<div class = "panel-heading nav navbar-default">
+					<ul class="nav navbar-nav navbar-left">
+						<input style="width:120px"  class="btn btn-default btn-xs " type="text" ng-model="filtroInput" placeholder="Filtro" ng-disabled="loading" select-on-click capitalize/>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<div class="col-md-1 col-xs-1 ">  
+					            <div data-ng-if="loading">
+									<img title="Esperando respuesta" tooltip data-placement="top" src="img/loader.gif" />
+					            </div>
+					    </div>
+					    &nbsp;
+					   <input style="width:100px" date-format="yyyy-MM-dd" class="btn btn-default btn-xs" type="text" datetime-picker="" ng-model="fechaIni" placeholder="Fecha Inicial" /> <i class="fa fa-calendar fa-fw"></i>
+						<input style="width:100px" date-format="yyyy-MM-dd" class="btn btn-default btn-xs" type="text" datetime-picker=""  ng-model="fechaFin" placeholder="Fecha Final"/> <i class="fa fa-calendar fa-fw"></i>
+						<button type="button" class="btn btn-primary btn-xs" ng-click="obtenerlistaTurnos()"   popover data-trigger="hover" data-placement="top" data-html="true" data-selector="" data-content="Actualizar" ng-disabled="loading"> 
+							<i class="fa fa-refresh"  aria-hidden="true"></i>
+						</button>
+						<button type="button" class="btn btn-success btn-xs" ng-click="desacargarAdherencia()"  popover data-trigger="hover" data-placement="top" data-html="true" data-selector="" data-content="Descargar adherencia" ng-disabled="loading"> 
+							<i class="fa fa-download"  aria-hidden="true"></i>
+						</button>&nbsp;&nbsp;
+					</ul>
+				</div>
+				<div class="panel-body fixed-panel" ng-hide="errorDatos">				
+					<table class = "table small table-striped table-condensed">
+						<thead>
+					      <tr>
+					      	 <th>Id</th>
+					         <th>Fecha</th>
+					         <th>Usuario</th>
+					         <th>Hora inicial</th>
+					         <th>Hora final</th>
+					         <th>Total turno</th>
+					         <th>Novedades</th>
+					         <th>Acción</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					    	<tr ng-repeat="data in historicoturnos | orderBy: 'Fecha' | filter:filtroInput as results">
+					         <td>{{data.idturnos}}</td>
+					         <td>{{data.fecha}}</td>
+					         <td>{{data.usuario}}</td>
+					         <td><span class="small">
+					            <a href="" editable-text="data.horaInicio"
+					            onaftersave="updateStatus(data,true)">
+					            {{data.horaInicio || 'empty' }}
+					            </a> 
+                                </span>
+                            </td>
+					         <td><span class="small">
+					            <a href="" editable-text="data.horaFin"
+					            onaftersave="updateStatus(data,true)">
+					            {{data.horaFin || 'empty' }}
+					            </a> 
+                                </span>
+					         </td>
+					         <td>{{data.totaTurno}}</td>
+					         <td><span class="small">
+					            <a href="#" editable-select="data.novedades" 
+					            e-ng-options="s.value as s.novedades for s in statuses"
+					             onaftersave="updateStatus(data,true)">
+								    {{data.novedades}}
+								</a>
+                                </span>
+                            </td>
+                            <td>
+                            <button type="button" class="btn btn-default btn-xs" ng-click="borrarTurno(data.idturnos)"   popover data-trigger="hover" data-placement="top" data-html="true" data-selector="" data-content="Eliminar"> 
+							<i class="fa fa-trash"  aria-hidden="true"></i>
+							</button>
+					        </td>
+					     </tr>
+					     </tbody>
+				   </table>
+				</div>
+			</div>
+		</div>
+	</div><!--Row 1 Novedades -->
+</div>
+<br>
+<br>
+<br>
+<br>

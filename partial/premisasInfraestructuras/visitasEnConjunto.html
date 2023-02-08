@@ -1,0 +1,124 @@
+
+<div class="panel-heading nav navbar-default">	
+	<ul class="nav navbar-nav navbar-left">
+		<b><i class="fa fa-users" aria-hidden="true"></i> Visitas en Conjunto</b> 
+	</ul>
+	<div class="d-flex flex-row-reverse box-tools">
+		<div class="input-group d-flex flex-row">
+			<a class="btn btn-primary" ng-click="mostrarModalVisitasEnConjunto({})"><i class="fa fa-plus"></i> Agregar Visita en Conjunto</a>
+		</div>			
+	</div>
+</div>
+<!-- cuerpo de la pagina -->
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-body">
+				<div class="row"><br>
+					<div class="col-xs-2">
+						<ul class="nav navbar-nav navbar-left">			
+                            <input style="width:130px" type="text" name="fechai" id="fechai" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="Registros.fechai" placeholder="Fecha Inicial" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <input style="width:130px" type="text" name="fechaf" id="fechaf" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="Registros.fechaf" placeholder="Fecha Final" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <button type="button" 
+                                    class="btn btn-success btn-xs" 
+                                    ng-click="RegistrosVisitasEnConjunto(Registros)"
+                                    ng-disabled="loading">
+                                	<i class="fa fa-search-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" 
+                                    ng-show="galletainfo.PERFIL == 6 || galletainfo.PERFIL == 1 || galletainfo.PERFIL == 11"
+                                    class="btn btn-primary btn-xs" 
+                                    title="Exportar Registros" 
+                                    ng-click="csvVisitasEnConjunto()" 
+                                    ng-disabled="loading" 
+                                    title="Exportar" 
+                                    tooltip data-placement="top">
+                                	<i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+                            </button>
+                        </ul>						
+					</div>
+					<div class="col-xs-3 marg"><i>Buscar:</i>
+                        <input type="text" class="form-control busq" ng-model="busqueda" name="" value="" placeholder="Ingresa lo que deseas buscar.">
+                        <br>
+                    </div>
+                </div>	
+				<!-- Cuerpo del formulario -->
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Pedido</th>
+							<th>Técnico premisas</th>
+							<th>Técnico infraestructura</th>
+							<th>Fecha-Hora visita</th>
+							<th>Región</th>
+							<th>Ciudad</th>
+							<th>Contrato</th>
+							<th>Solicita</th>
+							<th>Gestión</th>				
+							<th>Notas</th>
+							<th>Se escaló a</th>
+							<th>Fecha inicio gestión</th>
+							<th>Fecha fin gestión</th>
+							<th>Editar</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="visitasEnConjunto in listaVisitasEnConjunto | filter:busqueda as results">
+							<td>{{visitasEnConjunto.pedido}}</td>
+							<td>{{visitasEnConjunto.tecnicopremisas}}</td>
+							<td>{{visitasEnConjunto.tecnicoinfraestructura}}</td>
+							<td>{{visitasEnConjunto.fechavisita}}</td>
+							<td>{{visitasEnConjunto.region}}</td>
+							<td>{{visitasEnConjunto.municipio}}</td>
+							<td>{{visitasEnConjunto.contrato}}</td>
+							<td>{{visitasEnConjunto.quiensolicitavisita}}</td>
+							<td>{{visitasEnConjunto.gestion}}</td>
+							<td>{{visitasEnConjunto.notas}}</td>
+							<td>{{visitasEnConjunto.grupo }}</td>
+							<td>{{visitasEnConjunto.fechasolicitud}}</td>
+							<td>{{visitasEnConjunto.fechafingestion}}</td>
+							<td><button type="button" class="btn btn-default btn-xs" ng-click="mostrarModalVisitasEnConjunto(visitasEnConjunto)" data-toggle="modal" data-target="#editarModal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="left" data-html="true" data-selector="" data-content="Editar"> 
+								<i class="fa fa-pencil-square-o fa-2x aria-hidden=true"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>											
+			</div>			
+		</div>
+		<!-- footer -->
+		<div class="panel-footer clearfix" >
+            <!-- CONTADOR -->
+            <div class="col-md-6">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><span class="badge badge-default">{{acumvisitas}}</span>&nbsp;</li>
+                    <li>de:<span class="badge badge-default">{{countervisitas}} Registros</span></li>
+                </ul>
+            </div>
+            <!-- PAGINADO -->        
+            <div class="col-md-6 pieP">
+                <ul
+                    class="pagination-sm nav navbar-nav navbar-right"
+                    uib-pagination total-items="counter" 
+                    ng-model="datapendientes.currentPage" 
+                    max-size="maxSize"  
+                    boundary-links="true" 
+                    num-pages="smallnumPages" 
+                    previous-text="&#8672;" 
+                    next-text="&#8674;" 
+                    last-text="Último" 
+                    first-text="Primero" 
+                    items-per-page="cantidad"                    
+                    boundary-link-numbers="false"
+                    max-size="maxSize" 
+                    rotate="false"
+                    ng-change="RegistrosVisitasEnConjunto(Registros)">
+                </ul>
+            </div>
+        </div>
+	</div>	
+</div>
+
+<!-- MODAL -->
+<div ng-include="mostarModalVisitasEnConjunto"></div>

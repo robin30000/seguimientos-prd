@@ -1,0 +1,147 @@
+<style>
+    .fileUpload {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+    }
+
+    table, th, td {
+        font-size: 11px;
+    }
+
+    .fixed-panel1 {
+
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 30px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    /*
+    Full screen Modal
+    */
+    .fullscreen-modal .modal-dialog {
+        margin: 0;
+        margin-right: auto;
+        margin-left: auto;
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .fullscreen-modal .modal-dialog {
+            width: 750px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .fullscreen-modal .modal-dialog {
+            width: 970px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .fullscreen-modal .modal-dialog {
+            width: 1170px;
+        }
+    }
+
+    .font {
+        font-size: 14px;
+    }
+
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <b><i class="fa fa-bars" aria-hidden="true"></i> Consulta microzonas</b>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <input type="text" name="tarea" id="fechaupdateFinal" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched"
+                                   ng-model="tarea" placeholder="Fecha" datetime-picker="" date-format="yyyy-MM-dd" date-only>
+                            <i class="fa fa-calendar fa-fw"></i>
+                        </li>
+                        <li>
+                            <button type="button"
+                                    class="btn btn-success btn-xs"
+                                    ng-click="searchMicrozona(tarea)"
+                                    ng-disabled="loading">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+
+
+                    <div class="form-group" ng-class="{'has-error' : contact_form2.tarea.$touched && contact_form2.tarea.$invalid}">
+                        <label for="tarea">Tarea:</label>
+                        <input type="text" class="form-control" id="tarea" name="tarea" ng-model="tarea" required>
+                    </div>
+                    <button type="button" class="btn btn-info" ng-disabled="!tarea" ng-click="searchMicrozona(tarea)">Consultar</button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="microzonas" class="modal fullscreen-modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 96%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Microzonas</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-condensed table-bordered" style="font-size: 16px">
+                    <thead>
+                    <tr style="background: #00377d;color: #ffffff; font-size: 16px; font-weight: bold">
+                        <th class="text-center font">Tarea Consultada</th>
+                        <th class="text-center font">Microzona Actual clic</th>
+                        <th class="text-center font">Microzona infra</th>
+                        <th class="text-center font">Microzona barrio</th>
+                        <th class="text-center font">Municipio</th>
+                        <th class="text-center font">Coordenadas</th>
+                        <th class="text-center font">Direccion</th>
+                        <th class="text-center font">Observaciones infra</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="d in data" style="font-size: 16px">
+                        <td class="text-center font">{{d.CallID}}</td>
+                        <td class="text-center font">{{d.Distrito}}</td>
+                        <td class="text-center font">{{d.micro_infra}}</td>
+                        <td class="text-center font">{{d.micro_barrio}}</td>
+                        <td class="text-center font">{{d.UNEMunicipio}}</td>
+                        <td class="text-center font">{{d.Coordenadas}}</td>
+                        <td class="text-center font">{{d.UNEDireccion}}</td>
+                        <td class="text-center font">{{d.Infraestructura1}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" ng-click="descargar(data)">Descargar</button>
+                <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

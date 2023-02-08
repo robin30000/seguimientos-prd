@@ -1,0 +1,676 @@
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+table, th, td {
+	 text-align: center;
+    font-size:	10px;
+}
+
+.fixed-panel1 {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<!--<div ng-class="{'col-md-4 col-md-offset-4' : num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8', 'col-md-10 col-md-offset-1' : num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'}">
+					<div class ="col-md-1" ng-hide="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'">
+					</div>
+					<div ng-class="{'col-md-6' : num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8', 'col-md-2' : num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'}">
+						<div class = "panel panel-primary">	
+			                <div class="panel-heading">
+			                    <div class="row">
+									<div class="col-xs-3 text-right">
+			                    	<i class="fa fa-times-circle fa-2x" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true"> </i>
+			                    	<i class="fa fa-check-circle fa-2x" ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true"> </i>
+			                        </div>
+			                        <div class="col-xs-9 text-right">
+			                            <div><p style="font-size:20px">{{resumenRespuesta[0].respuesta}}</p></div>
+			                        </div>
+			                    </div>
+			                </div>
+				                <div class="panel-footer">
+				                	<span class="pull-left"><b>{{resumenRespuesta[0].total}}</b></span>
+				                    <span class="pull-right"><b>{{resumenRespuesta[0].porcentaje}}%</b></span>
+				                    <div class="clearfix"></div>
+				                </div>
+			            </div>
+					</div>
+					<div ng-class="{'col-md-6' : num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8', 'col-md-2' : num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'}">
+						<div class = "panel panel-primary">	
+			                <div class="panel-heading">
+			                    <div class="row" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true"> </i>
+			                        <div class="col-xs-12 text-right">
+			                            <div><p style="font-size:15px">{{resumenRespuesta[1].respuesta}}</p></div>
+			                        </div>
+			                    </div>
+			                    <div class="row" ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+									<div class="col-xs-3 text-right">
+			                    	<i class="fa fa-times-circle fa-2x" aria-hidden="true"> </i>
+			                        </div>
+			                        <div class="col-xs-9 text-right">
+			                            <div><p style="font-size:20px">{{resumenRespuesta[1].respuesta}}</p></div>
+			                        </div>
+			                    </div>
+			                </div>
+				                <div class="panel-footer">
+				                	<span class="pull-left"><b>{{resumenRespuesta[1].total}}</b></span>
+				                    <span class="pull-right"><b>{{resumenRespuesta[1].porcentaje}}%</b></span>
+				                    <div class="clearfix"></div>
+				                </div>
+			            </div>
+					</div>
+					<div class ="col-md-2" ng-hide="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'">
+						<div class = "panel panel-primary">	
+			                <div class="panel-heading">
+			                    <div class="row">
+			                    	<div class="col-xs-3 text-right">
+			                    	<i class="fa fa-balance-scale fa-2x" aria-hidden="true"> </i>
+			                        </div>
+			                        <div class="col-xs-9 text-right">
+			                            <div><p style="font-size:15px">{{resumenRespuesta[2].respuesta}}</p></div>
+			                        </div>
+			                    </div>
+			                </div>
+				                <div class="panel-footer">
+				                	<span class="pull-left"><b>{{resumenRespuesta[2].total}}</b></span>
+				                    <span class="pull-right"><b>{{resumenRespuesta[2].porcentaje}}%</b></span>
+				                    <div class="clearfix"></div>
+				                </div>
+			            </div>
+					</div>
+					<div class ="col-md-2" ng-hide="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'">
+						<div class = "panel panel-primary">	
+			                <div class="panel-heading">
+			                    <div class="row">
+			                        <div class="col-xs-12 text-right">
+			                            <div><p style="font-size:15px">{{resumenRespuesta[3].respuesta}}</p></div>
+			                        </div>
+			                    </div>
+			                </div>
+				                <div class="panel-footer">
+				                	<span class="pull-left"><b>{{resumenRespuesta[3].total}}</b></span>
+				                    <span class="pull-right"><b>{{resumenRespuesta[3].porcentaje}}%</b></span>
+				                    <div class="clearfix"></div>
+				                </div>
+			            </div>
+					</div>
+					<div class ="col-md-2" ng-hide="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'">
+						<div class = "panel panel-primary">	
+			                <div class="panel-heading">
+			                    <div class="row">
+			                    	<div class="col-xs-3 text-right">
+			                    	<i class="fa fa-check-circle fa-2x" aria-hidden="true"> </i>
+			                        </div>
+			                        <div class="col-xs-9 text-right">
+			                            <div><p style="font-size:20px">{{resumenRespuesta[4].respuesta}}</p></div>
+			                        </div>
+			                    </div>
+			                </div>
+				                <div class="panel-footer">
+				                	<span class="pull-left"><b>{{resumenRespuesta[4].total}}</b></span>
+				                    <span class="pull-right"><b>{{resumenRespuesta[4].porcentaje}}%</b></span>
+				                    <div class="clearfix"></div>
+				                </div>
+			            </div>
+					</div>
+					<div class ="col-md-1" ng-hide="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'">
+					</div>
+		</div>-->	
+		<div class="col-md-12" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4'">
+					<div class="col-md-1">
+					</div>
+					<div class="col-md-5">
+							<div fusioncharts
+                                        width="600"
+                                        height="350"
+                                        type="stackedcolumn3dlinedy"
+                                        datasource="{{GraficaNPSacumulado}}">
+                            </div>
+                    </div>
+                    <div class="col-md-1">
+					</div>
+						<div class="col-md-5">
+							<div fusioncharts
+                                        width="400"
+                                        height="300"
+                                        type="msline"
+                                        datasource="{{NPSacumuladoMes}}">
+                            </div>
+			         	</div>
+                  
+		</div>
+		<div class="col-md-12" ng-show="num_pregunta == '1' || num_pregunta == '5' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'">
+					<center>
+							<div fusioncharts
+                                        width="800"
+                                        height="350"
+                                        type="stackedcolumn3dlinedy"
+                                        datasource="{{GraficaNPSacumulado}}">
+                            </div>
+                    </center>                  
+		</div>
+	</div>
+        	
+        	<div class="row">
+        	<div class="col-md-12">
+        		<div class = "panel panel-default">	<!--panel default -->
+				<div class="panel-heading nav navbar-default">
+					<ul class="nav navbar-nav navbar-left">
+					<li><b><i class="fa fa-question-circle" aria-hidden="true"></i> Pregunta</b>	
+					<select  class= "btn btn-default btn-xs grupo-select"
+													name="preguntas"
+													ng-model="num_pregunta"
+													ng-change="resumenSemanas(); graficaAcumulados()"
+													title="Seleccione la pregunta" 
+													tooltip
+													data-placement="bottom">
+									<option ng-repeat="d in Listapreguntas"
+											value="{{d.ID}}">
+											{{d.PREGUNTA}}
+									</option>
+					</select>
+					<li>&nbsp;&nbsp;&nbsp;</li>
+					</li>
+					<li><b><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Mes</b>	
+					<select  class= "btn btn-default btn-xs grupo-select"
+													name="meses"
+													ng-model="mes"
+													ng-change="resumenSemanas(); graficaAcumulados()"
+													title="Seleccione un mes" 
+													tooltip
+													data-placement="top">
+									<option ng-repeat="d in meses"
+											value="{{d.mes}}">
+											{{d.mes}}
+									</option>
+					</select>
+					</li>
+					</ul>	
+					<div class="fileUpload btn btn-primary btn-xs" ng-show = "galletainfo.PERFIL == '1'">
+						<span class="glyphicon glyphicon-upload"></span> Seleccionar Archivo
+						<input type="file" class="upload" file-model = "myFile" />
+					</div>
+           			 <button class="btn btn-success btn-xs" ng-show = "galletainfo.PERFIL == '1'" value="cargar" id="cargar" ng-click="uploadFile();"><span class="glyphicon glyphicon-cloud-upload"></span> Cargar</button>
+				<ul class="nav navbar-nav navbar-right">
+					<!--<select id="tipo_carga" ng-model="tipoCarga" class="btn btn-default btn-xs" title="Tipo de carga" data-toggle="tooltip" data-placement="top"> 
+								<option value="previsa">Carga Prevista(Jonatan Arbelaez)</option>
+								<option value="real">Carga Real(Supervisores)</option>
+								<option value="nps">NPS</option>
+					</select> -->
+					<li>
+						<button type="button" class="btn btn-success btn-xs" ng-click="ingresarPlan()" data-toggle="modal" data-target="#ingresarPlan" data-backdrop="static" tooltip title="Ingresar Plan" data-placement="top" data-html="true" data-selector=""><span class="glyphicon glyphicon-cloud-upload"></span> Ingresar plan de trabajo</button>
+					</li>	&nbsp;&nbsp;
+					<div class="col-md-1 col-xs-1 ">  
+						<div data-ng-if="loading">
+							<img title="Esperando respuesta" data-toggle="tooltip" data-placement="top" src="img/loader.gif" />
+						</div>
+					</div>			
+				</ul>
+				</div>
+        		<div class="panel-body fixed-panel1" >
+        			<div class="row">
+        			<div class="col-md-6">
+        				<table class = "table small table-striped table-condensed">
+						<thead>
+							<tr>
+								<th colspan="7" ng-show="num_pregunta == '1'">% Acompañamiento al técnico por Semana</th>
+								<th colspan="7" ng-show="num_pregunta == '2'">% De Satisfacción por Semana</th>
+								<th colspan="7" ng-show="num_pregunta == '3'">% Facilidad en proceso por Semana</th>
+								<th colspan="7" ng-show="num_pregunta == '4'">% NPS Semanal</th>
+								<th colspan="7" ng-show="num_pregunta == '5'">% De Cumplimiento Semanal</th>
+								<th colspan="7" ng-show="num_pregunta == '6'">% De Coherencia, Oferta-Instalación por Semana</th>
+								<th colspan="7" ng-show="num_pregunta == '7'">% De Fallas luego de la Instalación por Semana</th>
+								<th colspan="7" ng-show="num_pregunta == '8'">% De Información Suministrada por Semana</th>
+							</tr>
+					      	<tr>
+					      		<th rowspan="2">SEMANA</th>
+					      	</tr>
+					      	<tr ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+								<th>{{resumenRespuesta[2].respuesta}}</th>
+								<th>{{resumenRespuesta[3].respuesta}}</th>
+								<th>{{resumenRespuesta[4].respuesta}}</th>
+								<th>NPS SEMANAL</th>
+							</tr>
+							<tr ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in listaSemanas" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+								<td><button type="button" class="btn btn-link btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="right" ng-click="descargarNPSSemana(data.semana)" data-html="true" data-selector="" data-content="{{data.fechaInic}} - {{data.fechaFin}}"> 
+								{{data.semana}}</button></td>
+								<td>{{data.NO}} %</td>
+								<td>{{data.PROBNO}} %</td>
+								<td>{{data.NOSEGURO}} %</td>
+								<td>{{data.PROBSI}} %</td>
+								<td>{{data.SI}} %</td>
+								<td>{{data.NPS}} %</td>
+							</tr>
+							<tr ng-repeat="data in listaSemanas" ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+								<td><button type="button" class="btn btn-link btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="right" data-html="true" data-selector="" data-content="{{data.fechaInic}} - {{data.fechaFin}}"> 
+								{{data.semana}}</button></td>
+								<td>{{data.SI}} %</td>
+								<td>{{data.NO}} %</td>
+							</tr>
+						</tbody>
+						</table> 
+						<div class="row">
+							<div class="col-md-12">
+						<table class = "table small table-striped table-condensed">
+						<thead>
+							<tr>
+								<th colspan="7">Totales por Semanas</th>
+							</tr>
+					      	<tr>
+					      		<th rowspan="2">SEMANA</th>
+					      	</tr>
+					      	<tr ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+								<th>{{resumenRespuesta[2].respuesta}}</th>
+								<th>{{resumenRespuesta[3].respuesta}}</th>
+								<th>{{resumenRespuesta[4].respuesta}}</th>
+								<th>TOTAL</th>
+							</tr>
+							<tr ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+								<th>TOTAL</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in valoresSeamana" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+								<td><button type="button" class="btn btn-link btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="right" data-html="true" data-selector="" data-content="{{data.fechaInic}} - {{data.fechaFin}}"> 
+								{{data.semana}}</button></td>
+								<td>{{data.NO}}</td>
+								<td>{{data.PROBNO}}</td>
+								<td>{{data.NOSEGURO}}</td>
+								<td>{{data.PROBSI}}</td>
+								<td>{{data.SI}}</td>
+								<td>{{data.TOTAL}}</td>
+							</tr>
+							<tr ng-repeat="data in valoresSeamana" ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+							<td><button type="button" class="btn btn-link btn-xs" data-toggle="modal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="right" data-html="true" data-selector="" data-content="{{data.fechaInic}} - {{data.fechaFin}}"> 
+								{{data.semana}}</button></td>
+								<td>{{data.SI}}</td>
+								<td>{{data.NO}}</td>
+								<td>{{data.TOTAL}}</td>
+							</tr>
+						</tbody>
+						</table>
+						</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+						       <table class = "table small table-striped table-condensed">
+								<thead>
+									<tr>
+										<th colspan="7" ng-show="num_pregunta == '1'">% Acompañamiento al técnico por días</th>
+										<th colspan="7" ng-show="num_pregunta == '2'">% De Satisfacción por días</th>
+										<th colspan="7" ng-show="num_pregunta == '3'">% Facilidad en proceso por días</th>
+										<th colspan="7" ng-show="num_pregunta == '4'">% NPS por días</th>
+										<th colspan="7" ng-show="num_pregunta == '5'">% De Cumplimiento por días</th>
+										<th colspan="7" ng-show="num_pregunta == '6'">% De Coherencia, Oferta-Instalación por días</th>
+										<th colspan="7" ng-show="num_pregunta == '7'">% De Fallas luego de la Instalación por días</th>
+										<th colspan="7" ng-show="num_pregunta == '8'">% De Información Suministrada por días</th>
+									</tr>
+							      	<tr ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+							      		<th>Día</th>
+										<th>{{resumenRespuesta[0].respuesta}}</th>
+										<th>{{resumenRespuesta[1].respuesta}}</th>
+										<th>{{resumenRespuesta[2].respuesta}}</th>
+										<th>{{resumenRespuesta[3].respuesta}}</th>
+										<th>{{resumenRespuesta[4].respuesta}}</th>
+									</tr>
+									<tr ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+							      		<th>Día</th>
+							      		<th>{{resumenRespuesta[0].respuesta}}</th>
+										<th>{{resumenRespuesta[1].respuesta}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="data in resumenDiario" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+										<td>{{data.dia}}</td>
+										<td>{{data.NO}} %</td>
+										<td>{{data.PROBNO}} %</td>
+										<td>{{data.NOSEGURO}} %</td>
+										<td>{{data.PROBSI}} %</td>
+										<td>{{data.SI}} %</td>
+									</tr>
+									<tr ng-repeat="data in resumenDiario" ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+										<td>{{data.dia}}</td>
+										<td>{{data.SI}} %</td>								
+										<td>{{data.NO}} %</td>
+										
+									</tr>
+								</tbody>
+								</table> 
+							</div>	 
+						</div>
+
+					</div>
+						<div class="col-md-6">
+							<div class="row">
+								<div fusioncharts
+	                                        align="center"
+	                                        width="600"
+	                                        height="400"
+	                                        type="mscolumn3d"
+	                                        datasource="{{graficaEvolucionSemanal}}">
+	                            </div>
+                        	</div>
+                        	<div class="row">
+                        	<div fusioncharts
+                                        width="600"
+                                        height="400"
+                                        type="scrollColumn2d"
+                                        datasource="{{graficaEvolucionDiaria}}">
+                            </div>
+                        	</div>
+                  		</div>
+				</div>	 
+
+			<div class="row">
+				<div class="col-md-6">
+				       <table class = "table small table-striped table-condensed">
+						<thead>
+							<tr>
+								<th colspan="7" ng-show="num_pregunta == '1'">% Acompañamiento al técnico por regionales</th>
+								<th colspan="7" ng-show="num_pregunta == '2'">% De Satisfacción por regionales</th>
+								<th colspan="7" ng-show="num_pregunta == '3'">% Facilidad en proceso por regionales</th>
+								<th colspan="7" ng-show="num_pregunta == '4'">% NPS por regionales</th>
+								<th colspan="7" ng-show="num_pregunta == '5'">% De Cumplimiento por regionales</th>
+								<th colspan="7" ng-show="num_pregunta == '6'">% De Coherencia, Oferta-Instalación por regionales</th>
+								<th colspan="7" ng-show="num_pregunta == '7'">% De Fallas luego de la Instalación por regionales</th>
+								<th colspan="7" ng-show="num_pregunta == '8'">% De Información Suministrada por regionales</th>
+							</tr>
+					      	<tr ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+					      		<th>Regional</th>
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+								<th>{{resumenRespuesta[2].respuesta}}</th>
+								<th>{{resumenRespuesta[3].respuesta}}</th>
+								<th>{{resumenRespuesta[4].respuesta}}</th>
+								<th>% NPS</th>
+							</tr>
+							<tr ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+					      		<th>Regional</th>
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in resumenDepartamento" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+								<td>{{data.regional}}</td>
+								<td>{{data.NO}} %</td>
+								<td>{{data.PROBNO}} %</td>
+								<td>{{data.NOSEGURO}} %</td>
+								<td>{{data.PROBSI}} %</td>
+								<td>{{data.SI}} %</td>
+								<td>{{data.NPS}} %</td>
+							</tr>
+							<tr ng-repeat="data in resumenDepartamento" ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+								<td>{{data.regional}}</td>
+								<td>{{data.SI}} %</td>
+								<td>{{data.NO}} %</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+					<div class="col-md-5" ng-show="num_pregunta == '4'" aria-hidden="true">
+							<div fusioncharts
+                                        align="center"
+                                        width="580"
+                                        height="350"
+                                        type="bar2d"
+                                        datasource="{{graficaDepartamento}}">
+                             </div>
+                  </div>
+                  <div class="col-md-5" ng-show="num_pregunta == '7'" aria-hidden="true">
+                  <table class = "table small table-striped table-condensed">
+						<thead>
+							<tr>
+								<th colspan="7">Garantías por departamento</th>
+							</tr>
+					      	<tr>
+					      		<th>Departamento</th>
+								<th>Total</th>
+								<th>Porcentaje</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in departamentos">
+								<td>{{data.departamento_dane}}</td>
+								<td>{{data.Total}}</td>
+								<td>{{data.porcentaje}} %</td>
+						</tbody>
+					</table>
+				</div>
+			</div>
+				<div class="row">
+					<div class="col-md-6">
+				       <table class = "table small table-striped table-condensed">
+						<thead>
+							<tr>
+								<th colspan="7" ng-show="num_pregunta == '1'">% Acompañamiento al técnico por Contrato</th>
+								<th colspan="7" ng-show="num_pregunta == '2'">% De Satisfacción por Contrato</th>
+								<th colspan="7" ng-show="num_pregunta == '3'">% Facilidad en proceso por Contrato</th>
+								<th colspan="7" ng-show="num_pregunta == '4'">% NPS por Contrato</th>
+								<th colspan="7" ng-show="num_pregunta == '5'">% De Cumplimiento por Contrato</th>
+								<th colspan="7" ng-show="num_pregunta == '6'">% De Coherencia, Oferta-Instalación por Contrato</th>
+								<th colspan="7" ng-show="num_pregunta == '7'">% De Fallas luego de la Instalación por Contrato</th>
+								<th colspan="7" ng-show="num_pregunta == '8'">% De Información Suministrada por Contrato</th>
+							</tr>
+					      	<tr ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+					      		<th>Contrato</th>
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+								<th>{{resumenRespuesta[2].respuesta}}</th>
+								<th>{{resumenRespuesta[3].respuesta}}</th>
+								<th>{{resumenRespuesta[4].respuesta}}</th>
+							</tr>
+							<tr ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+					      		<th>Contrato</th>
+								<th>{{resumenRespuesta[0].respuesta}}</th>
+								<th>{{resumenRespuesta[1].respuesta}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in resumenContrato" ng-show="num_pregunta == '2' || num_pregunta == '3' || num_pregunta == '4' || num_pregunta == '5'" aria-hidden="true">
+								<td>{{data.contrato}}</td>
+								<td>{{data.NO}} %</td>
+								<td>{{data.PROBNO}} %</td>
+								<td>{{data.NOSEGURO}} %</td>
+								<td>{{data.PROBSI}} %</td>
+								<td>{{data.SI}} %</td>
+							</tr>
+							<tr ng-repeat="data in resumenContrato" ng-show="num_pregunta == '1' || num_pregunta == '6' || num_pregunta == '7' || num_pregunta == '8'" aria-hidden="true">
+								<td>{{data.contrato}}</td>
+								<td>{{data.SI}} %</td>
+								<td>{{data.NO}} %</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="row">
+						<div class="col-md-12" >
+						<table class = "table small table-striped table-condensed" ng-show="num_pregunta == '4'">
+						<thead>
+							<tr>
+								<th colspan="7">%NPS Regionales vs Contratos</th>
+							</tr>
+					      	<tr>
+					      		<th rowspan="2">Regionales</th>
+					      	</tr>
+					      	<tr>
+								<th>EIA</th>
+								<th>Conavances</th>
+								<th>EAGLE</th>
+								<th>EMT</th>
+								<th>RYE</th>
+								<th>SERVTEK</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in tablaDptoContratos">
+								<td>{{data.regional}} %</td>
+								<td>{{data.EIA}} %</td>
+								<td>{{data.Conavances}} %</td>
+								<td>{{data.EAGLE}} %</td>
+								<td>{{data.EMT}} %</td>
+								<td>{{data.RYE}} %</td>
+								<td>{{data.SERVTEK}} %</td>
+							</tr>
+						</tbody>
+						</table>
+						</div>
+					</div>
+				</div>
+						<div class="col-md-5" ng-show="num_pregunta == '4'" aria-hidden="true">
+							<div fusioncharts
+                                        align="center"
+                                        width="600"
+                                        height="250"
+                                        type="bar2d"
+                                        datasource="{{graficaContratos}}">
+                             </div>
+                 		 </div>
+                 		 <div class="col-md-5" ng-show="num_pregunta == '7'" aria-hidden="true">
+                 		  <table class = "table small table-striped table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th colspan="2">Rangos de daños por técnicos</th>
+							</tr>
+					      	<tr>
+					      		<th>Rango de fallas/Técnicos</th>
+					      		<th>Total</th>
+					      	</tr>
+						</thead>
+						<tbody>
+					      <tr ng-repeat="data in funcionariosInsta">
+								<td>{{data.rango}}</td>
+								<td><button type="button" class="btn btn-link btn-xs" 
+												ng-click="exportarDatos(data.rango)"
+												ng-disabled="loading">{{data.total}}
+												</button></td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+						<div class="col-md-5" ng-show="num_pregunta == '4'" aria-hidden="true">
+							<div fusioncharts
+                                        align="center"
+                                        width="600"
+                                        height="350"
+                                        type="stackedbar2d"
+                                        datasource="{{GraficaDeptoContratos}}">
+                             </div>
+                 		 </div>
+                 		 <div class="col-md-5" ng-show="num_pregunta == '7'" aria-hidden="true">
+                 		  <table class = "table small table-striped table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th colspan="2">Causas daños mayores a 30</th>
+							</tr>
+					      	<tr>
+					      		<th>Causas</th>
+					      		<th>Total</th>
+					      	</tr>
+						</thead>
+						<tbody>
+					      <tr ng-repeat="data in causaGarantia">
+								<td>{{data.causa_falla}}</td>
+								<td>{{data.Total}}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+				</div>
+				</div>
+				</div>
+				</div>
+		</div>
+</div>
+<div id="ingresarPlan"  class="modal fade"  role="dialog">
+ <div class="modal-dialog modal-md">
+
+    <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Ingresar plan de trabajo </h4>       
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+          	<div class="col-md-12">
+							<ul class="list-group" >
+								<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+				                        <li class="list-group-item small"><b>Responsable:</b><br>
+				                        	<input class="btn btn-default btn-xs" placeholder="Responsable" type="text" ng-model="formularioPlanTrabajo.responsable" name="responsable">
+				                        </li>
+				                    </div>
+				                    </div>  
+				                    <div class="col-md-6">  
+			                        <li class="list-group-item small" ><b>Regional:</b><br>
+			                            <select  class= "btn btn-default btn-xs grupo-select"
+																name="regional"
+																ng-model="formularioPlanTrabajo.regional">
+														<option value="" disabled>Seleccione</option>
+														<option value="CENTRO">CENTRO</option>
+														<option value="COSTA">COSTA</option>
+														<option value="EJE CAFETERO">EJE CAFETERO</option>
+														<option value="NOROCCIDENTE">NOROCCIDENTE</option>
+														<option value="ORIENTE">ORIENTE</option>
+														<option value="SUR">SUR</option>
+												</select>
+			                        </li>
+				                    </div> 
+			                	</div>   
+			                	<div class="row">
+			                		<center>
+			                		<div class="list-group-item small" ><b>Plan de trabajo: </b><br>
+										<textarea  name="plan" 
+												   id="plan"
+												   cols="65"
+												   rows="4"
+												   ng-model="formularioPlanTrabajo.plan"
+												   placeholder="Plan de trabajo"></textarea>
+									</div>
+									</center>
+			                	</div>     
+							</ul>
+			</div>
+	    </div>    
+	</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="ingresaPLan()" data-dismiss="modal">Guardar</button>
+        <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+ </div>        
+</div>	
+</div>
+<br>
+<br>

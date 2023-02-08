@@ -1,0 +1,137 @@
+<!-- cabecera de la página -->
+<div class="panel-heading nav navbar-default">
+    <ul class="nav navbar-nav navbar-left">
+        <b><i class="fa fa-list-alt" aria-hidden="true"></i> Formulario Quejas Gestión Operativa</b>
+    </ul>   
+    <div class=" d-flex flex-row-reverse box-tools ">
+        <div class="input-group d-flex flex-row">
+            <a class="btn btn-primary" ng-click="mostraModal({})"><i class="fa fa-plus"></i> Agregar Queja</a>
+        </div>      
+    </div>
+</div>
+<!-- cuerpo de la página -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row"><br>
+
+                    <div class="col-xs-7">
+                        <ul class="nav navbar-nav navbar-left">
+                            <b>Buscar:</b>
+                            <select  class= "btn btn-default btn-xs grupo-select"
+                                     name="producto"
+                                     ng-model="Registros.columnaBusqueda">
+                                        <option value="" disabled>Seleccione</option>
+                                        <option value="accion" >Acción</option>
+                                        <option value="asesor" >Asesor</option>
+                                        <option value="id" >Consecutivo</option>
+                                        <option value="pedido" >Número de queja</option>            
+                                        <option value="region" >Región</option>
+                                        <option value="idllamada" >ID Llamada</option>
+                            </select>
+                            <input style="width:230px" type="text" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" placeholder="Ingrese el valor a buscar" ng-model="Registros.valorBusqueda">
+                            <input style="width:130px" type="text" name="fechaini" id="fechaini" class="btn btn-default btn-xs" ng-model="Registros.fechaini" placeholder="Fecha Inicial" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <input style="width:130px" type="text" name="fechafin" id="fechafin" class="btn btn-default btn-xs" ng-model="Registros.fechafin" placeholder="Fecha Final" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+                            <button type="button" 
+                                    class="btn btn-success btn-xs" 
+                                    ng-click="validarDatos(Registros)"
+                                    ng-disabled="loading"
+                                    title="Buscar Registros">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" 
+                                    ng-show="galletainfo.PERFIL == 13 || galletainfo.PERFIL == 1"
+                                    class="btn btn-primary btn-xs" 
+                                    title="Exportar Registros" 
+                                    ng-click="csvQuejasGo(Registros)" 
+                                    ng-disabled="loading" 
+                                    title="Exportar" 
+                                    tooltip data-placement="top">
+                                <i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+                            </button>
+                        </ul>
+                    </div>
+
+                    <br><br><br>
+<!--                     <div class="col-xs-3 marg"><i>Filtrar:</i>
+                        <input type="text" class="form-control busq" ng-model="busqueda" name="" value="" placeholder="Ingresa el valor por el que deseas filtrar">
+                        <br>
+                    </div> -->
+                </div>                
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Consecutivo</th>
+                            <th>Pedido</th>
+                            <th>Nombre Cliente</th>
+                            <th>Cédula Técnico</th>
+                            <th>Nombre Técnico</th>
+                            <th>Acción</th>
+                            <th>Asesor</th>
+                            <th>Fecha</th>
+                            <th>Duración</th>
+                            <th>Ciudad</th>
+                            <th>ID Llamada</th>
+                            <th>Observaciones</th>
+                            <th>Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="registrosQuejasGo in listaQuejasGo | filter:busqueda as results ">
+                            <td>{{registrosQuejasGo.id}}</td>
+                            <td>{{registrosQuejasGo.pedido}}</td>
+                            <td>{{registrosQuejasGo.cliente}}</td>
+                            <td>{{registrosQuejasGo.cedtecnico}}</td>
+                            <td>{{registrosQuejasGo.tecnico}}</td>
+                            <td>{{registrosQuejasGo.accion}}</td>
+                            <td>{{registrosQuejasGo.asesor}}</td>
+                            <td>{{registrosQuejasGo.fecha}}</td>
+                            <td>{{registrosQuejasGo.duracion}}</td>
+                            <td>{{registrosQuejasGo.region}}</td>
+                            <td>{{registrosQuejasGo.idllamada}}</td>
+                            <td>{{registrosQuejasGo.observacion}}</td>
+                            <td><button type="button" class="btn btn-default btn-xs" ng-click="abrirModalModificarObs(registrosQuejasGo.id, registrosQuejasGo.observacion)" data-toggle="modal" data-target="#editarModal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="left" data-html="true" data-selector=""> 
+                                <i class="fa fa-pencil-square-o fa-2x aria-hidden=true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel-footer clearfix" >
+            <!-- CONTADOR -->
+            <div class="col-md-6">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><span class="badge badge-default">{{results.length}}</span>&nbsp;</li>
+                    <li>de:<span class="badge badge-default">{{counterpag}} Registros</span></li>
+                </ul>
+            </div>
+            <!-- PAGINADO -->        
+            <div class="col-md-6 pieP">
+                <ul
+                    class="pagination-sm nav navbar-nav navbar-right"
+                    uib-pagination total-items="counterpag" 
+                    ng-model="datapendientes.currentPage" 
+                    max-size="maxSize"  
+                    boundary-links="true" 
+                    num-pages="smallnumPages" 
+                    previous-text="&#8672;" 
+                    next-text="&#8674;" 
+                    last-text="Último" 
+                    first-text="Primero"                    
+                    boundary-link-numbers="false"
+                    max-size="maxSize" 
+                    rotate="false" 
+                    ng-change="pageChanged(datapendientesdatapendientes)">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FOOTER -->
+
+
+<!-- RUTA DEL MODAL QUE ESTA EN EL JS-->
+<div ng-include="rutaModalQuejasGo"></div>

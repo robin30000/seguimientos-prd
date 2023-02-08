@@ -1,0 +1,267 @@
+<style>
+.fixed-panel {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-10 col-xs-offset-1">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Listado de técnicos</b>
+					<span style="color:red" class="pull-right"><i class="fa fa-exclamation-triangle warning" aria-hidden="true" ng-hide="errorDatos==null"></i> {{errorDatos}}</span>
+					<span style="color:green" class="pull-right"><i class="fa fa-check-circle" aria-hidden="true" ng-hide="respuestaupdate==null"></i> {{respuestaupdate}}</span>
+					<span style="color:red" class="pull-right"><i class="fa fa-exclamation-triangle warning" aria-hidden="true" ng-hide="respuestadelete==null"></i> {{respuestadelete}}</span>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+						<div class="col-md-1 col-xs-1 ">
+							<div data-ng-if="loading">
+								<img title="Esperando respuesta" data-toggle="tooltip" data-placement="top" src="img/loader.gif" />
+							</div>				
+						</div>
+						</li>
+					</ul>
+				</div>
+				<div class = "panel-heading nav navbar-default">
+					<div class="col-md-6">
+						<ul class="nav navbar-nav navbar-left">
+							<li>Registros: <span class="badge badge-default">{{counter}}</span></li>
+						</ul>
+					</div>
+					<div class="col-md-6">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<select ng-model="concepto" class="btn btn-default btn-xs grupo-select">
+								<option ng-repeat="f in conceptosBuscartecnico"
+								value="{{f.ID}}">
+								{{f.CONCEPTO}}
+								</option>
+							</select>
+							<div class="btn-group">
+								<input style="width:140px"  class="btn btn-default btn-xs " type="text" ng-model="tecnico" placeholder="Buscar..." tooltip data-placement="bottom" ng-disabled="loading" select-on-click capitalize/>
+								<button type="button" class="btn btn-success btn-xs" ng-click="buscarTecnico(concepto, tecnico)" ng-disabled="loading" tooltip title="Buscar" >
+								<i class="fa fa-search-plus" aria-hidden="true"> </i>
+								</button>
+								<button type="button" class="btn btn-info btn-xs" ng-click="crearModal()" data-toggle="modal" data-target="#crearModal" data-backdrop="static" ng-disabled="loading" tooltip title="Agregar tecnico" data-placement="top" data-html="true" data-selector=""><i class="fa fa-user-plus" aria-hidden="true"> </i>
+							</button>
+
+							</div>
+						</li>
+					</ul>
+					</div>
+				</div>
+				<div class="panel-body fixed-panel animated bounceInRight" >
+						<table class = "table small table-striped table-condensed">
+						<thead>
+					      	<tr>
+					      		<th>ID</th>
+					      		<th>IDENTIFICACIÓN</th>
+								<th>NOMBRE</th>
+								<th>CIUDAD</th>
+								<th>CELULAR</th>
+								<th>EMPRESA</th>
+								<th>OPCIONES</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in listaTecnicos">
+								<td>{{data.ID}}</td>
+								<td>{{data.IDENTIFICACION}}</td>
+								<td>{{data.NOMBRE}}</td>
+								<td>{{data.CIUDAD}}</td>
+								<td>{{data.CELULAR}}</td>
+								<td>{{data.NOM_EMPRESA}}</td>
+
+								<td><button type="button" class="btn btn-default btn-xs" ng-click="editarModal(data)" data-toggle="modal" data-target="#editarModal" data-backdrop="static" ng-disabled="loading" popover data-trigger="hover" data-placement="left" data-html="true" data-selector="" data-content="Editar"> 
+								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-default btn-xs" ng-click="editarModal(data)" data-toggle="modal" data-target="#eliminaTecnico" data-backdrop="static"  ng-disabled="loading" popover data-trigger="hover" data-placement="left" data-html="true" data-selector="" data-content="Borrar"> 
+								<i class="fa fa-trash"  aria-hidden="true"></i>
+								</button>
+							</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="panel-footer clearfix" >
+						<ul  class="pagination-sm nav navbar-nav navbar-right" uib-pagination total-items="counter" ng-model="datapendientes.currentPage" max-size="maxSize"  boundary-links="true" num-pages="smallnumPages" previous-text="&#8672;" next-text="&#8674;" last-text="Último" first-text="Primero" items-per-page="cantidad" boundary-link-numbers="false" max-size="maxSize" rotate="false" ng-change="pageChanged(datapendientes)">
+						</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>			
+<br>
+<br>
+<div id="editarModal"  class="modal fade"  role="dialog">
+ <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar Técnico <span class="label label-info">{{idTecnico}}</span> - <span class="label label-info">{{TecnicoNom}}</span></h4>       
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+        	<form  action=" " method="post"  name="contact_form" id="contact_form">
+          	<div class="col-md-12">
+                <ul class="list-group" >
+                     <div class="col-md-4">
+                     	<div class="form-group" ng-class="{ 'has-error' : contact_form.nombre.$touched && contact_form.nombre.$invalid}">
+                        <li class="list-group-item small" ><b>NOMBRE:</b><input type="text" ng-model="datos.NOMBRE" value="{{datos.NOMBRE}}" class="btn btn-default btn-xs" name="nombre" style="width:220px"  capitalize required></li></div>
+                        <li class="list-group-item small" ><b>CIUDAD:</b><br>
+                    		<select ng-model="datos.CIUDAD" class="btn btn-default btn-xs grupo-select">
+								<option ng-repeat="f in listadoCiudades"
+								value="{{f.CIUDAD}}">
+								{{f.CIUDAD}}
+								</option>
+							</select>
+                        </li>                 
+                     </div>
+                     <div class="col-md-4">
+                     	<div class="form-group" ng-class="{ 'has-error' : contact_form.id.$touched && contact_form.id.$invalid}">
+                        <li class="list-group-item small" ><b>IDENTIFICACIÓN:</b><input type="text"  ng-model="datos.IDENTIFICACION" value="datos.IDENTIFICACION" name="id" class="btn btn-default btn-xs" capitalize required></li></div>
+                        <li class="list-group-item small" ><b>EMPRESA:</b><br>
+                    		<select ng-model="datos.empresa" class="btn btn-default btn-xs grupo-select">
+								<option ng-repeat="f in empresas"
+								value="{{f.ID}}">
+								{{f.EMPRESA}}
+								</option>
+							</select>
+                        </li>
+                     </div>
+                     <div class="col-md-4">
+                        <li class="list-group-item small" ><b>CELULAR:</b><input type="text" ng-model="datos.CELULAR" class="btn btn-default btn-xs" value="datos.CELULAR"> </li>
+              		</div>
+            	</ul>
+         	</div>
+         </form>
+      	</div>    
+      				<div class="help-block" ng-messages="contact_form.login.$error">
+
+				  	
+						<div class="alert alert-warning" ng-show="contact_form.nombre.$error.required">
+						  <strong>Error! </strong> El campo Nombre es requerido.
+						</div>	
+						<div class="alert alert-warning" ng-show="contact_form.id.$error.required">
+						  <strong>Error! </strong>El campo Cedula es requerido.
+						</div>
+				    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal"  ng-disabled="contact_form.$invalid" ng-click="edittecnico(datos)" data-dismiss="modal">Editar</button>
+        <button type="button" ng-disabled="contact_form.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+ </div>        
+</div>
+<div id="eliminaTecnico" class="modal fade "  role="dialog">
+  	<div class="modal-dialog modal-md">
+
+    <!-- Modal content-->
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminar el tecnico con el cedula: <span class="label label-info">{{datos.IDENTIFICACION}}</span></h4>
+
+      </div>
+      <div class="modal-body" >
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						Esta seguro que quiere elminiar este usuario?  
+						<p><strong>{{datos.NOMBRE}}</strong></p>
+					</div>
+				</div>
+
+			</div>
+
+      </div>
+
+      <div class="modal-footer">
+
+     
+      	<button type="button" class="btn btn-success" ng-click="borrarTecnico(datos.ID)" data-dismiss="modal">Eliminar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  	</div>
+
+</div>
+<div id="crearModal"  class="modal fade"  role="dialog">
+ <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Crear Tecnico </h4>       
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+        	<form  action=" " method="post"  name="contact_formcrear" id="contact_formcrear">
+          	<div class="col-md-12">
+                <ul class="list-group" >
+                     <div class="col-md-4">
+                     	<div class="form-group" ng-class="{ 'has-error' : contact_formcrear.crearnombre.$touched && contact_formcrear.crearnombre.$invalid}">
+                        <li class="list-group-item small" ><b>NOMBRE:</b><input type="text" ng-model="crearTecnico.NOMBRE" placeholder="Nombre.." class="btn btn-default btn-xs" name="crearnombre" style="width:220px"  capitalize required></li></div>
+                        <div class="form-group" ng-class="{ 'has-error' : contact_formcrear.crearciudad.$touched && contact_formcrear.crearciudad.$invalid}">
+                        <li class="list-group-item small" ><b>CIUDAD:</b><br>
+                    		<select ng-model="crearTecnico.CIUDAD" name="crearciudad" placeholder="Seleccione la ciudad.." class="btn btn-default btn-xs grupo-select" capitalize required>
+								<option ng-repeat="f in listadoCiudades" 
+								value="{{f.CIUDAD}}">
+								{{f.CIUDAD}}
+								</option>
+							</select>
+                        </li></div>                 
+                     </div>
+                     <div class="col-md-4">
+                     	<div class="form-group" ng-class="{ 'has-error' : contact_formcrear.crearid.$touched && contact_formcrear.crearid.$invalid}">
+                        <li class="list-group-item small" ><b>IDENTIFICACIÓN:</b><input type="text"  ng-model="crearTecnico.IDENTIFICACION" placeholder="Cedula.." name="crearid" class="btn btn-default btn-xs" capitalize required></li></div>
+                        <div class="form-group" ng-class="{ 'has-error' : contact_formcrear.crearempresa.$touched && contact_formcrear.crearempresa.$invalid}">
+                        <li class="list-group-item small" ><b>EMPRESA:</b><br>
+                    		<select ng-model="crearTecnico.empresa" name="crearempresa" placeholder="Seleccione la empresa.." class="btn btn-default btn-xs grupo-select" capitalize required>
+								<option ng-repeat="f in empresas"
+								value="{{f.ID}}">
+								{{f.EMPRESA}}
+								</option>
+							</select>
+                        </li></div>
+                     </div>
+                     <div class="col-md-4">
+                        <li class="list-group-item small" ><b>CELULAR:</b><input type="text" ng-model="crearTecnico.CELULAR" class="btn btn-default btn-xs" placeholder="Celular.." value="datos.CELULAR"> </li>
+              		</div>
+            	</ul>
+         	</div>
+         </form>
+      	</div>    
+      				<div class="help-block" ng-messages="contact_formcrear.crearlogin.$error">
+
+				  	
+						<div class="alert alert-warning" ng-show="contact_formcrear.crearnombre.$error.required">
+						  <strong>Error! </strong> El campo Nombre es requerido.
+						</div>	
+						<div class="alert alert-warning" ng-show="contact_formcrear.crearid.$error.required">
+						  <strong>Error! </strong>El campo Cedula es requerido.
+						</div>
+						<div class="alert alert-warning" ng-show="contact_formcrear.crearciudad.$error.required">
+						  <strong>Error! </strong>El campo Ciudad es requerido.
+						</div>
+						<div class="alert alert-warning" ng-show="contact_formcrear.crearempresa.$error.required">
+						  <strong>Error! </strong>El campo Empresa es requerido.
+						</div>
+						
+
+				    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal"  ng-disabled="contact_formcrear.$invalid" ng-click="createTecnico(crear)" data-dismiss="modal">Crear</button>
+        <button type="button" ng-disabled="contact_formcrear.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+ </div>        
+</div>

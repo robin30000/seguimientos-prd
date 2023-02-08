@@ -1,0 +1,311 @@
+<style>
+.fixed-panel {
+
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+</style>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class = "panel panel-default">
+				<div class = "panel-heading">
+					<b><i class="fa fa-bars" aria-hidden="true"></i> Historico de Registros</b>
+					<span style="color:red" class="pull-right"><i class="fa fa-exclamation-triangle warning" aria-hidden="true" ng-hide="errorDatos==null"></i> {{errorDatos}}</span>
+					<ul class="nav navbar-nav navbar-right">
+						<div class="btn-group" ng-show="galletainfo.PERFIL==1 || galletainfo.PERFIL==11">		
+							<div class="fileUpload btn btn-primary btn-xs">
+								<span class="glyphicon glyphicon-upload"></span> Seleccionar Archivo
+								<input type="file" class="upload" file-model = "myFile" style="width:131px" />
+							</div>
+		           			 <button class="btn btn-success btn-xs" value="cargar" id="cargar" ng-click="uploadFile();"><span class="glyphicon glyphicon-cloud-upload"></span> Cargar</button>
+		           		</div>&nbsp;
+						<div class="col-md-1 col-xs-1 ">
+							<div data-ng-if="loading">
+								<img title="Esperando respuesta" tooltip data-placement="top" src="img/loader.gif" />
+							</div>
+						</div>&nbsp;
+					</ul>
+				</div>
+				<div class = "panel-heading nav navbar-default">
+					<div class="col-lg-12 col-xs-10">
+					<ul class="nav navbar-nav navbar-left">
+						
+						<input style="width:130px" type="text" name="fechaini" id="fechaini" class="btn btn-default btn-xs ng-pristine ng-valid ng-touched" ng-model="Registros.fechaini" placeholder= "Fecha Inicial" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+						<input style="width:130px" placeholder= "Fecha Final" type="text" name="fechafin" id="fechafin" class="btn btn-default btn-xs  ng-pristine ng-valid ng-touched" ng-model="Registros.fechafin" datetime-picker="" date-format="yyyy-MM-dd"> <i class="fa fa-calendar fa-fw"></i>
+
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="nav navbar-nav" ng-class="csvPend==false?'animated bounceOutRight':'animated bounceInRight'" ng-show="csvPend==true">
+							<span class="label label-primary">Se exportaron: {{counter}} Registros</span>&nbsp;
+							
+						</li>
+						<li>
+							<select ng-model="Registros.concepto" class="btn btn-default btn-xs grupo-select">
+								<option ng-repeat="f in conceptosRegistros"
+								value="{{f.ID}}">
+								{{f.CONCEPTO}}
+								</option>
+							</select>
+							<div class="btn-group">
+							
+								<input style="width:140px"  class="btn btn-default btn-xs " type="text" ng-model="Registros.buscar" placeholder="Buscar..." title="Ingrese dato" tooltip data-placement="bottom" ng-disabled="loading" select-on-click capitalize/>
+								<button type="button" class="btn btn-success btn-xs" ng-click="BuscarRegistros(Registros)"   ng-disabled="loading" >
+								<i class="fa fa-search-plus" aria-hidden="true"> </i>
+								</button>
+							</div>
+						</li>
+						<li> &nbsp; </li>
+						<li>
+							<button type="button" ng-show="galletainfo.PERFIL !== '8'" class="btn btn-primary btn-xs" title="Exportar Registros" ng-click="csvRegistros()"  ng-disabled="loading" title="Exportar" tooltip data-placement="top">
+							<i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+							</button>
+						</li>
+						<li> &nbsp; </li>
+						<li>
+							<button type="button" ng-show="galletainfo.PERFIL !== '8'" class="btn btn-primary btn-xs" title="Exportar Registros Equipos" ng-click="csvtecnico()"  ng-disabled="loading" title="Exportar" tooltip data-placement="top">
+							<i class="fa fa-cloud-download"  aria-hidden="true"> </i>
+							</button>
+						</li>
+					</ul>
+					</div>
+				</div>
+				<div class="panel-body fixed-panel" >
+					<table class = "table small table-striped table-condensed">
+						<thead>
+							<tr >
+								<th>PEDIDO</th>
+								<th>TECNICO</th>
+								<th>ACCION</th>
+								<th>ASESOR</th>
+								<th>FECHA</th>
+								<th>DURACCIÓN(HH:MM:SS)</th>
+								<th>PROCESO</th>
+								<th>ACCIÓN</th>						
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in listaRegistros as results">
+								<td><span>{{data.pedido}}</span></td>
+								<td><span>{{data.tecnico}}</span></td>
+								<td><span>{{data.accion}}</span></td>
+								<td><span>{{data.asesor}}</span></td>
+								<td><span>{{data.fecha}}</span></td>
+								<td><span>{{data.duracion}}</span></td>
+								<td><span >{{data.proceso}}</span></td>
+								<td><button type="button" class="btn btn-info btn-xs" ng-click="muestraNotas(data)" data-toggle="modal" data-target="#NotasModal"  popover data-trigger="hover" data-placement="left" data-html="true" data-content="<code>Ver Observaciones</code>"  >
+									<i class="fa fa-rss"  aria-hidden="true"> </i>
+								</button>
+								<button type="button" class="btn btn-info btn-xs" ng-click="editarRegistros(data)" data-toggle="modal" data-target="#Editardato"  popover data-trigger="hover" data-placement="left" data-html="true" data-content="<code>Editar</code>"  >
+									<i class="fa fa-pencil"  aria-hidden="true"> </i>
+								</button></td>
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+				<div class="panel-footer clearfix" >
+					<div class="col-md-6">
+						<ul class="nav navbar-nav navbar-left">
+							<li>Registros: <span class="badge badge-default">{{results.length}}</span></li>
+						</ul>
+					</div>
+					
+					<div class="col-md-6">
+						
+						<ul  class="pagination-sm nav navbar-nav navbar-right" uib-pagination total-items="counter" ng-model="datapendientes.currentPage" max-size="maxSize"  boundary-links="true" num-pages="smallnumPages" previous-text="&#8672;" next-text="&#8674;" last-text="Último" first-text="Primero" items-per-page="cantidad" boundary-link-numbers="false" max-size="maxSize" rotate="false" ng-change="pageChanged(datapendientes)">
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			</div><!--col 12 Novedades -->
+		</div>
+<br>
+<br>
+<br>			
+<br>
+		<div id="NotasModal" class="modal fade "  role="dialog">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">{{TituloModal}}<span class="label label-info">{{pedido}}</span>  </h4>
+					</div>
+					<div class="modal-body" >
+						<div class="jumbotron fixed-panel" >
+							{{observaciones}}
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+			</div><!-- Modal Eliminar Novedad-->
+
+
+<div id="Editardato" class="modal fade "  role="dialog">
+			<div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+  <div class="modal-content" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{TituloModal}}<span class="label label-primary">{{pedido}}</span></h4>   
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+        	<form  action=" " method="post"  name="contact_editReg" id="contact_editReg">
+          	<div class="col-md-12">
+                <ul class="list-group" >
+                	<div class="col-md-1">
+                	</div>
+          			<div class="col-md-5">
+          				<li class="list-group-item small" ><b>Id Lamada:</b>
+          					<button type="button" class="btn btn-default btn-xs" 
+				              	name="copiardato" ng.model="datosRegistros.llamada_id"
+				              	ng-click="executeCopy(datosRegistros.llamada_id)" title="Click para copiar" 
+				              	tooltip data-placement="top">{{datosRegistros.llamada_id}}
+				             </button>
+						</li>
+						<li class="list-group-item small" ><b>Pedido:</b>
+                        	<button type="button" class="btn btn-default btn-xs" 
+				              	name="copiardato" ng.model="datosRegistros.datosRegistros.pedido"
+				              	ng-click="executeCopy(datosRegistros.pedido)" title="Click para copiar" 
+				              	tooltip data-placement="top">{{datosRegistros.pedido}}
+				        	</button>  
+				    	</li>
+				    	<li class="list-group-item small" ><b>Tecnico:</b>
+          					<button type="button" class="btn btn-default btn-xs" 
+				              	name="copiardato" ng.model="datosRegistros.id_tecnico"
+				              	ng-click="executeCopy(datosRegistros.id_tecnico)" title="Click para copiar" 
+				              	tooltip data-placement="top">{{datosRegistros.id_tecnico}}
+				             </button>
+				             <span class="label label-info">{{datosRegistros.tecnico}}-{{datosRegistros.ciudad}}</span>
+						</li>
+						<li class="list-group-item small" ><b>Empresa: </b><span class="label label-success">{{datosRegistros.empresa}}</span><br>
+						</li>	
+				    	<li class="list-group-item small" ><b>Asesor: </b><span class="label label-info">{{datosRegistros.asesor}}</span><br>
+				    	</li>	
+				    	<li class="list-group-item small" ><b>Despacho: </b><span class="label label-success">{{datosRegistros.despacho}}</span>
+				    	</li>
+           			</div>
+                    <div class="col-md-5">
+                    	<li class="list-group-item small" ><b>Proceso: </b><span class="label label-success">{{datosRegistros.proceso}}</span>
+				    	</li>
+				    	<li class="list-group-item small" ><b>Duración de la llamada: </b><span class="label label-success">{{datosRegistros.duracion}}</span>
+				    	</li>
+                       	<li class="list-group-item small" ><b>Producto:</b><br>
+                    		<select ng-model="datosRegistros.producto" name="editarproducto" class="btn btn-default btn-xs grupo-select"><option selected="selected" disabled>{{datosRegistros.producto}}</option>
+								<option ng-repeat="f in productos"
+								value="{{f.ID}}">
+								{{f.PRODUCTO}}
+								</option>
+							</select>
+                        </li>
+				    	 <li class="list-group-item small" ng-show="validaraccion"><b>Acción:</b>
+							<select
+								class= "btn btn-default btn-xs grupo-select"
+								name="accion"
+								ng-model="datosRegistros.accion"
+								ng-change="calcularSubAcciones(datosRegistros.proceso, datosRegistros.accion)">
+								<option selected="selected" disabled>{{datosRegistros.accion}}</option>
+								<option ng-repeat="d in listadoAcciones" 
+									value="{{d.ACCION}}">
+									{{d.ACCION}}
+								</option>
+							</select>
+						</li>
+						<li class="list-group-item small" ng-show="validarsubaccion"><b>SubAcción:</b>
+							<select
+								class= "btn btn-default btn-xs grupo-select"
+								name="subAccion"
+								style="width:200px"
+								ng-model="datosRegistros.tipo_pendiente">
+								<option selected="selected" disabled>{{datosRegistros.tipo_pendiente}}</option>
+								<option ng-repeat="d in listadoSubAcciones" 
+									value="{{d.SUBACCION}}">
+									{{d.SUBACCION}}
+								</option>
+							</select>
+						</li>
+                     </div>
+                     <div class="col-md-1">
+                	</div>
+            	</ul>
+            	<div class="col-md-8 col-md-offset-2">
+            		<br>
+            		<center>
+            			<button type="button" class="btn btn-link btn-xs" ng-show="verplantilla==true" data-toggle="modal" data-target="#plantilla"  data-trigger="hover" data-placement="top" data-html="true">
+						Ver plantilla <i class="fa fa-rss" aria-hidden="true"> </i></button>
+					</center>	
+					<br>
+            	<li class="list-group-item small" ><b>Observaciones: </b>
+            	<textarea   name="observaciones" 
+			                id="observaciones"
+			                rows="4"
+			                ng-model="datosRegistros.observaciones"
+			                class="form-control">{{datosRegistros.observaciones}}</textarea>
+			     </li>    
+         		</div>
+         	</form>
+      	</div>    
+      				<div class="help-block" ng-messages="contact_editReg.crearlogin.$error">
+
+				  	
+						<div class="alert alert-warning" ng-show="contact_editReg.crearnombre.$error.required">
+						  <strong>Error! </strong> El campo Nombre es requerido.
+						</div>	
+						<div class="alert alert-warning" ng-show="contact_editReg.crearid.$error.required">
+						  <strong>Error! </strong>El campo Cedula es requerido.
+						</div>
+						<div class="alert alert-warning" ng-show="contact_editReg.crearlogin.$error.required">
+						  <strong>Error! </strong>El campo Login es requerido.
+						</div>
+						<div class="alert alert-warning" ng-show="contact_editReg.crearpass.$error.required">
+						  <strong>Error! </strong>El campo Password es requerido.
+						</div>
+						<div class="alert alert-warning" ng-show="contact_editReg.crearperfil.$error.required">
+						  <strong>Error! </strong>El campo Perfil es requerido.
+						</div>
+
+						
+
+				    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal"  ng-disabled="contact_editReg.$invalid" ng-click="editRegistro(datosRegistros)" data-dismiss="modal">Editar</button>
+        <button type="button" ng-disabled="contact_editReg.$invalid" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+ </div>
+</div>
+<div id="plantilla" class="modal fade "  role="dialog">
+			<div class="modal-dialog modal-xs">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<h4 class="modal-title">Plantilla </h4>
+					</div>
+					<div class="modal-body" >
+						<div class="jumbotron fixed-panel" >
+							{{datosRegistros.plantilla}}
+						</div>
+					</div>
+				</div>
+			</div>
+			</div><!-- Modal Eliminar Novedad-->
